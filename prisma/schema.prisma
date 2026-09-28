@@ -1,0 +1,204 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  ADMIN
+  EDITOR
+}
+
+enum RequestType {
+  VOYAGE
+  DEVIS
+  JUNIOR
+  CORPORATE
+  SPIRITUEL
+  CONTACT
+}
+
+enum RequestStatus {
+  NOUVELLE
+  EN_COURS
+  CLIENT_CONTACTE
+  TRAITEE
+  ANNULEE
+}
+
+enum GalleryCategory {
+  PHOTO
+  VIDEO
+  EVENEMENT
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  role         UserRole @default(EDITOR)
+  active       Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Media {
+  id        String   @id @default(cuid())
+  filename  String
+  url       String
+  alt       String   @default("")
+  mimeType  String
+  size      Int
+  createdAt DateTime @default(now())
+}
+
+model Experience {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  subtitle    String
+  excerpt     String
+  description String   @db.Text
+  highlights  String[] @default([])
+  imageUrl    String   @default("")
+  published   Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  offers      Offer[]
+}
+
+model Service {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  excerpt     String
+  description String   @db.Text
+  icon        String   @default("plane")
+  imageUrl    String   @default("")
+  published   Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Destination {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  name        String
+  region      String   @default("")
+  excerpt     String
+  description String   @db.Text
+  imageUrl    String   @default("")
+  published   Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  offers      Offer[]
+}
+
+model Offer {
+  id               String       @id @default(cuid())
+  slug             String       @unique
+  title            String
+  destinationLabel String
+  excerpt          String
+  description      String       @db.Text
+  priceFrom        Int?
+  badge            String       @default("")
+  imageUrl         String       @default("")
+  featured         Boolean      @default(false)
+  published        Boolean      @default(true)
+  sortOrder        Int          @default(0)
+  destinationId    String?
+  destination      Destination? @relation(fields: [destinationId], references: [id], onDelete: SetNull)
+  experienceId     String?
+  experience       Experience?  @relation(fields: [experienceId], references: [id], onDelete: SetNull)
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+}
+
+model Article {
+  id          String    @id @default(cuid())
+  slug        String    @unique
+  title       String
+  excerpt     String
+  content     String    @db.Text
+  imageUrl    String    @default("")
+  published   Boolean   @default(false)
+  publishedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Testimonial {
+  id         String   @id @default(cuid())
+  authorName String
+  location   String   @default("")
+  content    String   @db.Text
+  rating     Int      @default(5)
+  published  Boolean  @default(true)
+  sortOrder  Int      @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Faq {
+  id        String   @id @default(cuid())
+  question  String
+  answer    String   @db.Text
+  published Boolean  @default(true)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model GalleryItem {
+  id        String          @id @default(cuid())
+  title     String
+  caption   String          @default("")
+  category  GalleryCategory @default(PHOTO)
+  imageUrl  String
+  mediaId   String?
+  published Boolean         @default(true)
+  sortOrder Int             @default(0)
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+}
+
+model TravelRequest {
+  id          String        @id @default(cuid())
+  reference   String        @unique
+  type        RequestType
+  status      RequestStatus @default(NOUVELLE)
+  fullName    String
+  email       String        @default("")
+  phone       String
+  destination String        @default("")
+  travelDate  String        @default("")
+  travelers   Int?
+  message     String        @db.Text
+  details     Json?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([status])
+  @@index([type])
+  @@index([createdAt])
+}
+
+model NewsletterSubscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
+
+model SiteSetting {
+  key       String   @id
+  value     String   @db.Text
+  updatedAt DateTime @updatedAt
+}

@@ -1,0 +1,21 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: dim-voyages-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: dim
+      POSTGRES_PASSWORD: dim_voyages
+      POSTGRES_DB: dim_voyages
+    ports:
+      - "5433:5432"
+    volumes:
+      - dim_voyages_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dim -d dim_voyages"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+volumes:
+  dim_voyages_pg:
