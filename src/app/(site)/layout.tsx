@@ -9,12 +9,14 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
   const settings = await getSettings();
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <SiteHeader settings={settings} />
-      <main className="flex-1 pb-20 lg:pb-0">{children}</main>
-      <SiteFooter settings={settings} />
+    <>
+      <div className="flex min-h-screen flex-col">
+        <SiteHeader settings={settings} />
+        <main className="flex-1 pb-20 lg:pb-0">{children}</main>
+        <SiteFooter settings={settings} />
+        <MobileNav />
+      </div>
       <WhatsAppButton phone={settings.whatsapp} />
-      <MobileNav />
-    </div>
+    </>
   );
 }

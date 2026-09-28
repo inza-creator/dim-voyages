@@ -52,64 +52,62 @@ select {
   animation: rise 0.7s ease both;
 }
 
-@keyframes dim-wa-ring {
+.wa-float {
+  position: fixed;
+  right: clamp(1.25rem, 2vw, 2rem);
+  bottom: clamp(1.25rem, 2vw, 2rem);
+  z-index: 60;
+  display: inline-flex;
+  width: 60px;
+  height: 60px;
+  min-width: 60px;
+  min-height: 60px;
+  max-width: 60px;
+  max-height: 60px;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: 999px;
+  background: #25d366;
+  color: #fff;
+  text-decoration: none;
+  box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.wa-float svg {
+  display: block;
+  width: 32px;
+  height: 32px;
+  flex: none;
+}
+
+.wa-float:hover {
+  transform: scale(1.08);
+  background: #1ea355;
+  color: #fff;
+}
+
+.wa-float::before {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 999px;
+  border: 2px solid #25d366;
+  animation: wa-pulse 2.2s ease-out infinite;
+  pointer-events: none;
+}
+
+@keyframes wa-pulse {
   0% {
-    transform: scale(0.92);
-    opacity: 0.5;
+    transform: scale(1);
+    opacity: 0.7;
   }
-  80%,
   100% {
-    transform: scale(1.7);
+    transform: scale(1.5);
     opacity: 0;
   }
-}
-
-@keyframes dim-wa-attention {
-  0%,
-  70%,
-  100% {
-    transform: translateY(0);
-  }
-  80% {
-    transform: translateY(-6px);
-  }
-  90% {
-    transform: translateY(0);
-  }
-}
-
-@keyframes dim-wa-bubble {
-  0%,
-  14% {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  22%,
-  46% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  56%,
-  100% {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-}
-
-.wa-btn {
-  animation: dim-wa-attention 4.8s ease-in-out infinite;
-}
-
-.wa-ring {
-  animation: dim-wa-ring 2.6s ease-out infinite;
-}
-
-.wa-ring-delay {
-  animation-delay: 1.3s;
-}
-
-.wa-bubble {
-  animation: dim-wa-bubble 14s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -118,14 +116,7 @@ select {
   }
 
   .rise,
-  .wa-btn,
-  .wa-ring,
-  .wa-bubble {
+  .wa-float::before {
     animation: none;
-  }
-
-  .wa-bubble {
-    opacity: 1;
-    transform: none;
   }
 }
