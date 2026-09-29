@@ -1,4 +1,4 @@
-import { MobileNav, SiteHeader } from "@/components/public/header";
+import { SiteHeader } from "@/components/public/header";
 import { SiteFooter } from "@/components/public/footer";
 import { WhatsAppButton } from "@/components/public/whatsapp-button";
 import { getSettings } from "@/server/content";
@@ -12,9 +12,8 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
     <>
       <div className="flex min-h-screen flex-col">
         <SiteHeader settings={settings} />
-        <main className="flex-1 pb-20 lg:pb-0">{children}</main>
+        <main className="flex-1">{children}</main>
         <SiteFooter settings={settings} />
-        <MobileNav />
       </div>
       <WhatsAppButton phone={settings.whatsapp} />
     </>

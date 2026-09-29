@@ -52,6 +52,19 @@ select {
   animation: rise 0.7s ease both;
 }
 
+.menu-drawer {
+  animation: menu-drawer-in 0.28s ease;
+}
+
+@keyframes menu-drawer-in {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
 .wa-float {
   position: fixed;
   right: clamp(1.25rem, 2vw, 2rem);
@@ -116,6 +129,7 @@ select {
   }
 
   .rise,
+  .menu-drawer,
   .wa-float::before {
     animation: none;
   }

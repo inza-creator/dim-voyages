@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { FormEvent, useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { Menu, Search, X } from "lucide-react";
 import { navLinks, type PublicSettings } from "@/lib/constants";
 import { whatsappHref } from "@/lib/utils";
@@ -17,6 +18,11 @@ export function SiteHeader({ settings }: { settings: PublicSettings }) {
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<Result[]>([]);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     setOpen(false);
@@ -97,9 +103,10 @@ export function SiteHeader({ settings }: { settings: PublicSettings }) {
           </Link>
           <button
             type="button"
-            className="grid h-11 w-11 place-items-center rounded-full hover:bg-white/10 xl:hidden"
+            className="relative z-20 grid h-11 w-11 shrink-0 place-items-center rounded-full hover:bg-white/10 xl:hidden"
             aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
             aria-expanded={open}
+            aria-controls="mobile-menu"
             onClick={() => setOpen((value) => !value)}
           >
             {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -107,29 +114,48 @@ export function SiteHeader({ settings }: { settings: PublicSettings }) {
         </div>
       </div>
 
-      {open && (
-        <div className="fixed inset-0 z-[70] overflow-y-auto bg-navy px-5 pb-10 pt-4 xl:hidden">
-          <div className="mb-6 flex items-center justify-between">
-            <Logo className="h-16" />
-            <button type="button" onClick={() => setOpen(false)} aria-label="Fermer" className="grid h-11 w-11 place-items-center">
-              <X className="h-6 w-6" />
-            </button>
-          </div>
-          <nav className="flex flex-col gap-1" aria-label="Menu mobile">
-            {navLinks.map((link) => (
-              <Link key={link.href} href={link.href} className="rounded-2xl px-3 py-3 text-lg font-semibold hover:bg-white/10">
-                {link.label}
-              </Link>
-            ))}
-          </nav>
-          <Link href="/demande?type=DEVIS" className="mt-6 flex h-12 items-center justify-center rounded-full bg-orange font-semibold">
-            Demander un devis
-          </Link>
-        </div>
-      )}
+      {mounted && open
+        ? createPortal(
+            <div className="fixed inset-0 z-[55]">
+              <button type="button" className="absolute inset-0 bg-black/25" aria-label="Fermer le menu" onClick={() => setOpen(false)} />
+              <div id="mobile-menu" className="menu-drawer absolute inset-y-0 right-0 w-[65%] overflow-y-auto bg-navy px-5 pb-28 pt-4 text-white shadow-2xl lg:w-[72%]">
+                <div className="mb-6 flex items-center justify-between gap-3">
+                  <Logo className="h-14" />
+                  <button type="button" onClick={() => setOpen(false)} aria-label="Fermer" className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-white/10">
+                    <X className="h-6 w-6" />
+                  </button>
+                </div>
+                <nav className="flex flex-col" aria-label="Menu">
+                  {navLinks.map((link) => {
+                    const active = link.href === "/" ? pathname === "/" : pathname.startsWith(link.href);
+                    return (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        onClick={() => setOpen(false)}
+                        className={`border-b border-white/10 px-1 py-3.5 text-lg font-semibold ${active ? "text-orange" : "hover:text-white"}`}
+                      >
+                        {link.label}
+                      </Link>
+                    );
+                  })}
+                </nav>
+                <Link
+                  href="/demande?type=DEVIS"
+                  onClick={() => setOpen(false)}
+                  className="mt-6 flex h-12 items-center justify-center rounded-full bg-orange font-semibold"
+                >
+                  Demander un devis
+                </Link>
+              </div>
+            </div>,
+            document.body,
+          )
+        : null}
 
-      {searchOpen && (
-        <div className="fixed inset-0 z-[70] bg-navy/70 px-4 pt-24 backdrop-blur-sm" onClick={() => setSearchOpen(false)}>
+      {mounted && searchOpen
+        ? createPortal(
+            <div className="fixed inset-0 z-[80] bg-navy/70 px-4 pt-24 backdrop-blur-sm" onClick={() => setSearchOpen(false)}>
           <div className="mx-auto max-w-xl rounded-3xl bg-white p-4 text-ink shadow-2xl" onClick={(event) => event.stopPropagation()}>
             <form onSubmit={submitSearch}>
               <label className="sr-only" htmlFor="site-search">Recherche</label>
@@ -156,41 +182,10 @@ export function SiteHeader({ settings }: { settings: PublicSettings }) {
               )}
             </ul>
           </div>
-        </div>
-      )}
+            </div>,
+            document.body,
+          )
+        : null}
     </header>
-  );
-}
-
-export function MobileNav() {
-  const pathname = usePathname();
-  const items = [
-    { href: "/", label: "Accueil" },
-    { href: "/experiences", label: "Expériences" },
-    { href: "/destinations", label: "Destinations" },
-    { href: "/offres", label: "Offres" },
-    { href: "/contact", label: "Contact" },
-  ];
-
-  return (
-    <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-white/95 backdrop-blur lg:hidden" aria-label="Navigation mobile">
-      <ul className="grid grid-cols-5">
-        {items.map((item) => {
-          const active = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
-          return (
-            <li key={item.href}>
-              <Link
-                href={item.href}
-                className={`flex h-16 flex-col items-center justify-center text-[11px] font-semibold ${
-                  active ? "text-orange" : "text-muted"
-                }`}
-              >
-                {item.label}
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
-    </nav>
   );
 }
