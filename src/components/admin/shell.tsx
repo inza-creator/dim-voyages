@@ -72,7 +72,7 @@ export function AdminShell({
           <X className="h-5 w-5" />
         </button>
       </div>
-      <p className="px-5 pb-2 text-xs font-semibold tracking-wide text-white/45 uppercase">Back-office</p>
+      <p className="px-5 pb-2 text-xs font-semibold tracking-wide text-white/75 uppercase">Back-office</p>
       <nav className="flex-1 space-y-1 overflow-y-auto px-3 pb-4">
         {visible.map((link) => {
           const active = link.href === "/admin" ? pathname === "/admin" : pathname.startsWith(link.href);

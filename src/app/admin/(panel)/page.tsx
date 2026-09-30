@@ -5,7 +5,7 @@ import { formatDateTime } from "@/lib/utils";
 import { getDashboard } from "@/server/dashboard";
 
 const typeColors: Record<string, string> = {
-  VOYAGE: "#1f6fe5",
+  VOYAGE: "#2080c0",
   DEVIS: "#f47a1a",
   JUNIOR: "#14b8a6",
   CORPORATE: "#7c3aed",
@@ -52,7 +52,7 @@ export default async function DashboardPage() {
         <div className="rounded-3xl bg-white p-5 shadow-sm">
           <h2 className="font-bold text-navy">Évolution des demandes (30 jours)</h2>
           <svg viewBox="0 0 320 140" className="mt-4 h-48 w-full">
-            <polyline fill="none" stroke="#1f6fe5" strokeWidth="3" points={points} />
+            <polyline fill="none" stroke="#2080c0" strokeWidth="3" points={points} />
           </svg>
         </div>
         <div className="rounded-3xl bg-white p-5 shadow-sm">

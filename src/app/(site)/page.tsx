@@ -13,7 +13,7 @@ export default async function HomePage() {
       <section className="relative isolate min-h-[640px] overflow-hidden bg-navy">
         <div className="absolute inset-0">
           <MediaImage src={data.settings.heroImageUrl} alt="Voyage DIM VOYAGES" priority className="object-cover" sizes="100vw" />
-          <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/75 to-navy/15" />
+          <div className="absolute inset-0 bg-gradient-to-r from-navy/80 via-navy/45 to-transparent" />
         </div>
         <div className="relative mx-auto grid w-full max-w-7xl gap-8 px-4 py-14 sm:px-6 lg:grid-cols-[1.2fr_0.8fr] lg:px-8 lg:py-20">
           <div className="rise max-w-2xl text-white">
@@ -114,7 +114,7 @@ export default async function HomePage() {
           </div>
           <div className="p-6 sm:p-10">
             <h2 className="text-3xl font-bold">Explorez le monde avec DIM Voyages</h2>
-            <p className="mt-3 text-white/75">Des destinations de rêve, des expériences uniques et un accompagnement sur mesure pour tous vos projets de voyage.</p>
+            <p className="mt-3 text-white/90">Des destinations de rêve, des expériences uniques et un accompagnement sur mesure pour tous vos projets de voyage.</p>
             <Link href="/offres" className={`${btnPrimary} mt-6`}>Voir nos offres</Link>
             <dl className="mt-8 grid grid-cols-3 gap-3">
               {[

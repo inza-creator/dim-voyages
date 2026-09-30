@@ -14,8 +14,8 @@ export function PageHero({
   return (
     <section className="relative isolate overflow-hidden bg-navy">
       <div className="absolute inset-0">
-        <MediaImage src={image} alt="" className="object-cover opacity-50" sizes="100vw" />
-        <div className="absolute inset-0 bg-gradient-to-r from-navy via-navy/80 to-navy/30" />
+        <MediaImage src={image} alt="" className="object-cover" sizes="100vw" />
+        <div className="absolute inset-0 bg-gradient-to-r from-navy/85 via-navy/50 to-navy/15" />
       </div>
       <div className="relative mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
         <p className="text-sm font-semibold tracking-[0.18em] text-gold uppercase">{kicker}</p>

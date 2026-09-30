@@ -56,7 +56,7 @@ export function SiteFooter({ settings }: { settings: PublicSettings }) {
       <div className="relative mx-auto grid w-full max-w-7xl gap-10 px-4 pt-20 pb-8 sm:px-6 lg:grid-cols-12 lg:px-8">
         <div className="lg:col-span-4">
           <Logo className="h-16" />
-          <p className="mt-4 max-w-sm text-sm leading-6 text-white/75">
+          <p className="mt-4 max-w-sm text-sm leading-6 text-white/90">
             Votre partenaire voyage en Côte d&apos;Ivoire et dans le monde. Des expériences uniques, un service sur mesure.
           </p>
           <p className="mt-4 font-script text-3xl text-gold">{settings.signature}</p>
@@ -115,14 +115,14 @@ export function SiteFooter({ settings }: { settings: PublicSettings }) {
           <div className="grid items-center gap-4 lg:grid-cols-[1fr_1.2fr]">
             <div>
               <p className="font-semibold">Restez connecté à nos actualités</p>
-              <p className="mt-1 text-sm text-white/65">Offres, départs et inspirations, sans engagement.</p>
+              <p className="mt-1 text-sm text-white/90">Offres, départs et inspirations, sans engagement.</p>
             </div>
             <NewsletterForm />
           </div>
         </div>
       </div>
 
-      <div className="relative mx-auto flex w-full max-w-7xl flex-col gap-3 px-4 py-6 text-xs text-white/55 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
+      <div className="relative mx-auto flex w-full max-w-7xl flex-col gap-3 px-4 py-6 text-xs text-white/85 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
         <p>© {year} DIM Voyages. Tous droits réservés.</p>
         <div className="flex flex-wrap gap-x-4 gap-y-2">
           <Link href="/faq" className="hover:text-white">Aide</Link>
@@ -139,7 +139,7 @@ function FooterColumn({ title, links }: { title: string; links: { href: string; 
   return (
     <div className="lg:col-span-2">
       <p className="text-sm font-bold">{title}</p>
-      <ul className="mt-3 space-y-2 text-sm text-white/70">
+      <ul className="mt-3 space-y-2 text-sm text-white/90">
         {links.map((link) => (
           <li key={link.href}>
             <Link href={link.href} className="hover:text-orange">
