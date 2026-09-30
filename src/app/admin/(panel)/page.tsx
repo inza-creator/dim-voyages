@@ -1,7 +1,6 @@
 import Link from "next/link";
-import { CheckCircle2, Clock3, Inbox, Sparkles } from "lucide-react";
+import { CheckCircle2, Clock3, Compass, HelpCircle, ImageIcon, Inbox, Mail, MapPin, MessageSquare, Newspaper, Sparkles, Star, Tag, User } from "lucide-react";
 import { requestStatusLabels, requestTypeLabels } from "@/lib/constants";
-import { formatDateTime } from "@/lib/utils";
 import { getDashboard } from "@/server/dashboard";
 
 const typeColors: Record<string, string> = {
@@ -88,56 +87,60 @@ export default async function DashboardPage() {
       <section className="grid gap-4 xl:grid-cols-[1.3fr_0.7fr]">
         <div className="overflow-hidden rounded-3xl bg-white shadow-sm">
           <div className="flex items-center justify-between px-5 py-4">
-            <h2 className="font-bold text-navy">Dernières demandes</h2>
+            <h2 className="font-bold text-navy">(05) Dernières demandes</h2>
             <Link href="/admin/demandes" className="text-sm font-semibold text-orange">Voir tout</Link>
           </div>
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[640px] text-left text-sm">
-              <thead className="text-xs text-muted">
-                <tr>
-                  <th className="px-5 py-2 font-medium">Référence</th>
-                  <th className="px-3 py-2 font-medium">Client</th>
-                  <th className="px-3 py-2 font-medium">Type</th>
-                  <th className="px-3 py-2 font-medium">Statut</th>
+          <table className="w-full table-fixed text-left text-sm">
+            <thead className="text-xs text-muted">
+              <tr>
+                <th className="px-5 py-2 font-medium">Référence</th>
+                <th className="px-3 py-2 font-medium">Client</th>
+                <th className="px-3 py-2 font-medium">Type</th>
+                <th className="px-3 py-2 font-medium">Statut</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.latestRequests.length === 0 && (
+                <tr><td colSpan={4} className="px-5 py-8 text-muted">Aucune demande pour le moment.</td></tr>
+              )}
+              {data.latestRequests.map((item) => (
+                <tr key={item.id} className="border-t border-line">
+                  <td className="truncate px-5 py-3 font-semibold"><Link href={`/admin/demandes/${item.id}`}>{item.reference}</Link></td>
+                  <td className="truncate px-3 py-3">{item.fullName}</td>
+                  <td className="truncate px-3 py-3">{requestTypeLabels[item.type]}</td>
+                  <td className="truncate px-3 py-3">{requestStatusLabels[item.status]}</td>
                 </tr>
-              </thead>
-              <tbody>
-                {data.latestRequests.length === 0 && (
-                  <tr><td colSpan={4} className="px-5 py-8 text-muted">Aucune demande pour le moment.</td></tr>
-                )}
-                {data.latestRequests.map((item) => (
-                  <tr key={item.id} className="border-t border-line">
-                    <td className="px-5 py-3 font-semibold"><Link href={`/admin/demandes/${item.id}`}>{item.reference}</Link></td>
-                    <td className="px-3 py-3">{item.fullName}</td>
-                    <td className="px-3 py-3">{requestTypeLabels[item.type]}</td>
-                    <td className="px-3 py-3">{requestStatusLabels[item.status]}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+              ))}
+            </tbody>
+          </table>
         </div>
 
         <div className="space-y-4">
           <div className="rounded-3xl bg-white p-5 shadow-sm">
             <h2 className="font-bold text-navy">Gestion du contenu</h2>
-            <div className="mt-4 grid grid-cols-2 gap-2 text-sm">
+            <div className="mt-3 grid grid-cols-3 gap-2">
               {[
-                ["/admin/experiences", "Expériences", data.counts.experiences],
-                ["/admin/services", "Services", data.counts.services],
-                ["/admin/destinations", "Destinations", data.counts.destinations],
-                ["/admin/offres", "Offres", data.counts.offers],
-                ["/admin/actualites", "Actualités", data.counts.articles],
-                ["/admin/temoignages", "Témoignages", data.counts.testimonials],
-                ["/admin/faq", "FAQ", data.counts.faqs],
-                ["/admin/galerie", "Galerie", data.counts.gallery],
-                ["/admin/newsletter", "Newsletter", data.counts.subscribers],
-              ].map(([href, label, count]) => (
-                <Link key={String(href)} href={String(href)} className="rounded-2xl bg-sand px-3 py-3 hover:bg-orange/10">
-                  <span className="block text-lg font-bold text-navy">{count}</span>
-                  {label}
-                </Link>
-              ))}
+                { href: "/admin/experiences", label: "Expériences", hint: "Ajouter / modifier", icon: Compass },
+                { href: "/admin/services", label: "Services", hint: "Gérer les services", icon: User },
+                { href: "/admin/destinations", label: "Destinations", hint: "Gérer les destinations", icon: MapPin },
+                { href: "/admin/offres", label: "Offres", hint: "Gérer les offres", icon: Tag },
+                { href: "/admin/actualites", label: "Actualités", hint: "Publier des articles", icon: Newspaper },
+                { href: "/admin/galerie", label: "Galerie", hint: "Photos & vidéos", icon: ImageIcon },
+                { href: "/admin/temoignages", label: "Témoignages", hint: "Gérer les avis", icon: MessageSquare },
+                { href: "/admin/faq", label: "FAQ", hint: "Gérer les questions", icon: HelpCircle },
+                { href: "/admin/newsletter", label: "Newsletter", hint: "Abonnés & envois", icon: Mail },
+              ].map((item) => {
+                const Icon = item.icon;
+                return (
+                  <Link key={item.href} href={item.href} className="flex flex-col items-center rounded-2xl border border-line bg-white px-2 py-3 text-center hover:border-sea/40">
+                    <span className="grid h-8 w-8 place-items-center rounded-xl bg-sea/10 text-sea">
+                      <Icon className="h-4 w-4" />
+                    </span>
+                    <span className="mt-1.5 text-xs font-semibold text-navy">{item.label}</span>
+                    <span className="text-[10px] leading-tight text-muted">{item.hint}</span>
+                  </Link>
+                );
+              })}
             </div>
           </div>
           <div className="rounded-3xl bg-white p-5 shadow-sm">
@@ -158,27 +161,29 @@ export default async function DashboardPage() {
         </div>
       </section>
 
-      <section className="grid gap-4 lg:grid-cols-2">
-        <div className="rounded-3xl bg-white p-5 shadow-sm">
-          <h2 className="font-bold text-navy">Dernières actions</h2>
-          <ul className="mt-3 space-y-3 text-sm">
-            {data.activity.map((item) => (
-              <li key={item.id}>
-                <Link href={item.href} className="font-semibold text-navy">{item.label}</Link>
-                <p className="text-xs text-muted">{item.meta} · {formatDateTime(item.at)}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-        {data.latestTestimonial && (
-          <div className="rounded-3xl bg-navy p-5 text-white">
-            <p className="text-sm text-white/60">Dernier témoignage publié</p>
-            <p className="mt-3 leading-7">{data.latestTestimonial.content}</p>
-            <p className="mt-4 font-semibold">{data.latestTestimonial.authorName}</p>
-            <p className="text-sm text-white/60">{data.latestTestimonial.location}</p>
-          </div>
-        )}
-      </section>
+      {data.latestTestimonial && (
+        <section className="max-w-xl rounded-3xl bg-white p-4 shadow-sm">
+            <div className="flex items-center justify-between gap-3">
+              <h2 className="font-bold text-navy">Derniers avis clients</h2>
+              <Link href="/admin/temoignages" className="text-sm font-semibold text-sea">Voir tout →</Link>
+            </div>
+            <div className="mt-3 flex items-center gap-3">
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-sea/15 text-sm font-bold text-sea">
+                {data.latestTestimonial.authorName.split(" ").map((part) => part[0]).join("").slice(0, 2).toUpperCase()}
+              </span>
+              <div className="min-w-0">
+                <p className="font-semibold text-navy">{data.latestTestimonial.authorName}</p>
+                <p className="flex gap-0.5 text-orange">
+                  {Array.from({ length: 5 }, (_, index) => (
+                    <Star key={index} className={`h-3.5 w-3.5 ${index < data.latestTestimonial!.rating ? "fill-orange" : "text-line"}`} />
+                  ))}
+                </p>
+              </div>
+              <p className="ml-auto shrink-0 text-xs text-muted">{data.latestTestimonial.createdAt.toLocaleDateString("fr-FR")}</p>
+            </div>
+            <p className="mt-2 text-sm leading-5 text-muted">“{data.latestTestimonial.content}”</p>
+        </section>
+      )}
     </div>
   );
 }
