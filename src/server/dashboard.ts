@@ -40,7 +40,7 @@ export async function getDashboard() {
     prisma.faq.count(),
     prisma.galleryItem.count(),
     prisma.newsletterSubscriber.count({ where: { active: true } }),
-    prisma.travelRequest.findMany({ orderBy: { createdAt: "desc" }, take: 7 }),
+    prisma.travelRequest.findMany({ orderBy: { createdAt: "desc" }, take: 5 }),
     prisma.testimonial.findFirst({ where: { published: true }, orderBy: { sortOrder: "asc" } }),
     prisma.article.findMany({ orderBy: { updatedAt: "desc" }, take: 3 }),
     prisma.offer.findMany({ orderBy: { updatedAt: "desc" }, take: 3 }),

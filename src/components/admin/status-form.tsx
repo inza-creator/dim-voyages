@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { StatusBadge } from "@/components/admin/status-badge";
 import { requestStatusLabels } from "@/lib/constants";
 
 export function StatusForm({ id, status }: { id: string; status: string }) {
@@ -19,7 +20,8 @@ export function StatusForm({ id, status }: { id: string; status: string }) {
 
   return (
     <div className="rounded-3xl bg-white p-5 shadow-sm">
-      <label className="text-sm font-medium">
+      <StatusBadge status={value} />
+      <label className="mt-3 block text-sm font-medium">
         Statut
         <select value={value} onChange={(event) => setValue(event.target.value)} className="mt-1.5 h-11 w-full rounded-2xl border border-line px-3">
           {Object.entries(requestStatusLabels).map(([key, label]) => <option key={key} value={key}>{label}</option>)}

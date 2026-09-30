@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { CheckCircle2, Clock3, Compass, HelpCircle, ImageIcon, Inbox, Mail, MapPin, MessageSquare, Newspaper, Sparkles, Star, Tag, User } from "lucide-react";
-import { requestStatusLabels, requestTypeLabels } from "@/lib/constants";
+import { StatusBadge } from "@/components/admin/status-badge";
+import { requestTypeLabels } from "@/lib/constants";
 import { getDashboard } from "@/server/dashboard";
 
 const typeColors: Record<string, string> = {
@@ -84,8 +85,8 @@ export default async function DashboardPage() {
         </div>
       </section>
 
-      <section className="grid gap-4 xl:grid-cols-[1.3fr_0.7fr]">
-        <div className="overflow-hidden rounded-3xl bg-white shadow-sm">
+      <section className="grid items-start gap-4 xl:grid-cols-[1.3fr_0.7fr]">
+        <div className="self-start overflow-hidden rounded-3xl bg-white shadow-sm">
           <div className="flex items-center justify-between px-5 py-4">
             <h2 className="font-bold text-navy">(05) Dernières demandes</h2>
             <Link href="/admin/demandes" className="text-sm font-semibold text-orange">Voir tout</Link>
@@ -103,12 +104,12 @@ export default async function DashboardPage() {
               {data.latestRequests.length === 0 && (
                 <tr><td colSpan={4} className="px-5 py-8 text-muted">Aucune demande pour le moment.</td></tr>
               )}
-              {data.latestRequests.map((item) => (
+              {data.latestRequests.slice(0, 5).map((item) => (
                 <tr key={item.id} className="border-t border-line">
                   <td className="truncate px-5 py-3 font-semibold"><Link href={`/admin/demandes/${item.id}`}>{item.reference}</Link></td>
                   <td className="truncate px-3 py-3">{item.fullName}</td>
                   <td className="truncate px-3 py-3">{requestTypeLabels[item.type]}</td>
-                  <td className="truncate px-3 py-3">{requestStatusLabels[item.status]}</td>
+                  <td className="px-3 py-3"><StatusBadge status={item.status} /></td>
                 </tr>
               ))}
             </tbody>

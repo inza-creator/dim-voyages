@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import { StatusBadge } from "@/components/admin/status-badge";
 import { requestStatusLabels, requestTypeLabels } from "@/lib/constants";
 import { formatDateTime } from "@/lib/utils";
 
@@ -66,7 +67,7 @@ export function RequestsBoard({ initialItems }: { initialItems: RequestItem[] })
                 <td className="px-3 py-3">{item.fullName}<br /><span className="text-xs text-muted">{item.phone}</span></td>
                 <td className="px-3 py-3">{requestTypeLabels[item.type]}</td>
                 <td className="px-3 py-3">{item.destination || "—"}</td>
-                <td className="px-3 py-3">{requestStatusLabels[item.status]}</td>
+                <td className="px-3 py-3"><StatusBadge status={item.status} /></td>
                 <td className="px-3 py-3">{formatDateTime(item.createdAt)}</td>
               </tr>
             ))}
