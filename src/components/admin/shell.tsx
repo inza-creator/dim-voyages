@@ -56,6 +56,7 @@ export function AdminShell({
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const visible = links.filter((link) => !link.admin || user.role === "ADMIN");
+  const year = new Date().getFullYear();
 
   async function logout() {
     await fetch("/api/auth/logout", { method: "POST" });
@@ -111,7 +112,7 @@ export function AdminShell({
           <div className="relative h-full w-72">{nav}</div>
         </div>
       )}
-      <div className="min-w-0">
+      <div className="flex min-h-screen min-w-0 flex-col">
         <header className="sticky top-0 z-30 flex items-center gap-3 border-b border-line bg-white/90 px-4 py-3 backdrop-blur">
           <button type="button" className="grid h-10 w-10 place-items-center rounded-xl lg:hidden" onClick={() => setOpen(true)} aria-label="Ouvrir le menu">
             <Menu className="h-5 w-5" />
@@ -131,7 +132,19 @@ export function AdminShell({
             </div>
           </div>
         </header>
-        <div className="p-4 sm:p-6">{children}</div>
+        <div className="flex-1 p-4 sm:p-6">{children}</div>
+        <footer className="flex flex-wrap items-center justify-between gap-3 border-t border-line bg-white px-4 py-3 text-xs text-muted sm:px-6">
+          <div className="flex items-center gap-3">
+            <Logo className="h-8" />
+            <span className="border-l border-line pl-3 text-sm text-navy">Back-office</span>
+          </div>
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+            <span>© {year} DIM Voyages. Tous droits réservés.</span>
+            <Link href="/faq" className="hover:text-navy">Aide</Link>
+            <Link href="/politique-de-confidentialite" className="hover:text-navy">Confidentialité</Link>
+            <Link href="/conditions-d-utilisation" className="hover:text-navy">Conditions d&apos;utilisation</Link>
+          </div>
+        </footer>
       </div>
     </div>
   );
