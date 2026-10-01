@@ -39,7 +39,7 @@ export function SiteFooter({ settings }: { settings: PublicSettings }) {
   ].filter((item) => item.href.startsWith("http"));
 
   return (
-    <footer className="relative mt-8 overflow-hidden bg-navy-900 text-white">
+    <footer className="relative mt-8 overflow-hidden bg-[#0e4f7c] text-white">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-24 text-gold" aria-hidden>
         <svg viewBox="0 0 1440 110" className="h-full w-full" preserveAspectRatio="none">
           <path
@@ -68,7 +68,7 @@ export function SiteFooter({ settings }: { settings: PublicSettings }) {
                   href={item.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="rounded-full border border-white/15 px-3 py-1.5 text-xs font-semibold text-white/80 hover:border-orange hover:text-white"
+                  className="rounded-full border border-white/25 px-3 py-1.5 text-xs font-semibold text-white/90 hover:border-orange hover:text-orange"
                 >
                   {item.label}
                 </a>
@@ -82,9 +82,9 @@ export function SiteFooter({ settings }: { settings: PublicSettings }) {
         <FooterColumn title="Services" links={services} />
 
         <div className="lg:col-span-2">
-          <div className="rounded-3xl border border-white/10 bg-white/5 p-5 shadow-2xl">
+          <div className="rounded-3xl border border-white/15 bg-white p-5 text-[#0e4f7c] shadow-sm">
             <p className="text-xs font-bold tracking-[0.16em] text-gold uppercase">Contact</p>
-            <ul className="mt-4 space-y-3 text-sm text-white/85">
+            <ul className="mt-4 space-y-3 text-sm">
               <li className="flex gap-2">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-orange" />
                 {settings.address}
@@ -111,7 +111,7 @@ export function SiteFooter({ settings }: { settings: PublicSettings }) {
       </div>
 
       <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="rounded-3xl border border-white/10 bg-navy px-5 py-5 sm:px-8">
+        <div className="rounded-3xl bg-[#14639a] px-5 py-5 text-white sm:px-8">
           <div className="grid items-center gap-4 lg:grid-cols-[1fr_1.2fr]">
             <div>
               <p className="font-semibold">Restez connecté à nos actualités</p>
@@ -122,13 +122,13 @@ export function SiteFooter({ settings }: { settings: PublicSettings }) {
         </div>
       </div>
 
-      <div className="relative mx-auto flex w-full max-w-7xl flex-col gap-3 px-4 py-6 text-xs text-white/85 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
+      <div className="relative mx-auto flex w-full max-w-7xl flex-col gap-3 px-4 py-6 text-xs sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
         <p>© {year} DIM Voyages. Tous droits réservés.</p>
         <div className="flex flex-wrap gap-x-4 gap-y-2">
-          <Link href="/faq" className="hover:text-white">Aide</Link>
-          <Link href="/mentions-legales" className="hover:text-white">Mentions légales</Link>
-          <Link href="/politique-de-confidentialite" className="hover:text-white">Confidentialité</Link>
-          <Link href="/conditions-d-utilisation" className="hover:text-white">Conditions d&apos;utilisation</Link>
+          <Link href="/faq" className="hover:text-orange">Aide</Link>
+          <Link href="/mentions-legales" className="hover:text-orange">Mentions légales</Link>
+          <Link href="/politique-de-confidentialite" className="hover:text-orange">Confidentialité</Link>
+          <Link href="/conditions-d-utilisation" className="hover:text-orange">Conditions d&apos;utilisation</Link>
         </div>
       </div>
     </footer>

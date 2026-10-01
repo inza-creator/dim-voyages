@@ -55,7 +55,7 @@ export function SiteHeader({ settings }: { settings: PublicSettings }) {
   }
 
   return (
-    <header className="sticky top-0 z-50 border-b border-line bg-white text-navy shadow-sm xl:border-0 xl:bg-navy xl:text-white xl:shadow-lg">
+    <header className="sticky top-0 z-50 border-b border-[#c5dff0] bg-[#e7f3fb] text-[#0e4f7c] shadow-sm">
       <div className="mx-auto flex min-h-[4.75rem] w-full max-w-7xl items-center gap-3 px-4 sm:px-6 lg:px-8">
         <Link href="/" className="shrink-0 py-2" aria-label="DIM VOYAGES, accueil">
           <Logo priority className="h-14 sm:h-16" />
@@ -69,7 +69,7 @@ export function SiteHeader({ settings }: { settings: PublicSettings }) {
                 key={link.href}
                 href={link.href}
                 className={`whitespace-nowrap text-[13px] font-semibold transition ${
-                  active ? "text-orange" : "text-white/85 hover:text-white"
+                  active ? "text-orange" : "hover:text-orange"
                 }`}
               >
                 {link.label}
@@ -82,7 +82,7 @@ export function SiteHeader({ settings }: { settings: PublicSettings }) {
           <button
             type="button"
             onClick={() => setSearchOpen(true)}
-            className="grid h-10 w-10 place-items-center rounded-full text-navy hover:bg-navy/10 xl:text-white/90 xl:hover:bg-white/10"
+            className="grid h-10 w-10 place-items-center rounded-full hover:bg-[#0e4f7c]/10"
             aria-label="Rechercher"
           >
             <Search className="h-5 w-5" />
@@ -103,7 +103,7 @@ export function SiteHeader({ settings }: { settings: PublicSettings }) {
           </Link>
           <button
             type="button"
-            className="relative z-20 grid h-11 w-11 shrink-0 place-items-center rounded-full text-navy hover:bg-navy/10 xl:hidden"
+            className="relative z-20 grid h-11 w-11 shrink-0 place-items-center rounded-full hover:bg-[#0e4f7c]/10 xl:hidden"
             aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
             aria-expanded={open}
             aria-controls="mobile-menu"
