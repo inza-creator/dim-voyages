@@ -76,10 +76,10 @@ export function SiteHeader() {
         ? createPortal(
             <div className="fixed inset-0 z-[55]">
               <button type="button" className="absolute inset-0 bg-black/25" aria-label="Fermer le menu" onClick={() => setOpen(false)} />
-              <div id="mobile-menu" className="menu-drawer absolute inset-y-0 right-0 w-[65%] overflow-y-auto bg-navy px-5 pb-28 pt-4 text-white shadow-2xl lg:w-[72%]">
+              <div id="mobile-menu" className="menu-drawer absolute inset-y-0 right-0 w-[65%] overflow-y-auto bg-[#e7f3fb] px-5 pb-28 pt-4 text-[#0e4f7c] shadow-2xl lg:w-[72%]">
                 <div className="mb-6 flex items-center justify-between gap-3">
                   <Logo className="h-14" />
-                  <button type="button" onClick={() => setOpen(false)} aria-label="Fermer" className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-white/10">
+                  <button type="button" onClick={() => setOpen(false)} aria-label="Fermer" className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[#0e4f7c]/10">
                     <X className="h-6 w-6" />
                   </button>
                 </div>
@@ -91,7 +91,7 @@ export function SiteHeader() {
                         key={link.href}
                         href={link.href}
                         onClick={() => setOpen(false)}
-                        className={`border-b border-white/10 px-1 py-3.5 text-lg font-semibold ${active ? "text-orange" : "hover:text-white"}`}
+                        className={`border-b border-[#0e4f7c]/15 px-1 py-3.5 text-lg font-semibold ${active ? "text-orange" : "hover:text-orange"}`}
                       >
                         {link.label}
                       </Link>
@@ -101,7 +101,7 @@ export function SiteHeader() {
                 <Link
                   href="/demande?type=DEVIS"
                   onClick={() => setOpen(false)}
-                  className="mt-6 flex h-12 items-center justify-center rounded-full bg-orange font-semibold"
+                  className="mt-6 flex h-12 items-center justify-center rounded-full bg-orange font-semibold text-white"
                 >
                   Demander un devis
                 </Link>
