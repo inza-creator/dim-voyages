@@ -59,7 +59,7 @@ export function SiteFooter({ settings }: { settings: PublicSettings }) {
           <p className="mt-4 max-w-sm text-sm leading-6 text-white/90">
             Votre partenaire voyage en Côte d&apos;Ivoire et dans le monde. Des expériences uniques, un service sur mesure.
           </p>
-          <p className="mt-4 font-script text-3xl text-gold">{settings.signature}</p>
+          <p className="mt-4 text-sm font-semibold leading-6 text-gold">{settings.signature}</p>
           {socials.length > 0 && (
             <div className="mt-5 flex gap-2">
               {socials.map((item) => (

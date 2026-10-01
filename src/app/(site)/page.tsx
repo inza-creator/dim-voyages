@@ -17,7 +17,6 @@ export default async function HomePage() {
         </div>
         <div className="relative mx-auto grid w-full max-w-7xl gap-8 px-4 py-14 sm:px-6 lg:grid-cols-[1.2fr_0.8fr] lg:px-8 lg:py-20">
           <div className="rise max-w-2xl text-white">
-            <p className="text-sm font-semibold tracking-[0.2em] text-gold uppercase">DIM VOYAGES</p>
             <h1 className="mt-3 text-4xl font-bold tracking-tight sm:text-6xl">Le pouvoir du voyage</h1>
             <p className="font-script text-4xl text-orange sm:text-6xl">Le chemin vers soi.</p>
             <p className="mt-4 max-w-xl text-base leading-7 text-white/85 sm:text-lg">

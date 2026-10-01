@@ -35,13 +35,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="fr" className={`${sans.variable} ${script.variable} h-full`}>
       <body className="min-h-full bg-sand font-sans text-ink antialiased">
         <style>{`
-          .bg-navy { background-color: #0e6294 !important; }
-          .bg-navy-800 { background-color: #0c5684 !important; }
-          .bg-navy-900 { background-color: #0b4f78 !important; }
-          .text-navy { color: #0e6294 !important; }
-          .from-navy { --tw-gradient-from: #0e6294 !important; }
-          .via-navy { --tw-gradient-via: #0e6294 !important; }
-          .to-navy { --tw-gradient-to: #0e6294 !important; }
+          .bg-navy { background-color: #012549 !important; }
+          .bg-navy-800 { background-color: #012244 !important; }
+          .bg-navy-900 { background-color: #011e3c !important; }
+          .text-navy { color: #012549 !important; }
+          .from-navy { --tw-gradient-from: #012549 !important; }
+          .via-navy { --tw-gradient-via: #012549 !important; }
+          .to-navy { --tw-gradient-to: #012549 !important; }
         `}</style>
         {children}
       </body>
