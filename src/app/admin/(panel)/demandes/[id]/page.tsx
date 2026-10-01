@@ -25,7 +25,7 @@ export default async function RequestDetailPage({ params }: { params: Promise<{ 
           <Row label="Date" value={item.travelDate || "—"} />
           <Row label="Voyageurs" value={item.travelers ? String(item.travelers) : "—"} />
           <Row label="Message" value={item.message} />
-          {Object.entries(details).map(([key, value]) => <Row key={key} label={key} value={String(value)} />)}
+          {Object.entries(details).map(([key, value]) => <Row key={key} label={detailLabels[key] ?? key} value={String(value)} />)}
         </dl>
       </div>
       <div className="space-y-4">
@@ -39,6 +39,17 @@ export default async function RequestDetailPage({ params }: { params: Promise<{ 
     </div>
   );
 }
+
+const detailLabels: Record<string, string> = {
+  budget: "Budget indicatif",
+  currency: "Monnaie",
+  travelType: "Type de voyage",
+  company: "Société",
+  childName: "Enfant ou groupe",
+  childAge: "Âge",
+  participants: "Participants",
+  subject: "Sujet",
+};
 
 function Row({ label, value }: { label: string; value: string }) {
   return (

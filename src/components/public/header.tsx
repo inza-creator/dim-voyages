@@ -1,23 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { FormEvent, useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { Menu, Search, X } from "lucide-react";
-import { navLinks, type PublicSettings } from "@/lib/constants";
-import { whatsappHref } from "@/lib/utils";
+import { Menu, X } from "lucide-react";
+import { navLinks } from "@/lib/constants";
 import { Logo } from "@/components/public/logo";
 
-type Result = { type: string; title: string; href: string };
-
-export function SiteHeader({ settings }: { settings: PublicSettings }) {
+export function SiteHeader() {
   const pathname = usePathname();
-  const router = useRouter();
   const [open, setOpen] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [query, setQuery] = useState("");
-  const [results, setResults] = useState<Result[]>([]);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -26,33 +19,14 @@ export function SiteHeader({ settings }: { settings: PublicSettings }) {
 
   useEffect(() => {
     setOpen(false);
-    setSearchOpen(false);
   }, [pathname]);
 
   useEffect(() => {
-    document.body.style.overflow = open || searchOpen ? "hidden" : "";
+    document.body.style.overflow = open ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
-  }, [open, searchOpen]);
-
-  useEffect(() => {
-    if (query.trim().length < 2) {
-      setResults([]);
-      return;
-    }
-    const timer = setTimeout(async () => {
-      const response = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
-      const data = await response.json();
-      setResults(data.results ?? []);
-    }, 250);
-    return () => clearTimeout(timer);
-  }, [query]);
-
-  function submitSearch(event: FormEvent) {
-    event.preventDefault();
-    if (results[0]) router.push(results[0].href);
-  }
+  }, [open]);
 
   return (
     <header className="sticky top-0 z-50 border-b border-[#c5dff0] bg-[#e7f3fb] text-[#0e4f7c] shadow-sm">
@@ -79,22 +53,6 @@ export function SiteHeader({ settings }: { settings: PublicSettings }) {
         </nav>
 
         <div className="ml-auto flex items-center gap-2">
-          <button
-            type="button"
-            onClick={() => setSearchOpen(true)}
-            className="grid h-10 w-10 place-items-center rounded-full hover:bg-[#0e4f7c]/10"
-            aria-label="Rechercher"
-          >
-            <Search className="h-5 w-5" />
-          </button>
-          <a
-            href={whatsappHref(settings.whatsapp)}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hidden h-10 items-center rounded-full bg-whatsapp px-3 text-sm font-semibold text-white sm:inline-flex"
-          >
-            WhatsApp
-          </a>
           <Link
             href="/demande?type=DEVIS"
             className="hidden rounded-full bg-orange px-4 py-2.5 text-sm font-semibold text-white hover:bg-orange-600 lg:inline-flex"
@@ -148,40 +106,6 @@ export function SiteHeader({ settings }: { settings: PublicSettings }) {
                   Demander un devis
                 </Link>
               </div>
-            </div>,
-            document.body,
-          )
-        : null}
-
-      {mounted && searchOpen
-        ? createPortal(
-            <div className="fixed inset-0 z-[80] bg-navy/70 px-4 pt-24 backdrop-blur-sm" onClick={() => setSearchOpen(false)}>
-          <div className="mx-auto max-w-xl rounded-3xl bg-white p-4 text-ink shadow-2xl" onClick={(event) => event.stopPropagation()}>
-            <form onSubmit={submitSearch}>
-              <label className="sr-only" htmlFor="site-search">Recherche</label>
-              <input
-                id="site-search"
-                autoFocus
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-                placeholder="Destination, offre, expérience…"
-                className="h-12 w-full rounded-2xl border border-line px-4 outline-none focus:border-orange"
-              />
-            </form>
-            <ul className="mt-3 max-h-80 overflow-auto">
-              {results.map((result) => (
-                <li key={result.href}>
-                  <Link href={result.href} className="flex items-center justify-between rounded-xl px-3 py-3 hover:bg-sand">
-                    <span className="font-medium">{result.title}</span>
-                    <span className="text-xs font-semibold text-orange">{result.type}</span>
-                  </Link>
-                </li>
-              ))}
-              {query.trim().length >= 2 && results.length === 0 && (
-                <li className="px-3 py-4 text-sm text-muted">Aucun résultat.</li>
-              )}
-            </ul>
-          </div>
             </div>,
             document.body,
           )

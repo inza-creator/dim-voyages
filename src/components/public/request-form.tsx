@@ -34,6 +34,8 @@ export function RequestForm({
       const value = String(form.get(key) ?? "").trim();
       if (value) details[key] = value;
     });
+    const currency = String(form.get("currency") ?? "").trim();
+    if (details.budget && currency) details.currency = currency;
 
     const response = await fetch("/api/demandes", {
       method: "POST",
@@ -133,10 +135,22 @@ export function RequestForm({
           </label>
         )}
         {kind === "DEVIS" && (
-          <label className="block text-sm font-medium">
+          <div className="block text-sm font-medium sm:col-span-2">
             Budget indicatif
-            <input name="budget" className={`${field} mt-1.5`} placeholder="En FCFA" />
-          </label>
+            <div className="mt-1.5 flex gap-2">
+              <input name="budget" className={field} placeholder="Montant" inputMode="decimal" />
+              <select
+                name="currency"
+                defaultValue="FCFA"
+                aria-label="Monnaie"
+                className="h-12 w-28 shrink-0 rounded-2xl border border-line bg-sand px-3 text-sm outline-none focus:border-orange"
+              >
+                <option value="FCFA">FCFA</option>
+                <option value="EURO">EURO</option>
+                <option value="USD">USD</option>
+              </select>
+            </div>
+          </div>
         )}
         {kind === "JUNIOR" && (
           <>

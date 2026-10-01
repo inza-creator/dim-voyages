@@ -133,48 +133,6 @@ export async function getPublishedGallery() {
   });
 }
 
-export async function searchPublic(query: string) {
-  const q = query.trim();
-  if (q.length < 2) return [];
-
-  const [offers, destinations, articles, experiences, services] = await Promise.all([
-    prisma.offer.findMany({
-      where: {
-        published: true,
-        OR: [
-          { title: { contains: q, mode: "insensitive" } },
-          { destinationLabel: { contains: q, mode: "insensitive" } },
-        ],
-      },
-      take: 5,
-    }),
-    prisma.destination.findMany({
-      where: { published: true, name: { contains: q, mode: "insensitive" } },
-      take: 5,
-    }),
-    prisma.article.findMany({
-      where: { published: true, title: { contains: q, mode: "insensitive" } },
-      take: 5,
-    }),
-    prisma.experience.findMany({
-      where: { published: true, title: { contains: q, mode: "insensitive" } },
-      take: 4,
-    }),
-    prisma.service.findMany({
-      where: { published: true, title: { contains: q, mode: "insensitive" } },
-      take: 4,
-    }),
-  ]);
-
-  return [
-    ...experiences.map((item) => ({ type: "Expérience", title: item.title, href: `/experiences/${item.slug}` })),
-    ...services.map((item) => ({ type: "Service", title: item.title, href: `/services/${item.slug}` })),
-    ...destinations.map((item) => ({ type: "Destination", title: item.name, href: `/destinations/${item.slug}` })),
-    ...offers.map((item) => ({ type: "Offre", title: item.title, href: `/offres/${item.slug}` })),
-    ...articles.map((item) => ({ type: "Actualité", title: item.title, href: `/actualites/${item.slug}` })),
-  ];
-}
-
 export async function getSitemapEntries() {
   const [experiences, services, destinations, offers, articles] = await Promise.all([
     prisma.experience.findMany({ where: { published: true }, select: { slug: true, updatedAt: true } }),

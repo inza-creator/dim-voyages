@@ -20,7 +20,7 @@ export default async function HomePage() {
             <h1 className="mt-3 text-4xl font-bold tracking-tight sm:text-6xl">Le pouvoir du voyage</h1>
             <p className="font-script text-4xl text-orange sm:text-6xl">Le chemin vers soi.</p>
             <p className="mt-4 max-w-xl text-base leading-7 text-white/85 sm:text-lg">
-              Découvrez le monde avec DIM Voyages, votre agence de voyage et de tourisme en Côte d&apos;Ivoire. Des expériences sur mesure pour tous : particuliers, familles, entreprises, institutions et groupes.
+              Découvrez le monde avec DIM Voyages, votre agence de voyage et de tourisme en Côte d&apos;Ivoire. Des expériences sur mesure pour tous particuliers, familles, entreprises, institutions et groupes.
             </p>
             <p className="mt-4 text-sm font-semibold text-gold">{data.settings.signature}</p>
           </div>
