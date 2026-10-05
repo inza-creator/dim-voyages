@@ -23,6 +23,14 @@ export function SiteHeader({ locale }: { locale: Locale }) {
     { href: "/faq", label: t.nav.faq },
     { href: "/contact", label: t.nav.contact },
   ];
+  const desktopLinks = [
+    { href: "/", label: t.nav.home },
+    { href: "/services", label: t.nav.services },
+    { href: "/experiences", label: t.nav.experiences },
+    { href: "/destinations", label: t.nav.destinations },
+    { href: "/a-propos", label: t.nav.about },
+    { href: "/contact", label: t.nav.contact },
+  ];
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -49,15 +57,15 @@ export function SiteHeader({ locale }: { locale: Locale }) {
           <Logo priority className="h-14 sm:h-16" />
         </Link>
 
-        <nav className="ml-4 hidden flex-1 items-center justify-center gap-x-3 xl:flex" aria-label="Navigation principale">
-          {navLinks.map((link) => {
+        <nav className="ml-4 hidden min-w-0 flex-1 items-center justify-center gap-x-3 lg:flex xl:ml-6 xl:gap-x-5" aria-label="Navigation principale">
+          {desktopLinks.map((link) => {
             const active = link.href === "/" ? pathname === "/" : pathname.startsWith(link.href);
             return (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`whitespace-nowrap text-[13px] font-semibold transition ${
-                  active ? "text-orange" : "hover:text-orange"
+                className={`whitespace-nowrap border-b-2 py-1 text-[13px] font-semibold transition xl:text-sm ${
+                  active ? "border-orange text-orange" : "border-transparent hover:border-[#0e4f7c]/30 hover:text-orange"
                 }`}
               >
                 {link.label}
@@ -76,7 +84,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
           </Link>
           <button
             type="button"
-            className="relative z-20 grid h-11 w-11 shrink-0 place-items-center rounded-full hover:bg-[#0e4f7c]/10 xl:hidden"
+            className="relative z-20 grid h-11 w-11 shrink-0 place-items-center rounded-full hover:bg-[#0e4f7c]/10 lg:hidden"
             aria-label={open ? t.header.closeMenu : t.header.openMenu}
             aria-expanded={open}
             aria-controls="mobile-menu"
