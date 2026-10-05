@@ -77,6 +77,7 @@ model Service {
   title       String
   excerpt     String
   description String   @db.Text
+  highlights  String[] @default([])
   icon        String   @default("plane")
   imageUrl    String   @default("")
   published   Boolean  @default(true)

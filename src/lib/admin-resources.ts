@@ -71,6 +71,7 @@ export const resources: Record<ResourceKey, ResourceConfig> = {
       { name: "slug", label: "Slug", type: "text" },
       { name: "excerpt", label: "Résumé", type: "textarea", required: true },
       { name: "description", label: "Description", type: "textarea", required: true },
+      { name: "highlights", label: "Points forts", type: "lines", help: "Un point par ligne" },
       {
         name: "icon",
         label: "Icône",

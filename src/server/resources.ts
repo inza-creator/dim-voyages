@@ -194,6 +194,7 @@ async function saveService(input: Payload, id?: string) {
     slug,
     excerpt: excerpt.value,
     description: description.value,
+    highlights: lines(input.highlights),
     icon,
     imageUrl: text(input.imageUrl),
     published: flag(input.published, true),
