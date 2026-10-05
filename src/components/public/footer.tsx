@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Mail, MapPin, Phone } from "lucide-react";
 import { Logo } from "@/components/public/logo";
 import { NewsletterForm } from "@/components/public/newsletter-form";
 import type { PublicSettings } from "@/lib/constants";
@@ -82,22 +81,22 @@ export function SiteFooter({
         <FooterColumn title={t.footer.services} links={services} />
 
         <div className="lg:col-span-2">
-          <div className="rounded-3xl border border-white/15 bg-white p-5 text-[#0e4f7c] shadow-sm">
-            <p className="text-xs font-bold tracking-[0.16em] text-gold uppercase">{t.footer.contact}</p>
-            <ul className="mt-4 space-y-3 text-sm">
-              <li className="flex gap-2">
-                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-orange" />
-                {settings.address}
-              </li>
-              <li className="flex gap-2">
-                <Phone className="mt-0.5 h-4 w-4 shrink-0 text-orange" />
-                <a href={`tel:${settings.phone.replace(/\s/g, "")}`}>{settings.phone}</a>
-              </li>
-              <li className="flex gap-2">
-                <Mail className="mt-0.5 h-4 w-4 shrink-0 text-orange" />
-                <a href={`mailto:${settings.email}`}>{settings.email}</a>
-              </li>
-            </ul>
+          <div className="rounded-3xl border border-white/15 bg-white p-5 text-center text-[#0e4f7c] shadow-sm">
+            <p className="text-xs font-bold tracking-[0.16em] text-gold uppercase">{t.footer.hours}</p>
+            <dl className="mt-4 space-y-3 text-sm">
+              <div>
+                <dt className="font-semibold">{t.footer.weekdays}</dt>
+                <dd>{t.footer.weekHours}</dd>
+              </div>
+              <div>
+                <dt className="font-semibold">{t.footer.saturday}</dt>
+                <dd>{t.footer.saturdayHours}</dd>
+              </div>
+              <div>
+                <dt className="font-semibold">{t.footer.sunday}</dt>
+                <dd>{t.footer.closed}</dd>
+              </div>
+            </dl>
             <a
               href={whatsappHref(settings.whatsapp)}
               target="_blank"
