@@ -6,7 +6,15 @@ import type { PublicSettings } from "@/lib/constants";
 import { copy, type Locale } from "@/lib/i18n";
 import { whatsappHref } from "@/lib/utils";
 
-export function SiteFooter({ settings, locale }: { settings: PublicSettings; locale: Locale }) {
+export function SiteFooter({
+  settings,
+  locale,
+  services,
+}: {
+  settings: PublicSettings;
+  locale: Locale;
+  services: { href: string; label: string }[];
+}) {
   const t = copy(locale);
   const quick = [
     { href: "/", label: t.nav.home },
@@ -22,13 +30,6 @@ export function SiteFooter({ settings, locale }: { settings: PublicSettings; loc
     { href: "/experiences/dim-junior", label: "DIM Junior" },
     { href: "/experiences/dim-corporate", label: "DIM Corporate" },
     { href: "/experiences/voyages-spirituels", label: t.footer.spiritual },
-  ];
-  const services = [
-    { href: "/services/billetterie-aerienne", label: t.footer.air },
-    { href: "/services/reservation-hotels", label: t.footer.hotels },
-    { href: "/services/assistance-visa", label: t.footer.visa },
-    { href: "/services/voyages-organises", label: t.footer.organized },
-    { href: "/services/circuits-excursions", label: t.footer.circuits },
   ];
   const year = new Date().getFullYear();
   const socials = [

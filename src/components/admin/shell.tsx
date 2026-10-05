@@ -64,7 +64,7 @@ export function AdminShell({
   }
 
   const nav = (
-    <div className="flex h-full flex-col bg-navy text-white">
+    <div className="flex h-full flex-col bg-[#0e4f7c] text-white">
       <div className="flex items-center justify-between px-4 py-4">
         <Link href="/admin" onClick={() => setOpen(false)}>
           <Logo className="h-12" />

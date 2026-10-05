@@ -18,6 +18,20 @@ export default async function HomePage() {
           <MediaImage src={data.settings.heroImageUrl} alt="Voyage DIM VOYAGES" priority className="object-cover" sizes="100vw" />
           <div className="absolute inset-0 bg-gradient-to-r from-navy/80 via-navy/45 to-transparent" />
         </div>
+        <div className="relative overflow-hidden border-b border-white/15 bg-[#012549]/45 py-2.5 text-white backdrop-blur-[2px]" role="region" aria-label="LE VOYAGE TRANSFORMATIONNEL — Une expérience qui va au-delà de la destination">
+          <div className="ticker-track flex w-max">
+            {[0, 1].map((copy) => (
+              <p key={copy} className="flex shrink-0 items-center" aria-hidden={copy === 1}>
+                {Array.from({ length: 4 }, (_, index) => (
+                  <span key={index} className="mx-8 whitespace-nowrap text-xs font-semibold tracking-[0.14em] sm:text-sm">
+                    <span className="text-gold">LE VOYAGE TRANSFORMATIONNEL</span>
+                    <span className="text-white"> — Une expérience qui va au-delà de la destination</span>
+                  </span>
+                ))}
+              </p>
+            ))}
+          </div>
+        </div>
         <div className="relative mx-auto grid w-full max-w-7xl gap-8 px-4 py-14 sm:px-6 lg:grid-cols-[1.2fr_0.8fr] lg:px-8 lg:py-20">
           <div className="rise max-w-2xl text-white">
             <h1 className="mt-3 text-4xl font-bold tracking-tight sm:text-6xl">{t.title}</h1>
