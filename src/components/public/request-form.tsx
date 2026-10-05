@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { requestTypeLabels } from "@/lib/constants";
 import { btnPrimary, whatsappHref } from "@/lib/utils";
+import { copy, type Locale } from "@/lib/i18n";
 
 const types = ["VOYAGE", "DEVIS", "JUNIOR", "CORPORATE", "SPIRITUEL", "CONTACT"] as const;
 type RequestType = (typeof types)[number];
@@ -11,13 +11,15 @@ export function RequestForm({
   type = "VOYAGE",
   destination = "",
   travelDate = "",
-  compact = false,
+  locale = "fr",
 }: {
   type?: string;
   destination?: string;
   travelDate?: string;
-  compact?: boolean;
+  locale?: Locale;
 }) {
+  const text = copy(locale);
+  const t = text.form;
   const initial = types.includes(type as RequestType) ? (type as RequestType) : "VOYAGE";
   const [kind, setKind] = useState<RequestType>(initial);
   const [status, setStatus] = useState<"idle" | "loading" | "ok" | "error">("idle");
@@ -56,24 +58,24 @@ export function RequestForm({
     const data = await response.json().catch(() => ({}));
     if (!response.ok) {
       setStatus("error");
-      setMessage(data.error ?? "La demande n'a pas pu être envoyée.");
+      setMessage(data.error ?? t.failed);
       return;
     }
     setStatus("ok");
     setReference(data.reference);
-    setMessage("Votre demande est enregistrée. DIM VOYAGES vous contactera par WhatsApp, téléphone ou email.");
+    setMessage(t.saved);
     event.currentTarget.reset();
   }
 
   if (status === "ok") {
     return (
       <div className="rounded-3xl border border-line bg-white p-6 shadow-sm">
-        <p className="text-sm font-semibold text-orange">Demande envoyée</p>
-        <h2 className="mt-2 text-2xl font-bold text-navy">Merci, nous revenons vers vous.</h2>
+        <p className="text-sm font-semibold text-orange">{t.sent}</p>
+        <h2 className="mt-2 text-2xl font-bold text-navy">{t.thanks}</h2>
         <p className="mt-3 text-sm leading-6 text-muted">{message}</p>
-        {reference && <p className="mt-3 font-semibold text-navy">Référence {reference}</p>}
+        {reference && <p className="mt-3 font-semibold text-navy">{t.reference} {reference}</p>}
         <a href={whatsappHref("2250700156981", `Bonjour DIM VOYAGES, ma demande ${reference}`)} className={`${btnPrimary} mt-5`}>
-          Continuer sur WhatsApp
+          {t.continueWhatsapp}
         </a>
       </div>
     );
@@ -82,41 +84,41 @@ export function RequestForm({
   const field = "h-12 w-full rounded-2xl border border-line bg-sand px-4 text-sm outline-none focus:border-orange";
 
   return (
-    <form onSubmit={onSubmit} className={`rounded-3xl border border-line bg-white p-5 shadow-sm sm:p-6 ${compact ? "" : ""}`}>
-      <p className="text-sm font-semibold text-orange">{requestTypeLabels[kind]}</p>
-      <h2 className="mt-1 text-2xl font-bold text-navy">Parlez-nous de votre projet</h2>
+    <form onSubmit={onSubmit} className="rounded-3xl border border-line bg-white p-5 shadow-sm sm:p-6">
+      <p className="text-sm font-semibold text-orange">{text.types[kind]}</p>
+      <h2 className="mt-1 text-2xl font-bold text-navy">{t.title}</h2>
       <div className="mt-5 grid gap-4 sm:grid-cols-2">
         <label className="block text-sm font-medium sm:col-span-2">
-          Type de demande
+          {t.kind}
           <select value={kind} onChange={(event) => setKind(event.target.value as RequestType)} className={`${field} mt-1.5`}>
             {types.map((item) => (
               <option key={item} value={item}>
-                {requestTypeLabels[item]}
+                {text.types[item]}
               </option>
             ))}
           </select>
         </label>
         <label className="block text-sm font-medium">
-          Nom complet
+          {t.name}
           <input name="fullName" required minLength={2} className={`${field} mt-1.5`} />
         </label>
         <label className="block text-sm font-medium">
-          Téléphone / WhatsApp
+          {t.phone}
           <input name="phone" required minLength={8} className={`${field} mt-1.5`} placeholder="07 00 00 00 00" />
         </label>
         <label className="block text-sm font-medium sm:col-span-2">
-          Email
+          {t.email}
           <input name="email" type="email" className={`${field} mt-1.5`} placeholder="vous@email.com" />
         </label>
 
         {kind !== "CONTACT" && (
           <>
             <label className="block text-sm font-medium">
-              Destination
+              {t.destination}
               <input name="destination" defaultValue={destination} className={`${field} mt-1.5`} />
             </label>
             <label className="block text-sm font-medium">
-              Date souhaitée
+              {t.date}
               <input name="travelDate" type="date" defaultValue={travelDate} className={`${field} mt-1.5`} />
             </label>
           </>
@@ -124,25 +126,25 @@ export function RequestForm({
 
         {(kind === "VOYAGE" || kind === "DEVIS" || kind === "SPIRITUEL") && (
           <label className="block text-sm font-medium">
-            Voyageurs
+            {t.travelers}
             <input name="travelers" type="number" min={1} className={`${field} mt-1.5`} />
           </label>
         )}
         {kind === "VOYAGE" && (
           <label className="block text-sm font-medium">
-            Type de voyage
-            <input name="travelType" className={`${field} mt-1.5`} placeholder="Séjour, circuit, famille…" />
+            {t.tripType}
+            <input name="travelType" className={`${field} mt-1.5`} placeholder={t.tripPlaceholder} />
           </label>
         )}
         {kind === "DEVIS" && (
           <div className="block text-sm font-medium sm:col-span-2">
-            Budget indicatif
+            {t.budget}
             <div className="mt-1.5 flex gap-2">
-              <input name="budget" className={field} placeholder="Montant" inputMode="decimal" />
+              <input name="budget" className={field} placeholder={t.amount} inputMode="decimal" />
               <select
                 name="currency"
                 defaultValue="FCFA"
-                aria-label="Monnaie"
+                aria-label={t.currency}
                 className="h-12 w-28 shrink-0 rounded-2xl border border-line bg-sand px-3 text-sm outline-none focus:border-orange"
               >
                 <option value="FCFA">FCFA</option>
@@ -155,11 +157,11 @@ export function RequestForm({
         {kind === "JUNIOR" && (
           <>
             <label className="block text-sm font-medium">
-              Nom de l&apos;enfant ou du groupe
+              {t.child}
               <input name="childName" className={`${field} mt-1.5`} />
             </label>
             <label className="block text-sm font-medium">
-              Âge
+              {t.age}
               <input name="childAge" className={`${field} mt-1.5`} />
             </label>
           </>
@@ -167,34 +169,34 @@ export function RequestForm({
         {kind === "CORPORATE" && (
           <>
             <label className="block text-sm font-medium">
-              Société
+              {t.company}
               <input name="company" className={`${field} mt-1.5`} />
             </label>
             <label className="block text-sm font-medium">
-              Participants
+              {t.participants}
               <input name="participants" className={`${field} mt-1.5`} />
             </label>
           </>
         )}
         {kind === "CONTACT" && (
           <label className="block text-sm font-medium sm:col-span-2">
-            Sujet
+            {t.subject}
             <input name="subject" className={`${field} mt-1.5`} />
           </label>
         )}
 
         <label className="block text-sm font-medium sm:col-span-2">
-          Message
+          {t.message}
           <textarea name="message" required minLength={3} rows={4} className="mt-1.5 w-full rounded-2xl border border-line bg-sand px-4 py-3 text-sm outline-none focus:border-orange" />
         </label>
       </div>
       <input name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden />
       {status === "error" && <p className="mt-3 text-sm text-orange-600">{message}</p>}
       <button type="submit" disabled={status === "loading"} className={`${btnPrimary} mt-5 w-full sm:w-auto`}>
-        {status === "loading" ? "Envoi…" : "Envoyer la demande"}
+        {status === "loading" ? t.sending : t.send}
       </button>
       <p className="mt-3 text-xs leading-5 text-muted">
-        Aucun paiement en ligne. DIM VOYAGES vous contacte ensuite pour la suite.
+        {t.note}
       </p>
     </form>
   );

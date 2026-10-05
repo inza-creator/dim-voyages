@@ -5,10 +5,24 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { Menu, X } from "lucide-react";
-import { navLinks } from "@/lib/constants";
 import { Logo } from "@/components/public/logo";
+import { LanguageSwitch } from "@/components/public/language-switch";
+import { copy, type Locale } from "@/lib/i18n";
 
-export function SiteHeader() {
+export function SiteHeader({ locale }: { locale: Locale }) {
+  const t = copy(locale);
+  const navLinks = [
+    { href: "/", label: t.nav.home },
+    { href: "/experiences", label: t.nav.experiences },
+    { href: "/services", label: t.nav.services },
+    { href: "/destinations", label: t.nav.destinations },
+    { href: "/offres", label: t.nav.offers },
+    { href: "/a-propos", label: t.nav.about },
+    { href: "/galerie", label: t.nav.gallery },
+    { href: "/actualites", label: t.nav.news },
+    { href: "/faq", label: t.nav.faq },
+    { href: "/contact", label: t.nav.contact },
+  ];
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -53,16 +67,17 @@ export function SiteHeader() {
         </nav>
 
         <div className="ml-auto flex items-center gap-2">
+          <LanguageSwitch locale={locale} label={t.header.language} />
           <Link
             href="/demande?type=DEVIS"
             className="hidden rounded-full bg-orange px-4 py-2.5 text-sm font-semibold text-white hover:bg-orange-600 lg:inline-flex"
           >
-            Demander un devis
+            {t.header.quote}
           </Link>
           <button
             type="button"
             className="relative z-20 grid h-11 w-11 shrink-0 place-items-center rounded-full hover:bg-[#0e4f7c]/10 xl:hidden"
-            aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
+            aria-label={open ? t.header.closeMenu : t.header.openMenu}
             aria-expanded={open}
             aria-controls="mobile-menu"
             onClick={() => setOpen((value) => !value)}
@@ -75,11 +90,11 @@ export function SiteHeader() {
       {mounted && open
         ? createPortal(
             <div className="fixed inset-0 z-[55]">
-              <button type="button" className="absolute inset-0 bg-black/25" aria-label="Fermer le menu" onClick={() => setOpen(false)} />
+              <button type="button" className="absolute inset-0 bg-black/25" aria-label={t.header.closeMenu} onClick={() => setOpen(false)} />
               <div id="mobile-menu" className="menu-drawer absolute inset-y-0 right-0 w-[65%] overflow-y-auto bg-[#e7f3fb] px-5 pb-28 pt-4 text-[#0e4f7c] shadow-2xl lg:w-[72%]">
                 <div className="mb-6 flex items-center justify-between gap-3">
                   <Logo className="h-14" />
-                  <button type="button" onClick={() => setOpen(false)} aria-label="Fermer" className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[#0e4f7c]/10">
+                  <button type="button" onClick={() => setOpen(false)} aria-label={t.header.closeMenu} className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[#0e4f7c]/10">
                     <X className="h-6 w-6" />
                   </button>
                 </div>
@@ -103,7 +118,7 @@ export function SiteHeader() {
                   onClick={() => setOpen(false)}
                   className="mt-6 flex h-12 items-center justify-center rounded-full bg-orange font-semibold text-white"
                 >
-                  Demander un devis
+                  {t.header.quote}
                 </Link>
               </div>
             </div>,

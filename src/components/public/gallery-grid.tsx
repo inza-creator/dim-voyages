@@ -2,19 +2,22 @@
 
 import { useState } from "react";
 import { MediaImage } from "@/components/public/media-image";
-
-const filters = [
-  { id: "TOUT", label: "Tout" },
-  { id: "PHOTO", label: "Photos" },
-  { id: "VIDEO", label: "Vidéos" },
-  { id: "EVENEMENT", label: "Événements" },
-] as const;
+import { copy, type Locale } from "@/lib/i18n";
 
 export function GalleryGrid({
   items,
+  locale = "fr",
 }: {
   items: { id: string; title: string; caption: string; category: string; imageUrl: string }[];
+  locale?: Locale;
 }) {
+  const labels = copy(locale).pages;
+  const filters = [
+    { id: "TOUT", label: labels.galleryAll },
+    { id: "PHOTO", label: labels.galleryPhotos },
+    { id: "VIDEO", label: labels.galleryVideos },
+    { id: "EVENEMENT", label: labels.galleryEvents },
+  ] as const;
   const [filter, setFilter] = useState<(typeof filters)[number]["id"]>("TOUT");
   const visible = items.filter((item) => filter === "TOUT" || item.category === filter);
 

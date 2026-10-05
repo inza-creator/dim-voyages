@@ -3,34 +3,33 @@ import { Mail, MapPin, Phone } from "lucide-react";
 import { Logo } from "@/components/public/logo";
 import { NewsletterForm } from "@/components/public/newsletter-form";
 import type { PublicSettings } from "@/lib/constants";
+import { copy, type Locale } from "@/lib/i18n";
 import { whatsappHref } from "@/lib/utils";
 
-const quick = [
-  { href: "/", label: "Accueil" },
-  { href: "/experiences", label: "Nos expériences" },
-  { href: "/destinations", label: "Destinations" },
-  { href: "/offres", label: "Offres" },
-  { href: "/galerie", label: "Galerie" },
-  { href: "/actualites", label: "Actualités" },
-  { href: "/faq", label: "FAQ" },
-  { href: "/contact", label: "Contact" },
-];
-
-const experiences = [
-  { href: "/experiences/dim-junior", label: "DIM Junior" },
-  { href: "/experiences/dim-corporate", label: "DIM Corporate" },
-  { href: "/experiences/voyages-spirituels", label: "Voyages spirituels" },
-];
-
-const services = [
-  { href: "/services/billetterie-aerienne", label: "Billetterie aérienne" },
-  { href: "/services/reservation-hotels", label: "Réservation d'hôtels" },
-  { href: "/services/assistance-visa", label: "Assistance visa" },
-  { href: "/services/voyages-organises", label: "Voyages organisés" },
-  { href: "/services/circuits-excursions", label: "Circuits & excursions" },
-];
-
-export function SiteFooter({ settings }: { settings: PublicSettings }) {
+export function SiteFooter({ settings, locale }: { settings: PublicSettings; locale: Locale }) {
+  const t = copy(locale);
+  const quick = [
+    { href: "/", label: t.nav.home },
+    { href: "/experiences", label: t.nav.experiences },
+    { href: "/destinations", label: t.nav.destinations },
+    { href: "/offres", label: t.nav.offers },
+    { href: "/galerie", label: t.nav.gallery },
+    { href: "/actualites", label: t.nav.news },
+    { href: "/faq", label: t.nav.faq },
+    { href: "/contact", label: t.nav.contact },
+  ];
+  const experiences = [
+    { href: "/experiences/dim-junior", label: "DIM Junior" },
+    { href: "/experiences/dim-corporate", label: "DIM Corporate" },
+    { href: "/experiences/voyages-spirituels", label: t.footer.spiritual },
+  ];
+  const services = [
+    { href: "/services/billetterie-aerienne", label: t.footer.air },
+    { href: "/services/reservation-hotels", label: t.footer.hotels },
+    { href: "/services/assistance-visa", label: t.footer.visa },
+    { href: "/services/voyages-organises", label: t.footer.organized },
+    { href: "/services/circuits-excursions", label: t.footer.circuits },
+  ];
   const year = new Date().getFullYear();
   const socials = [
     { href: settings.facebook, label: "Facebook" },
@@ -57,7 +56,7 @@ export function SiteFooter({ settings }: { settings: PublicSettings }) {
         <div className="lg:col-span-4">
           <Logo className="h-16" />
           <p className="mt-4 max-w-sm text-sm leading-6 text-white/90">
-            Votre partenaire voyage en Côte d&apos;Ivoire et dans le monde. Des expériences uniques, un service sur mesure.
+            {t.footer.intro}
           </p>
           <p className="mt-4 text-sm font-semibold leading-6 text-gold">{settings.signature}</p>
           {socials.length > 0 && (
@@ -77,13 +76,13 @@ export function SiteFooter({ settings }: { settings: PublicSettings }) {
           )}
         </div>
 
-        <FooterColumn title="Liens rapides" links={quick} />
-        <FooterColumn title="Expériences" links={experiences} />
-        <FooterColumn title="Services" links={services} />
+        <FooterColumn title={t.footer.quick} links={quick} />
+        <FooterColumn title={t.footer.experiences} links={experiences} />
+        <FooterColumn title={t.footer.services} links={services} />
 
         <div className="lg:col-span-2">
           <div className="rounded-3xl border border-white/15 bg-white p-5 text-[#0e4f7c] shadow-sm">
-            <p className="text-xs font-bold tracking-[0.16em] text-gold uppercase">Contact</p>
+            <p className="text-xs font-bold tracking-[0.16em] text-gold uppercase">{t.footer.contact}</p>
             <ul className="mt-4 space-y-3 text-sm">
               <li className="flex gap-2">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-orange" />
@@ -104,7 +103,7 @@ export function SiteFooter({ settings }: { settings: PublicSettings }) {
               rel="noopener noreferrer"
               className="mt-5 flex h-12 items-center justify-center rounded-full bg-whatsapp text-sm font-semibold text-white"
             >
-              Parler à un conseiller
+              {t.footer.advisor}
             </a>
           </div>
         </div>
@@ -114,21 +113,21 @@ export function SiteFooter({ settings }: { settings: PublicSettings }) {
         <div className="rounded-3xl bg-[#14639a] px-5 py-5 text-white sm:px-8">
           <div className="grid items-center gap-4 lg:grid-cols-[1fr_1.2fr]">
             <div>
-              <p className="font-semibold">Restez connecté à nos actualités</p>
-              <p className="mt-1 text-sm text-white/90">Offres, départs et inspirations, sans engagement.</p>
+              <p className="font-semibold">{t.footer.newsTitle}</p>
+              <p className="mt-1 text-sm text-white/90">{t.footer.newsText}</p>
             </div>
-            <NewsletterForm />
+            <NewsletterForm locale={locale} />
           </div>
         </div>
       </div>
 
       <div className="relative mx-auto flex w-full max-w-7xl flex-col gap-3 px-4 py-6 text-xs sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
-        <p>© {year} DIM Voyages. Tous droits réservés.</p>
+        <p>© {year} DIM Voyages. {t.footer.rights}</p>
         <div className="flex flex-wrap gap-x-4 gap-y-2">
-          <Link href="/faq" className="hover:text-orange">Aide</Link>
-          <Link href="/mentions-legales" className="hover:text-orange">Mentions légales</Link>
-          <Link href="/politique-de-confidentialite" className="hover:text-orange">Confidentialité</Link>
-          <Link href="/conditions-d-utilisation" className="hover:text-orange">Conditions d&apos;utilisation</Link>
+          <Link href="/faq" className="hover:text-orange">{t.footer.help}</Link>
+          <Link href="/mentions-legales" className="hover:text-orange">{t.footer.legal}</Link>
+          <Link href="/politique-de-confidentialite" className="hover:text-orange">{t.footer.privacy}</Link>
+          <Link href="/conditions-d-utilisation" className="hover:text-orange">{t.footer.terms}</Link>
         </div>
       </div>
     </footer>

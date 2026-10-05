@@ -1,11 +1,16 @@
 import type { Metadata } from "next";
 import { LegalPage } from "@/components/public/legal";
+import { getLocale } from "@/lib/locale";
+import { copy } from "@/lib/i18n";
 
-export const metadata: Metadata = { title: "Confidentialité" };
+export async function generateMetadata(): Promise<Metadata> {
+  return { title: copy(await getLocale()).footer.privacy };
+}
 
-export default function Page() {
+export default async function Page() {
+  const locale = await getLocale();
   return (
-    <LegalPage title="Politique de confidentialité">
+    <LegalPage title={copy(locale).footer.privacy}>
       <p>Les formulaires recueillent les informations nécessaires pour répondre à une demande : nom, téléphone, email éventuel, destination, dates et message.</p>
       <p>Ces informations sont enregistrées afin que DIM VOYAGES puisse recontacter la personne par WhatsApp, téléphone ou email. Elles ne sont pas vendues.</p>
       <p>La newsletter conserve uniquement l&apos;adresse email des personnes qui s&apos;inscrivent. Une inscription peut être retirée depuis le back-office.</p>

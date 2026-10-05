@@ -1,12 +1,12 @@
 import { whatsappHref } from "@/lib/utils";
 
-export function WhatsAppButton({ phone }: { phone: string }) {
+export function WhatsAppButton({ phone, label = "Écrire à DIM VOYAGES sur WhatsApp" }: { phone: string; label?: string }) {
   return (
     <a
       href={whatsappHref(phone)}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="Écrire à DIM VOYAGES sur WhatsApp"
+      aria-label={label}
       className="wa-float"
     >
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" aria-hidden="true">

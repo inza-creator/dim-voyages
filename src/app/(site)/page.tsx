@@ -4,9 +4,12 @@ import { ArticleCard, DestinationCard, ExperienceCard, OfferCard, SectionLink, S
 import { MediaImage } from "@/components/public/media-image";
 import { getHomeData } from "@/server/content";
 import { btnPrimary, btnSecondary, initials } from "@/lib/utils";
+import { getLocale } from "@/lib/locale";
+import { copy } from "@/lib/i18n";
 
 export default async function HomePage() {
-  const data = await getHomeData();
+  const [data, locale] = await Promise.all([getHomeData(), getLocale()]);
+  const t = copy(locale).home;
 
   return (
     <>
@@ -17,17 +20,17 @@ export default async function HomePage() {
         </div>
         <div className="relative mx-auto grid w-full max-w-7xl gap-8 px-4 py-14 sm:px-6 lg:grid-cols-[1.2fr_0.8fr] lg:px-8 lg:py-20">
           <div className="rise max-w-2xl text-white">
-            <h1 className="mt-3 text-4xl font-bold tracking-tight sm:text-6xl">Le pouvoir du voyage</h1>
-            <p className="font-script text-4xl text-orange sm:text-6xl">Le chemin vers soi.</p>
+            <h1 className="mt-3 text-4xl font-bold tracking-tight sm:text-6xl">{t.title}</h1>
+            <p className="font-script text-4xl text-orange sm:text-6xl">{t.script}</p>
             <p className="mt-4 max-w-xl text-base leading-7 text-white/85 sm:text-lg">
-              Découvrez le monde avec DIM Voyages, votre agence de voyage et de tourisme en Côte d&apos;Ivoire. Des expériences sur mesure pour tous particuliers, familles, entreprises, institutions et groupes.
+              {t.lead}
             </p>
             <p className="mt-4 text-sm font-semibold text-gold">{data.settings.signature}</p>
           </div>
           <div className="hidden items-end justify-end lg:flex">
             <div className="max-w-xs rounded-3xl border border-white/20 bg-white/10 p-4 text-white backdrop-blur">
               <Award className="h-8 w-8 text-gold" />
-              <p className="mt-2 text-sm font-semibold">Lauréat du</p>
+              <p className="mt-2 text-sm font-semibold">{t.award}</p>
               <p className="font-bold">{data.settings.award}</p>
             </div>
           </div>
@@ -36,33 +39,33 @@ export default async function HomePage() {
           <form action="/demande" className="grid gap-3 rounded-3xl bg-white p-3 shadow-2xl md:grid-cols-[1fr_1fr_1fr_auto]">
             <label className="flex items-center gap-2 rounded-2xl bg-sand px-3">
               <MapPin className="h-4 w-4 text-orange" />
-              <span className="sr-only">Destination</span>
-              <input name="destination" placeholder="Destination" className="h-12 w-full bg-transparent text-sm outline-none" />
+              <span className="sr-only">{t.destination}</span>
+              <input name="destination" placeholder={t.destination} className="h-12 w-full bg-transparent text-sm outline-none" />
             </label>
             <label className="flex items-center gap-2 rounded-2xl bg-sand px-3">
               <Plane className="h-4 w-4 text-sea" />
-              <span className="sr-only">Type de voyage</span>
+              <span className="sr-only">{t.tripType}</span>
               <select name="type" defaultValue="VOYAGE" className="h-12 w-full bg-transparent text-sm outline-none">
-                <option value="VOYAGE">Voyage</option>
-                <option value="DEVIS">Devis</option>
-                <option value="JUNIOR">DIM Junior</option>
-                <option value="CORPORATE">DIM Corporate</option>
-                <option value="SPIRITUEL">Voyage spirituel</option>
+                <option value="VOYAGE">{t.voyage}</option>
+                <option value="DEVIS">{t.quote}</option>
+                <option value="JUNIOR">{t.junior}</option>
+                <option value="CORPORATE">{t.corporate}</option>
+                <option value="SPIRITUEL">{t.spiritual}</option>
               </select>
             </label>
             <label className="flex items-center gap-2 rounded-2xl bg-sand px-3">
               <Calendar className="h-4 w-4 text-sea" />
-              <span className="sr-only">Date de départ</span>
+              <span className="sr-only">{t.departure}</span>
               <input name="date" type="date" className="h-12 w-full bg-transparent text-sm outline-none" />
             </label>
             <button className={`${btnPrimary} h-12`}>
               <Search className="h-4 w-4" />
-              Rechercher
+              {t.search}
             </button>
           </form>
           <div className="mt-4 flex flex-wrap gap-3 lg:hidden">
-            <Link href="/experiences" className={btnPrimary}>Découvrir nos expériences</Link>
-            <a href={`https://wa.me/${data.settings.whatsapp}`} className={btnSecondary}>Parler sur WhatsApp</a>
+            <Link href="/experiences" className={btnPrimary}>{t.discoverExperiences}</Link>
+            <a href={`https://wa.me/${data.settings.whatsapp}`} className={btnSecondary}>{t.whatsapp}</a>
           </div>
         </div>
       </section>
@@ -79,24 +82,24 @@ export default async function HomePage() {
         <div>
           <div className="mb-5 flex items-end justify-between gap-3">
             <div>
-              <p className="text-sm font-semibold text-orange">À vivre</p>
-              <h2 className="text-2xl font-bold text-navy sm:text-3xl">Nos expériences du moment</h2>
+              <p className="text-sm font-semibold text-orange">{t.live}</p>
+              <h2 className="text-2xl font-bold text-navy sm:text-3xl">{t.experiencesNow}</h2>
             </div>
-            <SectionLink href="/experiences">Voir tout</SectionLink>
+            <SectionLink href="/experiences">{t.seeAll}</SectionLink>
           </div>
           <div className="grid gap-4 sm:grid-cols-3">
             {data.experiences.map((item) => (
-              <ExperienceCard key={item.id} href={`/experiences/${item.slug}`} title={item.title} subtitle={item.subtitle} imageUrl={item.imageUrl} />
+              <ExperienceCard key={item.id} href={`/experiences/${item.slug}`} title={item.title} subtitle={item.subtitle} imageUrl={item.imageUrl} discover={copy(locale).cards.discover} />
             ))}
           </div>
         </div>
         <div>
           <div className="mb-5 flex items-end justify-between gap-3">
             <div>
-              <p className="text-sm font-semibold text-orange">Explorer</p>
-              <h2 className="text-2xl font-bold text-navy sm:text-3xl">Nos destinations</h2>
+              <p className="text-sm font-semibold text-orange">{t.explore}</p>
+              <h2 className="text-2xl font-bold text-navy sm:text-3xl">{t.destinations}</h2>
             </div>
-            <SectionLink href="/destinations">Voir tout</SectionLink>
+            <SectionLink href="/destinations">{t.seeAll}</SectionLink>
           </div>
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-2">
             {data.destinations.map((item) => (
@@ -112,14 +115,14 @@ export default async function HomePage() {
             <MediaImage src={data.destinations[0]?.imageUrl || data.settings.heroImageUrl} alt="Explorez le monde avec DIM Voyages" sizes="50vw" />
           </div>
           <div className="p-6 sm:p-10">
-            <h2 className="text-3xl font-bold">Explorez le monde avec DIM Voyages</h2>
-            <p className="mt-3 text-white/90">Des destinations de rêve, des expériences uniques et un accompagnement sur mesure pour tous vos projets de voyage.</p>
-            <Link href="/offres" className={`${btnPrimary} mt-6`}>Voir nos offres</Link>
+            <h2 className="text-3xl font-bold">{t.exploreWorld}</h2>
+            <p className="mt-3 text-white/90">{t.exploreText}</p>
+            <Link href="/offres" className={`${btnPrimary} mt-6`}>{t.seeOffers}</Link>
             <dl className="mt-8 grid grid-cols-3 gap-3">
               {[
-                [data.settings.statYears, "Années d'expérience"],
-                [data.settings.statTravelers, "Voyageurs satisfaits"],
-                [data.settings.statDestinations, "Destinations"],
+                [data.settings.statYears, t.years],
+                [data.settings.statTravelers, t.travelers],
+                [data.settings.statDestinations, t.destinationCount],
               ].map(([value, label]) => (
                 <div key={label}>
                   <dt className="text-2xl font-bold text-gold">{value}</dt>
@@ -133,8 +136,8 @@ export default async function HomePage() {
 
       <section className="mx-auto mt-14 w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-5 flex items-end justify-between">
-          <h2 className="text-2xl font-bold text-navy sm:text-3xl">Nos offres</h2>
-          <SectionLink href="/offres">Voir toutes les offres</SectionLink>
+          <h2 className="text-2xl font-bold text-navy sm:text-3xl">{t.offers}</h2>
+          <SectionLink href="/offres">{t.allOffers}</SectionLink>
         </div>
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {data.offers.map((offer) => (
@@ -146,6 +149,7 @@ export default async function HomePage() {
               priceFrom={offer.priceFrom}
               badge={offer.badge}
               imageUrl={offer.imageUrl}
+              fromLabel={copy(locale).cards.from}
             />
           ))}
         </div>
@@ -154,8 +158,8 @@ export default async function HomePage() {
       <section className="mx-auto mt-14 grid w-full max-w-7xl gap-6 px-4 pb-8 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
         <div className="rounded-[2rem] bg-white p-6 shadow-sm">
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-2xl font-bold text-navy">Témoignages</h2>
-            <SectionLink href="/a-propos">Notre histoire</SectionLink>
+            <h2 className="text-2xl font-bold text-navy">{t.testimonials}</h2>
+            <SectionLink href="/a-propos">{t.story}</SectionLink>
           </div>
           <div className="space-y-4">
             {data.testimonials.map((item) => (
@@ -175,8 +179,8 @@ export default async function HomePage() {
         </div>
         <div className="rounded-[2rem] bg-white p-6 shadow-sm">
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-2xl font-bold text-navy">Actualités & promotions</h2>
-            <SectionLink href="/actualites">Voir tout</SectionLink>
+            <h2 className="text-2xl font-bold text-navy">{t.news}</h2>
+            <SectionLink href="/actualites">{t.seeAll}</SectionLink>
           </div>
           <div className="space-y-2">
             {data.articles.map((article) => (
@@ -187,6 +191,7 @@ export default async function HomePage() {
                 excerpt={article.excerpt}
                 imageUrl={article.imageUrl}
                 date={article.publishedAt}
+                dateLocale={locale}
               />
             ))}
           </div>

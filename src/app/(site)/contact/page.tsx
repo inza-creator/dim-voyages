@@ -4,29 +4,34 @@ import { PageHero } from "@/components/public/page-hero";
 import { RequestForm } from "@/components/public/request-form";
 import { whatsappHref } from "@/lib/utils";
 import { getSettings } from "@/server/content";
+import { getLocale } from "@/lib/locale";
+import { copy } from "@/lib/i18n";
 
-export const metadata: Metadata = { title: "Contact" };
+export async function generateMetadata(): Promise<Metadata> {
+  return { title: copy(await getLocale()).nav.contact };
+}
 
 export default async function ContactPage() {
-  const settings = await getSettings();
+  const [settings, locale] = await Promise.all([getSettings(), getLocale()]);
+  const t = copy(locale).pages;
   return (
     <>
-      <PageHero title="Contactez-nous" subtitle="Notre équipe est à votre écoute à Abidjan." image={settings.heroImageUrl} />
+      <PageHero title={t.contactTitle} subtitle={t.contactText} image={settings.heroImageUrl} />
       <section className="mx-auto grid w-full max-w-7xl gap-8 px-4 py-12 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:px-8">
         <div className="space-y-4">
-          <Info icon={<MapPin className="h-5 w-5" />} label="Adresse" value={settings.address} />
-          <Info icon={<Phone className="h-5 w-5" />} label="Téléphone" value={settings.phone} href={`tel:${settings.phone.replace(/\s/g, "")}`} />
-          <Info icon={<Mail className="h-5 w-5" />} label="Email" value={settings.email} href={`mailto:${settings.email}`} />
+          <Info icon={<MapPin className="h-5 w-5" />} label={t.address} value={settings.address} />
+          <Info icon={<Phone className="h-5 w-5" />} label={t.phone} value={settings.phone} href={`tel:${settings.phone.replace(/\s/g, "")}`} />
+          <Info icon={<Mail className="h-5 w-5" />} label={t.email} value={settings.email} href={`mailto:${settings.email}`} />
           <a href={whatsappHref(settings.whatsapp)} className="flex h-12 items-center justify-center rounded-full bg-whatsapp font-semibold text-white">
-            Écrire sur WhatsApp
+            {t.writeWhatsapp}
           </a>
           <iframe
-            title="Carte d'Abidjan"
+            title={t.map}
             className="h-64 w-full rounded-3xl border-0"
             src="https://www.openstreetmap.org/export/embed.html?bbox=-4.12%2C5.28%2C-3.90%2C5.42&layer=mapnik&marker=5.345%2C-4.024"
           />
         </div>
-        <RequestForm type="CONTACT" />
+        <RequestForm type="CONTACT" locale={locale} />
       </section>
     </>
   );

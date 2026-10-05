@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Great_Vibes, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
+import { getLocale } from "@/lib/locale";
 
 const sans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -30,9 +31,10 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const locale = await getLocale();
   return (
-    <html lang="fr" className={`${sans.variable} ${script.variable} h-full`}>
+    <html lang={locale} className={`${sans.variable} ${script.variable} h-full`}>
       <body className="min-h-full bg-sand font-sans text-ink antialiased">
         <style>{`
           .bg-navy { background-color: #012549 !important; }

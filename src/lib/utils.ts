@@ -12,8 +12,8 @@ export function formatPrice(value?: number | null) {
   return `${new Intl.NumberFormat("fr-FR").format(value)} FCFA`;
 }
 
-export function formatDate(value: Date | string) {
-  return new Intl.DateTimeFormat("fr-FR", {
+export function formatDate(value: Date | string, locale: "fr" | "en" = "fr") {
+  return new Intl.DateTimeFormat(locale === "en" ? "en-GB" : "fr-FR", {
     day: "2-digit",
     month: "short",
     year: "numeric",

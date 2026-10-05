@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { copy, type Locale } from "@/lib/i18n";
 
-export function NewsletterForm({ tone = "dark" }: { tone?: "dark" | "light" }) {
+export function NewsletterForm({ tone = "dark", locale = "fr" }: { tone?: "dark" | "light"; locale?: Locale }) {
+  const t = copy(locale).newsletter;
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "ok" | "error">("idle");
   const [message, setMessage] = useState("");
@@ -18,11 +20,11 @@ export function NewsletterForm({ tone = "dark" }: { tone?: "dark" | "light" }) {
     const data = await response.json().catch(() => ({}));
     if (!response.ok) {
       setStatus("error");
-      setMessage(data.error ?? "Inscription impossible.");
+      setMessage(data.error ?? t.error);
       return;
     }
     setStatus("ok");
-    setMessage("Vous êtes bien inscrit à la newsletter.");
+    setMessage(t.ok);
     setEmail("");
   }
 
@@ -35,7 +37,7 @@ export function NewsletterForm({ tone = "dark" }: { tone?: "dark" | "light" }) {
     <form onSubmit={onSubmit} className="space-y-2">
       <div className="flex flex-col gap-2 sm:flex-row">
         <label className="sr-only" htmlFor="newsletter-email">
-          Adresse email
+          {t.email}
         </label>
         <input
           id="newsletter-email"
@@ -43,7 +45,7 @@ export function NewsletterForm({ tone = "dark" }: { tone?: "dark" | "light" }) {
           required
           value={email}
           onChange={(event) => setEmail(event.target.value)}
-          placeholder="Votre adresse email"
+          placeholder={t.placeholder}
           className={field}
         />
         <input name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden />
@@ -52,7 +54,7 @@ export function NewsletterForm({ tone = "dark" }: { tone?: "dark" | "light" }) {
           disabled={status === "loading"}
           className="h-12 rounded-full bg-orange px-5 text-sm font-semibold text-white transition hover:bg-orange-600 disabled:opacity-70"
         >
-          {status === "loading" ? "Envoi…" : "S'inscrire"}
+          {status === "loading" ? t.sending : t.subscribe}
         </button>
       </div>
       {message && (

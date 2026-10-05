@@ -18,11 +18,13 @@ export function ExperienceCard({
   title,
   subtitle,
   imageUrl,
+  discover = "Découvrir",
 }: {
   href: string;
   title: string;
   subtitle: string;
   imageUrl: string;
+  discover?: string;
 }) {
   return (
     <Link href={href} className="group relative block min-h-64 overflow-hidden rounded-3xl shadow-sm">
@@ -32,7 +34,7 @@ export function ExperienceCard({
         <h3 className="text-xl font-bold">{title}</h3>
         <p className="mt-1 line-clamp-2 text-sm text-white/80">{subtitle}</p>
         <span className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-orange">
-          Découvrir <ArrowRight className="h-4 w-4" />
+          {discover} <ArrowRight className="h-4 w-4" />
         </span>
       </div>
     </Link>
@@ -56,6 +58,7 @@ export function OfferCard({
   priceFrom,
   badge,
   imageUrl,
+  fromLabel = "À partir de",
 }: {
   href: string;
   title: string;
@@ -63,6 +66,7 @@ export function OfferCard({
   priceFrom?: number | null;
   badge?: string;
   imageUrl: string;
+  fromLabel?: string;
 }) {
   return (
     <Link href={href} className="group overflow-hidden rounded-3xl border border-line bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
@@ -73,7 +77,7 @@ export function OfferCard({
       <div className="p-4">
         <p className="text-xs font-semibold tracking-wide text-sea uppercase">{destination}</p>
         <h3 className="mt-1 font-bold text-navy">{title}</h3>
-        {priceFrom != null && <p className="mt-2 text-sm text-muted">À partir de <span className="font-bold text-navy">{formatPrice(priceFrom)}</span></p>}
+        {priceFrom != null && <p className="mt-2 text-sm text-muted">{fromLabel} <span className="font-bold text-navy">{formatPrice(priceFrom)}</span></p>}
       </div>
     </Link>
   );
@@ -97,12 +101,14 @@ export function ArticleCard({
   excerpt,
   imageUrl,
   date,
+  dateLocale = "fr",
 }: {
   href: string;
   title: string;
   excerpt: string;
   imageUrl: string;
   date?: Date | string | null;
+  dateLocale?: "fr" | "en";
 }) {
   return (
     <Link href={href} className="flex gap-3 rounded-2xl p-2 transition hover:bg-sand">
@@ -110,7 +116,7 @@ export function ArticleCard({
         <MediaImage src={imageUrl} alt="" sizes="96px" />
       </div>
       <div>
-        {date && <p className="text-xs font-semibold text-orange">{formatDate(date)}</p>}
+        {date && <p className="text-xs font-semibold text-orange">{formatDate(date, dateLocale)}</p>}
         <h3 className="font-bold text-navy">{title}</h3>
         <p className="mt-1 line-clamp-2 text-sm text-muted">{excerpt}</p>
       </div>
@@ -118,9 +124,9 @@ export function ArticleCard({
   );
 }
 
-export function Stars({ rating }: { rating: number }) {
+export function Stars({ rating, label }: { rating: number; label?: string }) {
   return (
-    <div className="flex gap-0.5 text-gold" aria-label={`${rating} sur 5`}>
+    <div className="flex gap-0.5 text-gold" aria-label={label ?? `${rating} sur 5`}>
       {Array.from({ length: 5 }, (_, index) => (
         <Star key={index} className={`h-4 w-4 ${index < rating ? "fill-current" : "opacity-30"}`} />
       ))}

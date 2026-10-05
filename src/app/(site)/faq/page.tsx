@@ -2,14 +2,19 @@ import type { Metadata } from "next";
 import { FaqList } from "@/components/public/faq-list";
 import { PageHero } from "@/components/public/page-hero";
 import { getPublishedFaqs, getSettings } from "@/server/content";
+import { getLocale } from "@/lib/locale";
+import { copy } from "@/lib/i18n";
 
-export const metadata: Metadata = { title: "FAQ" };
+export async function generateMetadata(): Promise<Metadata> {
+  return { title: copy(await getLocale()).pages.faqTitle };
+}
 
 export default async function FaqPage() {
-  const [items, settings] = await Promise.all([getPublishedFaqs(), getSettings()]);
+  const [items, settings, locale] = await Promise.all([getPublishedFaqs(), getSettings(), getLocale()]);
+  const t = copy(locale).pages;
   return (
     <>
-      <PageHero title="Questions fréquentes" subtitle="Les réponses utiles avant d'envoyer votre demande." image={settings.heroImageUrl} />
+      <PageHero title={t.faqTitle} subtitle={t.faqText} image={settings.heroImageUrl} />
       <section className="mx-auto w-full max-w-3xl px-4 py-12 sm:px-6">
         <FaqList items={items} />
       </section>
