@@ -32,9 +32,9 @@ export function SiteFooter({
   ];
   const year = new Date().getFullYear();
   const socials = [
-    { href: settings.facebook, label: "Facebook" },
-    { href: settings.instagram, label: "Instagram" },
-    { href: settings.linkedin, label: "LinkedIn" },
+    { href: settings.facebook, label: "Facebook" as const },
+    { href: settings.instagram, label: "Instagram" as const },
+    { href: settings.linkedin, label: "LinkedIn" as const },
   ].filter((item) => item.href.startsWith("http"));
 
   return (
@@ -67,9 +67,10 @@ export function SiteFooter({
                   href={item.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="rounded-full border border-white/25 px-3 py-1.5 text-xs font-semibold text-white/90 hover:border-orange hover:text-orange"
+                  aria-label={item.label}
+                  className="grid h-10 w-10 place-items-center rounded-full border border-white/25 text-white hover:border-orange hover:text-orange"
                 >
-                  {item.label}
+                  <SocialLogo name={item.label} />
                 </a>
               ))}
             </div>
@@ -131,6 +132,30 @@ export function SiteFooter({
         </div>
       </div>
     </footer>
+  );
+}
+
+function SocialLogo({ name }: { name: "Facebook" | "Instagram" | "LinkedIn" }) {
+  if (name === "Facebook") {
+    return (
+      <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden fill="currentColor">
+        <path d="M15.1 8.5h-2v-1c0-.6.4-1 1-1h1V4h-2c-1.7 0-3 1.4-3 3.1V8.5H8.2V11h1.9V20h2.7v-9H15l.4-2.5h-2.3z" />
+      </svg>
+    );
+  }
+  if (name === "Instagram") {
+    return (
+      <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden fill="none" stroke="currentColor" strokeWidth="1.8">
+        <rect x="4" y="4" width="16" height="16" rx="5" />
+        <circle cx="12" cy="12" r="3.5" />
+        <circle cx="17.2" cy="6.8" r="0.8" fill="currentColor" stroke="none" />
+      </svg>
+    );
+  }
+  return (
+    <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden fill="currentColor">
+      <path d="M6.7 9.2H4V20h2.7V9.2zM5.3 4a1.6 1.6 0 1 0 0 3.2A1.6 1.6 0 0 0 5.3 4zM20 20h-2.7v-5.3c0-1.5-.5-2.5-1.8-2.5-1 0-1.5.7-1.8 1.3-.1.2-.1.6-.1.9V20H11V9.2h2.6v1.5c.4-.7 1.2-1.7 2.9-1.7 2.1 0 3.5 1.4 3.5 4.3V20z" />
+    </svg>
   );
 }
 
