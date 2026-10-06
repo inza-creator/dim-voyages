@@ -534,6 +534,15 @@ async function main() {
       { title: "Séjour", caption: "Détente et lumière", category: "PHOTO", imageUrl: images.resort, sortOrder: 7 },
       { title: "Envol", caption: "La route commence ici", category: "PHOTO", imageUrl: images.plane, sortOrder: 8 },
       { title: "Maroc", caption: "Couleurs et villes", category: "PHOTO", imageUrl: images.morocco, sortOrder: 9 },
+      { title: "Séminaire", caption: "Une salle à l'écoute", category: "EVENEMENT", imageUrl: images.seminar, sortOrder: 10 },
+      { title: "Réception", caption: "Une table dressée pour l'occasion", category: "EVENEMENT", imageUrl: images.reception, sortOrder: 11 },
+      { title: "Soirée", caption: "Lumières et musique", category: "EVENEMENT", imageUrl: images.show, sortOrder: 12 },
+      { title: "Célébration", caption: "Confettis et applaudissements", category: "EVENEMENT", imageUrl: images.celebration, sortOrder: 13 },
+      { title: "Santorin", caption: "Villages blancs au bord de la mer", category: "PHOTO", imageUrl: images.santorini, sortOrder: 14 },
+      { title: "Désert", caption: "Dunes et horizon", category: "PHOTO", imageUrl: images.desert, sortOrder: 15 },
+      { title: "Côte d'Ivoire", caption: "Terre d'hospitalité", category: "VIDEO", imageUrl: "https://www.youtube.com/watch?v=O1-ITxcVeAM", sortOrder: 16 },
+      { title: "Dubaï", caption: "Une ville à découvrir", category: "VIDEO", imageUrl: "https://www.youtube.com/watch?v=v12XLp1ED5c", sortOrder: 17 },
+      { title: "Safari", caption: "Afrique de l'Est", category: "VIDEO", imageUrl: "https://www.youtube.com/watch?v=pHMfciDU-zI", sortOrder: 18 },
     ],
   });
 

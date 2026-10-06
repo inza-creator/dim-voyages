@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { ConfirmDialog } from "@/components/admin/confirm-dialog";
 import type { Field, ResourceConfig } from "@/lib/admin-resources";
 
 type Item = Record<string, unknown> & { id: string };
@@ -11,6 +12,7 @@ export function ResourceManager({ config, initialItems }: { config: ResourceConf
   const [creating, setCreating] = useState(false);
   const [error, setError] = useState("");
   const [query, setQuery] = useState("");
+  const [pendingDelete, setPendingDelete] = useState<Item | null>(null);
 
   const visible = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -25,7 +27,6 @@ export function ResourceManager({ config, initialItems }: { config: ResourceConf
   }
 
   async function remove(id: string) {
-    if (!confirm("Supprimer cet élément ?")) return;
     const response = await fetch(`/api/admin/${config.key}/${id}`, { method: "DELETE" });
     if (!response.ok) {
       const data = await response.json().catch(() => ({}));
@@ -49,6 +50,16 @@ export function ResourceManager({ config, initialItems }: { config: ResourceConf
       </div>
       <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Filtrer…" className="h-11 w-full max-w-md rounded-2xl border border-line bg-white px-4 text-sm outline-none focus:border-orange" />
       {error && <p className="text-sm text-orange-600">{error}</p>}
+      <ConfirmDialog
+        open={pendingDelete !== null}
+        message={deletionMessage(pendingDelete)}
+        onCancel={() => setPendingDelete(null)}
+        onConfirm={() => {
+          const id = pendingDelete?.id;
+          setPendingDelete(null);
+          if (id) void remove(id);
+        }}
+      />
       {(creating || editing) && (
         <Editor
           config={config}
@@ -75,7 +86,7 @@ export function ResourceManager({ config, initialItems }: { config: ResourceConf
                 <td className="px-4 py-3">{item.published === false ? "Brouillon" : "Publié"}</td>
                 <td className="px-4 py-3 text-right">
                   <button type="button" className="font-semibold text-sea" onClick={() => { setEditing(item); setCreating(false); }}>Modifier</button>
-                  <button type="button" className="ml-3 font-semibold text-orange" onClick={() => remove(item.id)}>Supprimer</button>
+                  <button type="button" className="ml-3 font-semibold text-orange" onClick={() => setPendingDelete(item)}>Supprimer</button>
                 </td>
               </tr>
             ))}
@@ -210,6 +221,13 @@ function FieldControl({
     );
   }
   return <input className={klass} type={field.type === "number" ? "number" : field.type === "date" ? "date" : "text"} value={String(value ?? "")} onChange={(event) => onChange(event.target.value)} />;
+}
+
+function deletionMessage(item: Item | null) {
+  const raw = item?.title ?? item?.name ?? item?.question ?? item?.authorName ?? item?.email;
+  const label = typeof raw === "string" ? raw.trim() : "";
+  if (label) return `Voulez-vous vraiment supprimer « ${label} » ? Cette action est définitive.`;
+  return "Voulez-vous vraiment supprimer cet élément ? Cette action est définitive.";
 }
 
 function initialState(fields: Field[], item: Item | null) {

@@ -195,9 +195,6 @@ export function RequestForm({
       <button type="submit" disabled={status === "loading"} className={`${btnPrimary} mt-5 w-full sm:w-auto`}>
         {status === "loading" ? t.sending : t.send}
       </button>
-      <p className="mt-3 text-xs leading-5 text-muted">
-        {t.note}
-      </p>
     </form>
   );
 }

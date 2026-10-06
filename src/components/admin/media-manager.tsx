@@ -1,12 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import { ConfirmDialog } from "@/components/admin/confirm-dialog";
 
 type Media = { id: string; url: string; alt: string; filename: string; size: number };
 
 export function MediaManager({ initialItems }: { initialItems: Media[] }) {
   const [items, setItems] = useState(initialItems);
   const [error, setError] = useState("");
+  const [pendingDelete, setPendingDelete] = useState<string | null>(null);
 
   async function refresh() {
     const response = await fetch("/api/admin/media");
@@ -36,7 +38,6 @@ export function MediaManager({ initialItems }: { initialItems: Media[] }) {
   }
 
   async function remove(id: string) {
-    if (!confirm("Supprimer cette image ? Les contenus qui l'utilisent perdront cette image.")) return;
     const response = await fetch(`/api/admin/media/${id}`, { method: "DELETE" });
     if (!response.ok) {
       const data = await response.json().catch(() => ({}));
@@ -57,6 +58,16 @@ export function MediaManager({ initialItems }: { initialItems: Media[] }) {
         <input type="file" accept="image/jpeg,image/png,image/webp,image/gif" className="sr-only" onChange={(event) => { const file = event.target.files?.[0]; if (file) upload(file); }} />
       </label>
       {error && <p className="text-sm text-orange-600">{error}</p>}
+      <ConfirmDialog
+        open={pendingDelete !== null}
+        message="Voulez-vous vraiment supprimer cette image ? Les pages qui l'utilisent ne l'afficheront plus."
+        onCancel={() => setPendingDelete(null)}
+        onConfirm={() => {
+          const id = pendingDelete;
+          setPendingDelete(null);
+          if (id) void remove(id);
+        }}
+      />
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
         {items.length === 0 && <p className="text-sm text-muted">Aucune image envoyée. Les visuels actuels du site sont des photos provisoires, remplaçables depuis chaque contenu.</p>}
         {items.map((item) => (
@@ -66,7 +77,7 @@ export function MediaManager({ initialItems }: { initialItems: Media[] }) {
             <div className="space-y-2 p-4">
               <input defaultValue={item.alt} onBlur={(event) => saveAlt(item.id, event.target.value)} className="h-10 w-full rounded-xl border border-line px-3 text-sm" placeholder="Texte alternatif" />
               <p className="truncate text-xs text-muted">{item.url}</p>
-              <button type="button" onClick={() => remove(item.id)} className="text-sm font-semibold text-orange">Supprimer</button>
+              <button type="button" onClick={() => setPendingDelete(item.id)} className="text-sm font-semibold text-orange">Supprimer</button>
             </div>
           </article>
         ))}

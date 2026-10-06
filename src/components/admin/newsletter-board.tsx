@@ -1,12 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import { ConfirmDialog } from "@/components/admin/confirm-dialog";
 import { formatDateTime } from "@/lib/utils";
 
 type Subscriber = { id: string; email: string; active: boolean; createdAt: string };
 
 export function NewsletterBoard({ initialItems }: { initialItems: Subscriber[] }) {
   const [items, setItems] = useState(initialItems);
+  const [pendingEmail, setPendingEmail] = useState<Subscriber | null>(null);
 
   async function refresh() {
     const response = await fetch("/api/admin/newsletter");
@@ -24,7 +26,6 @@ export function NewsletterBoard({ initialItems }: { initialItems: Subscriber[] }
   }
 
   async function remove(id: string) {
-    if (!confirm("Retirer cette adresse ?")) return;
     await fetch(`/api/admin/newsletter/${id}`, { method: "DELETE" });
     await refresh();
   }
@@ -38,6 +39,16 @@ export function NewsletterBoard({ initialItems }: { initialItems: Subscriber[] }
         </div>
         <a href="/api/admin/newsletter?format=csv" className="rounded-full bg-navy px-4 py-2.5 text-sm font-semibold text-white">Exporter CSV</a>
       </div>
+      <ConfirmDialog
+        open={pendingEmail !== null}
+        message={pendingEmail ? `Voulez-vous vraiment retirer ${pendingEmail.email} de la newsletter ?` : ""}
+        onCancel={() => setPendingEmail(null)}
+        onConfirm={() => {
+          const id = pendingEmail?.id;
+          setPendingEmail(null);
+          if (id) void remove(id);
+        }}
+      />
       <div className="overflow-x-auto rounded-3xl bg-white shadow-sm">
         <table className="w-full text-left text-sm">
           <thead className="text-xs text-muted"><tr><th className="px-4 py-3">Email</th><th>Inscrit le</th><th>Actif</th><th /></tr></thead>
@@ -48,7 +59,7 @@ export function NewsletterBoard({ initialItems }: { initialItems: Subscriber[] }
                 <td className="px-4 py-3">{item.email}</td>
                 <td>{formatDateTime(item.createdAt)}</td>
                 <td><button type="button" onClick={() => toggle(item)} className="font-semibold text-sea">{item.active ? "Oui" : "Non"}</button></td>
-                <td className="px-4 text-right"><button type="button" onClick={() => remove(item.id)} className="font-semibold text-orange">Supprimer</button></td>
+                <td className="px-4 text-right"><button type="button" onClick={() => setPendingEmail(item)} className="font-semibold text-orange">Supprimer</button></td>
               </tr>
             ))}
           </tbody>

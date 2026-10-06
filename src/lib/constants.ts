@@ -30,6 +30,10 @@ export const images = {
   paris: photo("photo-1502602898657-3e91760cbb34"),
   map: photo("photo-1488646953014-85cb44e25828"),
   desert: photo("photo-1509316785289-025f5b846b35"),
+  seminar: photo("photo-1540575467063-178a50c2df87"),
+  reception: photo("photo-1511795409834-ef04bbd61622"),
+  show: photo("photo-1501281668745-f7f57925c3b4"),
+  celebration: photo("photo-1492684223066-81342ee5ff30"),
 };
 
 export const defaultSettings = {

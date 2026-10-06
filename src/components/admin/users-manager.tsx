@@ -1,12 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import { ConfirmDialog } from "@/components/admin/confirm-dialog";
 
 type UserItem = { id: string; name: string; email: string; role: "ADMIN" | "EDITOR"; active: boolean };
 
 export function UsersManager({ initialItems, currentId }: { initialItems: UserItem[]; currentId: string }) {
   const [items, setItems] = useState(initialItems);
   const [error, setError] = useState("");
+  const [pendingUser, setPendingUser] = useState<UserItem | null>(null);
 
   async function refresh() {
     const response = await fetch("/api/admin/users");
@@ -49,10 +51,31 @@ export function UsersManager({ initialItems, currentId }: { initialItems: UserIt
     await refresh();
   }
 
+  async function remove(id: string) {
+    const response = await fetch(`/api/admin/users/${id}`, { method: "DELETE" });
+    if (!response.ok) {
+      const data = await response.json().catch(() => ({}));
+      setError(data.error ?? "Suppression impossible.");
+      return;
+    }
+    setError("");
+    await refresh();
+  }
+
   return (
     <div className="space-y-5">
       <h1 className="text-2xl font-bold text-navy">Utilisateurs</h1>
       {error && <p className="text-sm text-orange-600">{error}</p>}
+      <ConfirmDialog
+        open={pendingUser !== null}
+        message={pendingUser ? `Voulez-vous vraiment supprimer l'utilisateur ${pendingUser.name} ? Cette action est définitive.` : ""}
+        onCancel={() => setPendingUser(null)}
+        onConfirm={() => {
+          const id = pendingUser?.id;
+          setPendingUser(null);
+          if (id) void remove(id);
+        }}
+      />
       <form onSubmit={create} className="grid gap-3 rounded-3xl bg-white p-5 shadow-sm md:grid-cols-4">
         <input name="name" required placeholder="Nom" className="h-11 rounded-2xl border border-line px-3" />
         <input name="email" type="email" required placeholder="Email" className="h-11 rounded-2xl border border-line px-3" />
@@ -87,11 +110,7 @@ export function UsersManager({ initialItems, currentId }: { initialItems: UserIt
                     <button
                       type="button"
                       className="font-semibold text-orange"
-                      onClick={async () => {
-                        if (!confirm("Supprimer cet utilisateur ?")) return;
-                        await fetch(`/api/admin/users/${item.id}`, { method: "DELETE" });
-                        await refresh();
-                      }}
+                      onClick={() => setPendingUser(item)}
                     >
                       Supprimer
                     </button>
