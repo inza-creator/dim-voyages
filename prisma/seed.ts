@@ -148,7 +148,7 @@ async function main() {
     }),
   ]);
 
-  const [ci, afrique, europe, orient] = destinations;
+  const [ci, afrique, europe, orient, asie] = destinations;
 
   await prisma.service.createMany({
     data: [
@@ -222,6 +222,32 @@ async function main() {
         destinationId: ci.id,
       },
       {
+        title: "Week-end lagune — Assinie",
+        slug: "weekend-lagune-assinie",
+        destinationLabel: "Côte d'Ivoire",
+        excerpt: "Deux jours au calme, faciles à rejoindre depuis Abidjan.",
+        description:
+          "Une courte escapade au bord de la lagune : hébergement et transferts. Le tarif annoncé est un point de départ, la proposition finale dépend des dates et du nombre de voyageurs.",
+        priceFrom: 280000,
+        badge: "Week-end",
+        imageUrl: images.beach,
+        sortOrder: 2,
+        destinationId: ci.id,
+      },
+      {
+        title: "Escapade Grand-Bassam",
+        slug: "escapade-grand-bassam",
+        destinationLabel: "Côte d'Ivoire",
+        excerpt: "Une nuit sur la côte, entre plage et vieille ville.",
+        description:
+          "Grand-Bassam le temps d'une escapade : hébergement près de la plage et un rythme libre. DIM VOYAGES confirme le détail selon vos dates.",
+        priceFrom: 190000,
+        badge: "Court séjour",
+        imageUrl: images.resort,
+        sortOrder: 3,
+        destinationId: ci.id,
+      },
+      {
         title: "Circuit Europe — 7 jours",
         slug: "circuit-europe-7-jours",
         destinationLabel: "Europe",
@@ -233,6 +259,32 @@ async function main() {
         imageUrl: images.paris,
         featured: true,
         sortOrder: 2,
+        destinationId: europe.id,
+      },
+      {
+        title: "Week-end dans une vieille ville",
+        slug: "weekend-vieille-ville-europe",
+        destinationLabel: "Europe",
+        excerpt: "Quelques jours entre ruelles, places et tables en terrasse.",
+        description:
+          "Un court séjour dans une ville européenne au charme ancien : vol, hôtel et temps libre. Le tarif annoncé est un point de départ, la proposition finale dépend des dates.",
+        priceFrom: 890000,
+        badge: "Week-end",
+        imageUrl: images.europe,
+        sortOrder: 8,
+        destinationId: europe.id,
+      },
+      {
+        title: "Escapade à Santorin",
+        slug: "escapade-santorin",
+        destinationLabel: "Europe",
+        excerpt: "Mer, villages blancs et un rythme plus lent.",
+        description:
+          "Une escapade dans les îles : hébergement et transferts. DIM VOYAGES ajuste le départ depuis Abidjan selon vos dates et le nombre de voyageurs.",
+        priceFrom: 1650000,
+        badge: "Escapade",
+        imageUrl: images.santorini,
+        sortOrder: 9,
         destinationId: europe.id,
       },
       {
@@ -265,6 +317,19 @@ async function main() {
         destinationId: orient.id,
       },
       {
+        title: "Séjour à Doha — Qatar",
+        slug: "sejour-doha-qatar",
+        destinationLabel: "Qatar",
+        excerpt: "Une ville moderne au bord du golfe, à organiser depuis Abidjan.",
+        description:
+          "Vol, hôtel et temps libre à Doha. Le programme peut rester souple ou inclure les incontournables. Le tarif annoncé est un point de départ, la proposition finale dépend des dates et du nombre de voyageurs.",
+        priceFrom: 1550000,
+        badge: "Séjour",
+        imageUrl: images.qatar,
+        sortOrder: 10,
+        destinationId: orient.id,
+      },
+      {
         title: "Safari — Afrique de l'Est",
         slug: "safari-afrique-est",
         destinationLabel: "Afrique",
@@ -276,6 +341,71 @@ async function main() {
         imageUrl: images.africa,
         sortOrder: 5,
         destinationId: afrique.id,
+      },
+      {
+        title: "Villes impériales — Maroc",
+        slug: "villes-imperiales-maroc",
+        destinationLabel: "Afrique",
+        excerpt: "Un circuit culturel entre médinas, palais et jardins.",
+        description:
+          "Quelques jours pour relier des villes du Maroc : vols, hôtels et visites au rythme du groupe. Le tarif annoncé est un point de départ, la proposition finale dépend des dates.",
+        priceFrom: 980000,
+        badge: "Circuit",
+        imageUrl: images.morocco,
+        sortOrder: 6,
+        destinationId: afrique.id,
+      },
+      {
+        title: "Nuit dans le désert",
+        slug: "nuit-dans-le-desert",
+        destinationLabel: "Afrique",
+        excerpt: "Une escapade au calme, loin des grandes villes.",
+        description:
+          "Transfert, campement et une nuit sous les étoiles. DIM VOYAGES ajuste le départ depuis Abidjan selon vos dates et le nombre de voyageurs.",
+        priceFrom: 750000,
+        badge: "Escapade",
+        imageUrl: images.desert,
+        sortOrder: 7,
+        destinationId: afrique.id,
+      },
+      {
+        title: "Escapade à Tokyo — Japon",
+        slug: "escapade-tokyo-japon",
+        destinationLabel: "Japon",
+        excerpt: "Une grande ville à découvrir la nuit, entre tours et quartiers animés.",
+        description:
+          "Vol, hôtel et temps libre à Tokyo. Le programme peut rester souple ou suivre quelques incontournables. Le tarif annoncé est un point de départ, la proposition finale dépend des dates et du nombre de voyageurs.",
+        priceFrom: 2450000,
+        badge: "Escapade",
+        imageUrl: images.tokyo,
+        sortOrder: 11,
+        destinationId: asie.id,
+      },
+      {
+        title: "Séjour à Ubud — Bali",
+        slug: "sejour-ubud-bali",
+        destinationLabel: "Bali",
+        excerpt: "Rizières, temples et un rythme plus calme au cœur de l'île.",
+        description:
+          "Un séjour à Ubud, avec hébergement et transferts. DIM VOYAGES ajuste le départ depuis Abidjan selon vos dates et le nombre de voyageurs.",
+        priceFrom: 1850000,
+        badge: "Séjour",
+        imageUrl: images.bali,
+        sortOrder: 12,
+        destinationId: asie.id,
+      },
+      {
+        title: "Plages de Phuket — Thaïlande",
+        slug: "plages-phuket-thailande",
+        destinationLabel: "Thaïlande",
+        excerpt: "Une île au bord d'une eau claire, pour se reposer loin d'Abidjan.",
+        description:
+          "Vol, hôtel en bord de mer et temps libre à Phuket. Le tarif annoncé est un point de départ, la proposition finale dépend des dates et du nombre de voyageurs.",
+        priceFrom: 1650000,
+        badge: "Plage",
+        imageUrl: images.phuket,
+        sortOrder: 13,
+        destinationId: asie.id,
       },
     ],
   });
