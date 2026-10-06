@@ -164,11 +164,16 @@ async function saveExperience(input: Payload, id?: string) {
   );
   const data = {
     title: title.value,
+    titleEn: text(input.titleEn),
     slug,
     subtitle: subtitle.value,
+    subtitleEn: text(input.subtitleEn),
     excerpt: excerpt.value,
+    excerptEn: text(input.excerptEn),
     description: description.value,
+    descriptionEn: text(input.descriptionEn),
     highlights: lines(input.highlights),
+    highlightsEn: lines(input.highlightsEn),
     imageUrl: text(input.imageUrl),
     published: flag(input.published, true),
     sortOrder: integer(input.sortOrder) ?? 0,
@@ -191,10 +196,14 @@ async function saveService(input: Payload, id?: string) {
   const icon = text(input.icon) || "plane";
   const data = {
     title: title.value,
+    titleEn: text(input.titleEn),
     slug,
     excerpt: excerpt.value,
+    excerptEn: text(input.excerptEn),
     description: description.value,
+    descriptionEn: text(input.descriptionEn),
     highlights: lines(input.highlights),
+    highlightsEn: lines(input.highlightsEn),
     icon,
     imageUrl: text(input.imageUrl),
     published: flag(input.published, true),
@@ -215,10 +224,14 @@ async function saveDestination(input: Payload, id?: string) {
   );
   const data = {
     name: name.value,
+    nameEn: text(input.nameEn),
     slug,
     region: text(input.region),
+    regionEn: text(input.regionEn),
     excerpt: excerpt.value,
+    excerptEn: text(input.excerptEn),
     description: description.value,
+    descriptionEn: text(input.descriptionEn),
     imageUrl: text(input.imageUrl),
     published: flag(input.published, true),
     sortOrder: integer(input.sortOrder) ?? 0,
@@ -242,12 +255,17 @@ async function saveOffer(input: Payload, id?: string) {
   );
   const data = {
     title: title.value,
+    titleEn: text(input.titleEn),
     slug,
     destinationLabel: destinationLabel.value,
+    destinationLabelEn: text(input.destinationLabelEn),
     excerpt: excerpt.value,
+    excerptEn: text(input.excerptEn),
     description: description.value,
+    descriptionEn: text(input.descriptionEn),
     priceFrom: integer(input.priceFrom),
     badge: text(input.badge),
+    badgeEn: text(input.badgeEn),
     imageUrl: text(input.imageUrl),
     featured: flag(input.featured, false),
     published: flag(input.published, true),
@@ -268,9 +286,12 @@ async function saveArticle(input: Payload, id?: string) {
   );
   const data = {
     title: title.value,
+    titleEn: text(input.titleEn),
     slug,
     excerpt: excerpt.value,
+    excerptEn: text(input.excerptEn),
     content: content.value,
+    contentEn: text(input.contentEn),
     imageUrl: text(input.imageUrl),
     published: flag(input.published, false),
     publishedAt: dateOrNull(input.publishedAt) ?? (flag(input.published, false) ? new Date() : null),
@@ -288,6 +309,7 @@ async function saveTestimonial(input: Payload, id?: string) {
     authorName: authorName.value,
     location: text(input.location),
     content: content.value,
+    contentEn: text(input.contentEn),
     rating,
     published: flag(input.published, true),
     sortOrder: integer(input.sortOrder) ?? 0,
@@ -304,7 +326,9 @@ async function saveFaq(input: Payload, id?: string) {
   if ("error" in answer) return answer;
   const data = {
     question: question.value,
+    questionEn: text(input.questionEn),
     answer: answer.value,
+    answerEn: text(input.answerEn),
     published: flag(input.published, true),
     sortOrder: integer(input.sortOrder) ?? 0,
   };
@@ -320,7 +344,9 @@ async function saveGallery(input: Payload, id?: string) {
   const allowed: GalleryCategory[] = ["PHOTO", "VIDEO", "EVENEMENT"];
   const data = {
     title: title.value,
+    titleEn: text(input.titleEn),
     caption: text(input.caption),
+    captionEn: text(input.captionEn),
     category: (allowed.includes(category as GalleryCategory) ? category : "PHOTO") as GalleryCategory,
     imageUrl,
     published: flag(input.published, true),

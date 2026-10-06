@@ -1,6 +1,19 @@
 import { cache } from "react";
+import type { Article, Destination, Experience, Offer, Service, Testimonial } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { defaultSettings, type PublicSettings } from "@/lib/constants";
+import { getLocale } from "@/lib/locale";
+import {
+  localizeSettings,
+  presentArticle,
+  presentDestination,
+  presentExperience,
+  presentFaq,
+  presentGallery,
+  presentOffer,
+  presentService,
+  presentTestimonial,
+} from "@/lib/localize";
 
 export const getSettings = cache(async (): Promise<PublicSettings> => {
   const rows = await prisma.siteSetting.findMany();
@@ -17,7 +30,16 @@ export const getSettings = cache(async (): Promise<PublicSettings> => {
   return merged;
 });
 
-export async function getHomeData() {
+export async function getHomeData(): Promise<{
+  settings: PublicSettings;
+  experiences: Experience[];
+  services: Service[];
+  destinations: Destination[];
+  offers: Offer[];
+  testimonials: Testimonial[];
+  articles: Article[];
+}> {
+  const locale = await getLocale();
   const [settings, experiences, services, destinations, offers, testimonials, articles] =
     await Promise.all([
       getSettings(),
@@ -50,40 +72,59 @@ export async function getHomeData() {
       }),
     ]);
 
-  return { settings, experiences, services, destinations, offers, testimonials, articles };
+  return {
+    settings: localizeSettings(settings, locale),
+    experiences: experiences.map((item) => presentExperience(item, locale)),
+    services: services.map((item) => presentService(item, locale)),
+    destinations: destinations.map((item) => presentDestination(item, locale)),
+    offers: offers.map((item) => presentOffer(item, locale)),
+    testimonials: testimonials.map((item) => presentTestimonial(item, locale)),
+    articles: articles.map((item) => presentArticle(item, locale)),
+  };
 }
 
 export async function getPublishedExperiences() {
-  return prisma.experience.findMany({
+  const locale = await getLocale();
+  const items = await prisma.experience.findMany({
     where: { published: true },
     orderBy: [{ sortOrder: "asc" }, { title: "asc" }],
   });
+  return items.map((item) => presentExperience(item, locale));
 }
 
 export async function getExperience(slug: string) {
-  return prisma.experience.findFirst({ where: { slug, published: true } });
+  const locale = await getLocale();
+  const item = await prisma.experience.findFirst({ where: { slug, published: true } });
+  return item ? presentExperience(item, locale) : null;
 }
 
 export async function getPublishedServices() {
-  return prisma.service.findMany({
+  const locale = await getLocale();
+  const items = await prisma.service.findMany({
     where: { published: true },
     orderBy: [{ sortOrder: "asc" }, { title: "asc" }],
   });
+  return items.map((item) => presentService(item, locale));
 }
 
 export async function getService(slug: string) {
-  return prisma.service.findFirst({ where: { slug, published: true } });
+  const locale = await getLocale();
+  const item = await prisma.service.findFirst({ where: { slug, published: true } });
+  return item ? presentService(item, locale) : null;
 }
 
 export async function getPublishedDestinations() {
-  return prisma.destination.findMany({
+  const locale = await getLocale();
+  const items = await prisma.destination.findMany({
     where: { published: true },
     orderBy: [{ sortOrder: "asc" }, { name: "asc" }],
   });
+  return items.map((item) => presentDestination(item, locale));
 }
 
 export async function getDestination(slug: string) {
-  return prisma.destination.findFirst({
+  const locale = await getLocale();
+  const item = await prisma.destination.findFirst({
     where: { slug, published: true },
     include: {
       offers: {
@@ -92,45 +133,63 @@ export async function getDestination(slug: string) {
       },
     },
   });
+  return item ? presentDestination(item, locale) : null;
 }
 
 export async function getPublishedOffers() {
-  return prisma.offer.findMany({
+  const locale = await getLocale();
+  const items = await prisma.offer.findMany({
     where: { published: true },
     orderBy: [{ featured: "desc" }, { sortOrder: "asc" }],
   });
+  return items.map((item) => presentOffer(item, locale));
 }
 
 export async function getOffer(slug: string) {
-  return prisma.offer.findFirst({
+  const locale = await getLocale();
+  const item = await prisma.offer.findFirst({
     where: { slug, published: true },
     include: { destination: true, experience: true },
   });
+  if (!item) return null;
+  return {
+    ...presentOffer(item, locale),
+    destination: item.destination ? presentDestination(item.destination, locale) : null,
+    experience: item.experience ? presentExperience(item.experience, locale) : null,
+  };
 }
 
 export async function getPublishedArticles() {
-  return prisma.article.findMany({
+  const locale = await getLocale();
+  const items = await prisma.article.findMany({
     where: { published: true },
     orderBy: [{ publishedAt: "desc" }, { createdAt: "desc" }],
   });
+  return items.map((item) => presentArticle(item, locale));
 }
 
 export async function getArticle(slug: string) {
-  return prisma.article.findFirst({ where: { slug, published: true } });
+  const locale = await getLocale();
+  const item = await prisma.article.findFirst({ where: { slug, published: true } });
+  return item ? presentArticle(item, locale) : null;
 }
 
 export async function getPublishedFaqs() {
-  return prisma.faq.findMany({
+  const locale = await getLocale();
+  const items = await prisma.faq.findMany({
     where: { published: true },
     orderBy: [{ sortOrder: "asc" }, { question: "asc" }],
   });
+  return items.map((item) => presentFaq(item, locale));
 }
 
 export async function getPublishedGallery() {
-  return prisma.galleryItem.findMany({
+  const locale = await getLocale();
+  const items = await prisma.galleryItem.findMany({
     where: { published: true },
     orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }],
   });
+  return items.map((item) => presentGallery(item, locale));
 }
 
 export async function getSitemapEntries() {

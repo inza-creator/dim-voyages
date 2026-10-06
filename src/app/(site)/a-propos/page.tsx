@@ -5,13 +5,15 @@ import { ExperienceCard } from "@/components/public/cards";
 import { getPublishedExperiences, getSettings } from "@/server/content";
 import { getLocale } from "@/lib/locale";
 import { copy } from "@/lib/i18n";
+import { localizeSettings } from "@/lib/localize";
 
 export async function generateMetadata(): Promise<Metadata> {
   return { title: copy(await getLocale()).nav.about };
 }
 
 export default async function AboutPage() {
-  const [settings, experiences, locale] = await Promise.all([getSettings(), getPublishedExperiences(), getLocale()]);
+  const [rawSettings, experiences, locale] = await Promise.all([getSettings(), getPublishedExperiences(), getLocale()]);
+  const settings = localizeSettings(rawSettings, locale);
   const t = copy(locale);
   return (
     <>

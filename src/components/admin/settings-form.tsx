@@ -8,6 +8,7 @@ const labels: Record<keyof PublicSettings, string> = {
   whatsapp: "WhatsApp (format international, sans +)",
   email: "Email",
   address: "Adresse",
+  addressEn: "Adresse (anglais)",
   heroImageUrl: "Image principale de l'accueil",
   facebook: "Facebook",
   instagram: "Instagram",
@@ -16,8 +17,11 @@ const labels: Record<keyof PublicSettings, string> = {
   statTravelers: "Voyageurs",
   statDestinations: "Destinations",
   signature: "Signature",
+  signatureEn: "Signature (anglais)",
   award: "Reconnaissance",
+  awardEn: "Reconnaissance (anglais)",
   aboutText: "Texte À propos",
+  aboutTextEn: "Texte À propos (anglais)",
 };
 
 export function SettingsForm({ initial }: { initial: PublicSettings }) {
@@ -62,7 +66,7 @@ export function SettingsForm({ initial }: { initial: PublicSettings }) {
         {(Object.keys(labels) as (keyof PublicSettings)[]).map((key) => (
           <label key={key} className="block text-sm font-medium">
             {labels[key]}
-            {key === "aboutText" ? (
+            {key === "aboutText" || key === "aboutTextEn" ? (
               <textarea value={settings[key]} onChange={(event) => setSettings({ ...settings, [key]: event.target.value })} rows={5} className="mt-1.5 w-full rounded-2xl border border-line px-3 py-2" />
             ) : (
               <input value={settings[key]} onChange={(event) => setSettings({ ...settings, [key]: event.target.value })} className="mt-1.5 h-11 w-full rounded-2xl border border-line px-3" />

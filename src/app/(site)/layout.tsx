@@ -4,11 +4,13 @@ import { WhatsAppButton } from "@/components/public/whatsapp-button";
 import { getPublishedServices, getSettings } from "@/server/content";
 import { getLocale } from "@/lib/locale";
 import { copy } from "@/lib/i18n";
+import { localizeSettings } from "@/lib/localize";
 
 export const dynamic = "force-dynamic";
 
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
-  const [settings, locale, services] = await Promise.all([getSettings(), getLocale(), getPublishedServices()]);
+  const [rawSettings, locale, services] = await Promise.all([getSettings(), getLocale(), getPublishedServices()]);
+  const settings = localizeSettings(rawSettings, locale);
 
   return (
     <>

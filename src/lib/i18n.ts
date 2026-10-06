@@ -104,6 +104,7 @@ const fr = {
     galleryPhotos: "Photos",
     galleryVideos: "Vidéos",
     galleryEvents: "Événements",
+    galleryEmpty: "Aucun visuel dans cette catégorie.",
     newsTitle: "Actualités & promotions",
     newsText: "Les nouvelles de DIM VOYAGES et les formules du moment.",
     faqTitle: "Questions fréquentes",
@@ -171,6 +172,25 @@ const fr = {
     error: "Inscription impossible.",
   },
   whatsapp: "Écrire à DIM VOYAGES sur WhatsApp",
+  legal: {
+    mentions: [
+      "Le site présente DIM VOYAGES, agence de voyage et de tourisme basée à Abidjan, en Côte d'Ivoire.",
+      "Contact : info@dimvoyages.net — +225 07 00 15 69 81.",
+      "Les informations légales complémentaires (immatriculation, responsable de publication) pourront être précisées par l'agence.",
+      "Les photos utilisées pendant la mise en place du site sont provisoires. Elles sont remplaçables depuis le back-office.",
+    ],
+    privacy: [
+      "Les formulaires recueillent les informations nécessaires pour répondre à une demande : nom, téléphone, email éventuel, destination, dates et message.",
+      "Ces informations sont enregistrées afin que DIM VOYAGES puisse recontacter la personne par WhatsApp, téléphone ou email. Elles ne sont pas vendues.",
+      "La newsletter conserve uniquement l'adresse email des personnes qui s'inscrivent. Une inscription peut être retirée depuis le back-office.",
+      "Cette première version ne comporte pas de paiement en ligne.",
+    ],
+    terms: [
+      "Les offres affichées sont des points de départ. La disponibilité, le tarif et le programme sont confirmés par DIM VOYAGES après étude de la demande.",
+      "Envoyer un formulaire ne constitue pas une réservation ferme et n'entraîne aucun paiement.",
+      "Les conseils visa décrivent une aide à la préparation du dossier. La décision appartient aux autorités compétentes.",
+    ],
+  },
 };
 
 const en: typeof fr = {
@@ -277,6 +297,7 @@ const en: typeof fr = {
     galleryPhotos: "Photos",
     galleryVideos: "Videos",
     galleryEvents: "Events",
+    galleryEmpty: "Nothing in this category.",
     newsTitle: "News & promotions",
     newsText: "News from DIM VOYAGES and current packages.",
     faqTitle: "Frequently asked questions",
@@ -344,6 +365,25 @@ const en: typeof fr = {
     error: "Subscription failed.",
   },
   whatsapp: "Message DIM VOYAGES on WhatsApp",
+  legal: {
+    mentions: [
+      "This site presents DIM VOYAGES, a travel and tourism agency based in Abidjan, Côte d'Ivoire.",
+      "Contact: info@dimvoyages.net — +225 07 00 15 69 81.",
+      "Further legal details (registration, publication manager) can be added by the agency.",
+      "Photos used while the site was being set up are temporary. They can be replaced from the back office.",
+    ],
+    privacy: [
+      "Forms collect the details needed to answer a request: name, phone, email if provided, destination, dates and message.",
+      "This information is stored so DIM VOYAGES can contact the person by WhatsApp, phone or email. It is not sold.",
+      "The newsletter keeps only the email address of people who subscribe. A subscription can be removed from the back office.",
+      "This first version does not include online payment.",
+    ],
+    terms: [
+      "The offers shown are starting points. Availability, price and programme are confirmed by DIM VOYAGES after the request is reviewed.",
+      "Sending a form is not a firm booking and does not involve any payment.",
+      "Visa guidance is help with preparing a file. The decision belongs to the competent authorities.",
+    ],
+  },
 };
 
 export const messages = { fr, en };

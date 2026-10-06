@@ -65,7 +65,7 @@ export function GalleryGrid({
           );
         })}
       </div>
-      {visible.length === 0 && <p className="text-muted">Aucun visuel dans cette catégorie.</p>}
+      {visible.length === 0 && <p className="text-muted">{labels.galleryEmpty}</p>}
     </div>
   );
 }

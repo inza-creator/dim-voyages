@@ -2,6 +2,7 @@ import "dotenv/config";
 import bcrypt from "bcryptjs";
 import { defaultSettings, images } from "../src/lib/constants";
 import { prisma } from "../src/lib/prisma";
+import { applyEnglish } from "./english";
 
 async function main() {
   const email = process.env.ADMIN_EMAIL || "admin@dimvoyages.ci";
@@ -553,6 +554,8 @@ async function main() {
       create: { key, value },
     });
   }
+
+  await applyEnglish(prisma);
 
   void junior;
   void corporate;

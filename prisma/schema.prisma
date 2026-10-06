@@ -58,11 +58,16 @@ model Media {
 model Experience {
   id          String   @id @default(cuid())
   slug        String   @unique
-  title       String
-  subtitle    String
-  excerpt     String
-  description String   @db.Text
-  highlights  String[] @default([])
+  title         String
+  titleEn       String   @default("")
+  subtitle      String
+  subtitleEn    String   @default("")
+  excerpt       String
+  excerptEn     String   @default("")
+  description   String   @db.Text
+  descriptionEn String   @db.Text @default("")
+  highlights    String[] @default([])
+  highlightsEn  String[] @default([])
   imageUrl    String   @default("")
   published   Boolean  @default(true)
   sortOrder   Int      @default(0)
@@ -74,10 +79,14 @@ model Experience {
 model Service {
   id          String   @id @default(cuid())
   slug        String   @unique
-  title       String
-  excerpt     String
-  description String   @db.Text
-  highlights  String[] @default([])
+  title         String
+  titleEn       String   @default("")
+  excerpt       String
+  excerptEn     String   @default("")
+  description   String   @db.Text
+  descriptionEn String   @db.Text @default("")
+  highlights    String[] @default([])
+  highlightsEn  String[] @default([])
   icon        String   @default("plane")
   imageUrl    String   @default("")
   published   Boolean  @default(true)
@@ -89,10 +98,14 @@ model Service {
 model Destination {
   id          String   @id @default(cuid())
   slug        String   @unique
-  name        String
-  region      String   @default("")
-  excerpt     String
-  description String   @db.Text
+  name          String
+  nameEn        String   @default("")
+  region        String   @default("")
+  regionEn      String   @default("")
+  excerpt       String
+  excerptEn     String   @default("")
+  description   String   @db.Text
+  descriptionEn String   @db.Text @default("")
   imageUrl    String   @default("")
   published   Boolean  @default(true)
   sortOrder   Int      @default(0)
@@ -104,12 +117,17 @@ model Destination {
 model Offer {
   id               String       @id @default(cuid())
   slug             String       @unique
-  title            String
-  destinationLabel String
-  excerpt          String
-  description      String       @db.Text
-  priceFrom        Int?
-  badge            String       @default("")
+  title              String
+  titleEn            String       @default("")
+  destinationLabel   String
+  destinationLabelEn String       @default("")
+  excerpt            String
+  excerptEn          String       @default("")
+  description        String       @db.Text
+  descriptionEn      String       @db.Text @default("")
+  priceFrom          Int?
+  badge              String       @default("")
+  badgeEn            String       @default("")
   imageUrl         String       @default("")
   featured         Boolean      @default(false)
   published        Boolean      @default(true)
@@ -126,8 +144,11 @@ model Article {
   id          String    @id @default(cuid())
   slug        String    @unique
   title       String
+  titleEn     String    @default("")
   excerpt     String
+  excerptEn   String    @default("")
   content     String    @db.Text
+  contentEn   String    @db.Text @default("")
   imageUrl    String    @default("")
   published   Boolean   @default(false)
   publishedAt DateTime?
@@ -140,6 +161,7 @@ model Testimonial {
   authorName String
   location   String   @default("")
   content    String   @db.Text
+  contentEn  String   @db.Text @default("")
   rating     Int      @default(5)
   published  Boolean  @default(true)
   sortOrder  Int      @default(0)
@@ -149,8 +171,10 @@ model Testimonial {
 
 model Faq {
   id        String   @id @default(cuid())
-  question  String
-  answer    String   @db.Text
+  question   String
+  questionEn String   @default("")
+  answer     String   @db.Text
+  answerEn   String   @db.Text @default("")
   published Boolean  @default(true)
   sortOrder Int      @default(0)
   createdAt DateTime @default(now())
@@ -160,7 +184,9 @@ model Faq {
 model GalleryItem {
   id        String          @id @default(cuid())
   title     String
+  titleEn   String          @default("")
   caption   String          @default("")
+  captionEn String          @default("")
   category  GalleryCategory @default(PHOTO)
   imageUrl  String
   mediaId   String?

@@ -41,6 +41,7 @@ export const defaultSettings = {
   whatsapp: "2250700156981",
   email: "info@dimvoyages.net",
   address: "Abidjan, Côte d'Ivoire",
+  addressEn: "Abidjan, Côte d'Ivoire",
   heroImageUrl: images.hero,
   facebook: "",
   instagram: "",
@@ -49,9 +50,13 @@ export const defaultSettings = {
   statTravelers: "1000+",
   statDestinations: "50+",
   signature: "DIM VOYAGES vous accompagne partout !!!",
+  signatureEn: "DIM VOYAGES is with you everywhere !!!",
   award: "Prix National d'Excellence de Côte d'Ivoire 2021",
+  awardEn: "National Excellence Award of Côte d'Ivoire 2021",
   aboutText:
     "DIM VOYAGES est une agence de voyage et de tourisme basée à Abidjan. Nous concevons des expériences sur mesure pour les particuliers, les familles, les entreprises, les institutions et les groupes. De la billetterie à l'accompagnement sur place, nous restons présents avant, pendant et après le voyage.",
+  aboutTextEn:
+    "DIM VOYAGES is a travel and tourism agency based in Abidjan. We design tailor-made experiences for individuals, families, companies, institutions and groups. From ticketing to support on site, we stay with you before, during and after the trip.",
 };
 
 export type PublicSettings = typeof defaultSettings;

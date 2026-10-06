@@ -6,13 +6,15 @@ import { whatsappHref } from "@/lib/utils";
 import { getSettings } from "@/server/content";
 import { getLocale } from "@/lib/locale";
 import { copy } from "@/lib/i18n";
+import { localizeSettings } from "@/lib/localize";
 
 export async function generateMetadata(): Promise<Metadata> {
   return { title: copy(await getLocale()).nav.contact };
 }
 
 export default async function ContactPage() {
-  const [settings, locale] = await Promise.all([getSettings(), getLocale()]);
+  const [rawSettings, locale] = await Promise.all([getSettings(), getLocale()]);
+  const settings = localizeSettings(rawSettings, locale);
   const t = copy(locale).pages;
   return (
     <>
