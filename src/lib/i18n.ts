@@ -174,7 +174,7 @@ const fr = {
   whatsapp: "Écrire à DIM VOYAGES sur WhatsApp",
   legal: {
     mentions: [
-      "Le site présente DIM VOYAGES, agence de voyage et de tourisme basée à Abidjan, en Côte d'Ivoire.",
+      "Le site présente DIM VOYAGES, agence de voyage et de tourisme, Côte d'Ivoire, Abidjan, Cocody, Angré 8ème tranche - Aux feux tricolores, juste à côté de l'école Fred et Poppee.",
       "Contact : info@dimvoyages.net — +225 07 00 15 69 81.",
       "Les informations légales complémentaires (immatriculation, responsable de publication) pourront être précisées par l'agence.",
       "Les photos utilisées pendant la mise en place du site sont provisoires. Elles sont remplaçables depuis le back-office.",
@@ -367,7 +367,7 @@ const en: typeof fr = {
   whatsapp: "Message DIM VOYAGES on WhatsApp",
   legal: {
     mentions: [
-      "This site presents DIM VOYAGES, a travel and tourism agency based in Abidjan, Côte d'Ivoire.",
+      "This site presents DIM VOYAGES, a travel and tourism agency, Côte d'Ivoire, Abidjan, Cocody, Angré 8ème tranche - at the traffic lights, right next to the Fred et Poppee school.",
       "Contact: info@dimvoyages.net — +225 07 00 15 69 81.",
       "Further legal details (registration, publication manager) can be added by the agency.",
       "Photos used while the site was being set up are temporary. They can be replaced from the back office.",

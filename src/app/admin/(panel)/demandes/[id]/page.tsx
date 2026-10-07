@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { CallButton } from "@/components/admin/call-button";
+import { EmailButton } from "@/components/admin/email-button";
 import { StatusForm } from "@/components/admin/status-form";
 import { requestTypeLabels } from "@/lib/constants";
 import { formatDateTime, whatsappHref } from "@/lib/utils";
@@ -30,11 +32,11 @@ export default async function RequestDetailPage({ params }: { params: Promise<{ 
       </div>
       <div className="space-y-4">
         <StatusForm id={item.id} status={item.status} />
-        <a href={whatsappHref(item.phone, `Bonjour ${item.fullName}, DIM VOYAGES revient vers vous au sujet de votre demande ${item.reference}.`)} className="flex h-12 items-center justify-center rounded-full bg-whatsapp font-semibold text-white">
+        <a href={whatsappHref(item.phone, `Bonjour ${item.fullName}, DIM VOYAGES revient vers vous au sujet de votre demande envoyée sur notre site.`)} className="flex h-12 items-center justify-center rounded-full bg-whatsapp font-semibold text-white">
           Contacter sur WhatsApp
         </a>
-        {item.email && <a href={`mailto:${item.email}`} className="flex h-12 items-center justify-center rounded-full bg-white font-semibold text-navy">Envoyer un email</a>}
-        <a href={`tel:${item.phone.replace(/\s/g, "")}`} className="flex h-12 items-center justify-center rounded-full bg-white font-semibold text-navy">Appeler</a>
+        {item.email && <EmailButton name={item.fullName} email={item.email} />}
+        <CallButton name={item.fullName} phone={item.phone} />
       </div>
     </div>
   );
