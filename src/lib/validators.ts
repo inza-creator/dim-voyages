@@ -31,6 +31,11 @@ export const newsletterSchema = z.object({
   website: z.string().optional().default(""),
 });
 
+export const newsletterSendSchema = z.object({
+  subject: z.string().trim().min(2, "Indiquez l'objet du message").max(150),
+  message: z.string().trim().min(3, "Écrivez le message").max(5000),
+});
+
 export const userSchema = z.object({
   name: z.string().trim().min(2).max(80),
   email: z.string().trim().email(),

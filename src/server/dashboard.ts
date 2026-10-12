@@ -20,7 +20,6 @@ export async function getDashboard() {
     gallery,
     subscribers,
     latestRequests,
-    latestTestimonial,
     recentArticles,
     recentOffers,
   ] = await Promise.all([
@@ -41,7 +40,6 @@ export async function getDashboard() {
     prisma.galleryItem.count(),
     prisma.newsletterSubscriber.count({ where: { active: true } }),
     prisma.travelRequest.findMany({ orderBy: { createdAt: "desc" }, take: 5 }),
-    prisma.testimonial.findFirst({ where: { published: true }, orderBy: { sortOrder: "asc" } }),
     prisma.article.findMany({ orderBy: { updatedAt: "desc" }, take: 3 }),
     prisma.offer.findMany({ orderBy: { updatedAt: "desc" }, take: 3 }),
   ]);
@@ -69,7 +67,6 @@ export async function getDashboard() {
     days,
     byType,
     latestRequests,
-    latestTestimonial,
     activity: [
       ...recentArticles.map((item) => ({
         id: item.id,

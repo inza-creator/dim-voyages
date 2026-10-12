@@ -117,8 +117,8 @@ export function AdminShell({
           <button type="button" className="grid h-10 w-10 place-items-center rounded-xl lg:hidden" onClick={() => setOpen(true)} aria-label="Ouvrir le menu">
             <Menu className="h-5 w-5" />
           </button>
-          <form action="/admin/recherche" className="hidden flex-1 md:block">
-            <input name="q" placeholder="Rechercher une demande, une destination, un contenu…" className="h-11 w-full rounded-2xl border border-line bg-sand px-4 text-sm outline-none focus:border-orange" />
+          <form action="/admin/recherche" className="hidden min-w-0 flex-1 md:block md:max-w-xl">
+            <input name="q" placeholder="Rechercher une demande…" className="h-11 w-full rounded-2xl border border-line bg-sand px-4 text-sm outline-none focus:border-orange" />
           </form>
           <div className="ml-auto flex items-center gap-3">
             <p className="hidden text-sm text-muted xl:block">{today}</p>
@@ -130,6 +130,9 @@ export function AdminShell({
               <p className="text-sm font-semibold text-navy">{user.name}</p>
               <p className="text-xs text-muted">{user.role === "ADMIN" ? "Administrateur" : "Éditeur"}</p>
             </div>
+            <button type="button" onClick={logout} className="flex h-10 items-center gap-2  px-3 text-sm font-semibold text-[#0e4f7c]">
+              <LogOut className="h-4 w-4" />
+            </button>
           </div>
         </header>
         <div className="flex-1 p-4 sm:p-6">{children}</div>

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CheckCircle2, Clock3, Compass, HelpCircle, ImageIcon, Inbox, Mail, MapPin, MessageSquare, Newspaper, Sparkles, Star, Tag, User } from "lucide-react";
+import { CheckCircle2, Clock3, Inbox, Sparkles } from "lucide-react";
 import { StatusBadge } from "@/components/admin/status-badge";
 import { requestTypeLabels } from "@/lib/constants";
 import { getDashboard } from "@/server/dashboard";
@@ -27,13 +27,6 @@ export default async function DashboardPage() {
   const circumference = 2 * Math.PI * 42;
   let offset = 0;
 
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = now.getMonth();
-  const firstWeekday = (new Date(year, month, 1).getDay() + 6) % 7;
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
-  const requestDays = new Set(data.latestRequests.map((item) => item.createdAt.toISOString().slice(0, 10)));
-
   return (
     <div className="space-y-6">
       <div>
@@ -43,7 +36,7 @@ export default async function DashboardPage() {
 
       <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <Stat icon={<Inbox className="h-5 w-5" />} label="Demandes reçues" value={data.total} tone="text-sea" />
-        <Stat icon={<Sparkles className="h-5 w-5" />} label="Nouvelles demandes" value={data.newCount} tone="text-orange" />
+        <Stat icon={<Sparkles className="h-5 w-5" />} label="Demandes non traitées" value={data.newCount} tone="text-orange" />
         <Stat icon={<Clock3 className="h-5 w-5" />} label="En cours de traitement" value={data.inProgress} tone="text-sea" />
         <Stat icon={<CheckCircle2 className="h-5 w-5" />} label="Terminées" value={data.doneCount} tone="text-whatsapp" />
       </section>
@@ -85,8 +78,8 @@ export default async function DashboardPage() {
         </div>
       </section>
 
-      <section className="grid items-start gap-4 xl:grid-cols-[1.3fr_0.7fr]">
-        <div className="self-start overflow-hidden rounded-3xl bg-white shadow-sm">
+      <section>
+        <div className="overflow-hidden rounded-3xl bg-white shadow-sm">
           <div className="flex items-center justify-between px-5 py-4">
             <h2 className="font-bold text-navy">(05) Dernières demandes</h2>
             <Link href="/admin/demandes" className="text-sm font-semibold text-orange">Voir tout</Link>
@@ -115,76 +108,7 @@ export default async function DashboardPage() {
             </tbody>
           </table>
         </div>
-
-        <div className="space-y-4">
-          <div className="rounded-3xl bg-white p-5 shadow-sm">
-            <h2 className="font-bold text-navy">Gestion du contenu</h2>
-            <div className="mt-3 grid grid-cols-3 gap-2">
-              {[
-                { href: "/admin/experiences", label: "Expériences", hint: "Ajouter / modifier", icon: Compass },
-                { href: "/admin/services", label: "Services", hint: "Gérer les services", icon: User },
-                { href: "/admin/destinations", label: "Destinations", hint: "Gérer les destinations", icon: MapPin },
-                { href: "/admin/offres", label: "Offres", hint: "Gérer les offres", icon: Tag },
-                { href: "/admin/actualites", label: "Actualités", hint: "Publier des articles", icon: Newspaper },
-                { href: "/admin/galerie", label: "Galerie", hint: "Photos & vidéos", icon: ImageIcon },
-                { href: "/admin/temoignages", label: "Témoignages", hint: "Gérer les avis", icon: MessageSquare },
-                { href: "/admin/faq", label: "FAQ", hint: "Gérer les questions", icon: HelpCircle },
-                { href: "/admin/newsletter", label: "Newsletter", hint: "Abonnés & envois", icon: Mail },
-              ].map((item) => {
-                const Icon = item.icon;
-                return (
-                  <Link key={item.href} href={item.href} className="flex flex-col items-center rounded-2xl border border-line bg-white px-2 py-3 text-center hover:border-sea/40">
-                    <span className="grid h-8 w-8 place-items-center rounded-xl bg-sea/10 text-sea">
-                      <Icon className="h-4 w-4" />
-                    </span>
-                    <span className="mt-1.5 text-xs font-semibold text-navy">{item.label}</span>
-                    <span className="text-[10px] leading-tight text-muted">{item.hint}</span>
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
-          <div className="rounded-3xl bg-white p-5 shadow-sm">
-            <h2 className="font-bold text-navy">{now.toLocaleDateString("fr-FR", { month: "long", year: "numeric" })}</h2>
-            <div className="mt-3 grid grid-cols-7 gap-1 text-center text-xs">
-              {["L", "M", "M", "J", "V", "S", "D"].map((day, index) => <span key={`${day}${index}`} className="text-muted">{day}</span>)}
-              {Array.from({ length: firstWeekday }, (_, index) => <span key={`e${index}`} />)}
-              {Array.from({ length: daysInMonth }, (_, index) => {
-                const day = index + 1;
-                const key = new Date(year, month, day).toISOString().slice(0, 10);
-                const today = day === now.getDate();
-                return (
-                  <span key={day} className={`rounded-full py-1 ${today ? "bg-orange text-white" : ""} ${requestDays.has(key) ? "font-bold text-sea" : ""}`}>{day}</span>
-                );
-              })}
-            </div>
-          </div>
-        </div>
       </section>
-
-      {data.latestTestimonial && (
-        <section className="max-w-xl rounded-3xl bg-white p-4 shadow-sm">
-            <div className="flex items-center justify-between gap-3">
-              <h2 className="font-bold text-navy">Derniers avis clients</h2>
-              <Link href="/admin/temoignages" className="text-sm font-semibold text-sea">Voir tout →</Link>
-            </div>
-            <div className="mt-3 flex items-center gap-3">
-              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-sea/15 text-sm font-bold text-sea">
-                {data.latestTestimonial.authorName.split(" ").map((part) => part[0]).join("").slice(0, 2).toUpperCase()}
-              </span>
-              <div className="min-w-0">
-                <p className="font-semibold text-navy">{data.latestTestimonial.authorName}</p>
-                <p className="flex gap-0.5 text-orange">
-                  {Array.from({ length: 5 }, (_, index) => (
-                    <Star key={index} className={`h-3.5 w-3.5 ${index < data.latestTestimonial!.rating ? "fill-orange" : "text-line"}`} />
-                  ))}
-                </p>
-              </div>
-              <p className="ml-auto shrink-0 text-xs text-muted">{data.latestTestimonial.createdAt.toLocaleDateString("fr-FR")}</p>
-            </div>
-            <p className="mt-2 text-sm leading-5 text-muted">“{data.latestTestimonial.content}”</p>
-        </section>
-      )}
     </div>
   );
 }

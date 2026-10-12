@@ -14,11 +14,13 @@ export function ResourceManager({ config, initialItems }: { config: ResourceConf
   const [query, setQuery] = useState("");
   const [pendingDelete, setPendingDelete] = useState<Item | null>(null);
 
+  const searchable = !["destinations", "offres", "actualites"].includes(config.key);
   const visible = useMemo(() => {
+    if (!searchable) return items;
     const q = query.trim().toLowerCase();
     if (!q) return items;
     return items.filter((item) => JSON.stringify(item).toLowerCase().includes(q));
-  }, [items, query]);
+  }, [items, query, searchable]);
 
   async function refresh() {
     const response = await fetch(`/api/admin/${config.key}`);
@@ -48,7 +50,9 @@ export function ResourceManager({ config, initialItems }: { config: ResourceConf
           Ajouter
         </button>
       </div>
-      <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Filtrer…" className="h-11 w-full max-w-md rounded-2xl border border-line bg-white px-4 text-sm outline-none focus:border-orange" />
+      {searchable && (
+        <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Filtrer…" className="h-11 w-full max-w-md rounded-2xl border border-line bg-white px-4 text-sm outline-none focus:border-orange" />
+      )}
       {error && <p className="text-sm text-orange-600">{error}</p>}
       <ConfirmDialog
         open={pendingDelete !== null}

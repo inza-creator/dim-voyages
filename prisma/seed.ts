@@ -512,7 +512,7 @@ async function main() {
       {
         question: "Comment vous contacter ?",
         answer:
-          "Par WhatsApp au 07 00 15 69 81, par téléphone au même numéro, par email à info@dimvoyages.net, ou via le formulaire de contact. L'agence est basée à Abidjan.",
+          "Par WhatsApp au 07 00 15 69 81, par téléphone au même numéro, par email à info@dimvoyages.com, ou via le formulaire de contact. L'agence est basée à Abidjan.",
         sortOrder: 6,
       },
       {

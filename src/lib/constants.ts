@@ -39,7 +39,7 @@ export const images = {
 export const defaultSettings = {
   phone: "+225 07 00 15 69 81",
   whatsapp: "2250700156981",
-  email: "info@dimvoyages.net",
+  email: "info@dimvoyages.com",
   address: "Abidjan, Côte d'Ivoire",
   addressEn: "Abidjan, Côte d'Ivoire",
   heroImageUrl: images.hero,
