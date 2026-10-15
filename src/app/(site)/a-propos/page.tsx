@@ -22,7 +22,7 @@ export default async function AboutPage() {
         <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
           <div className="rounded-[2rem] bg-white p-6 shadow-sm sm:p-8">
             <p className="text-lg leading-8">{settings.aboutText}</p>
-            <p className="mt-6 font-script text-4xl text-orange">{settings.signature}</p>
+            <p className="mt-6 text-lg font-semibold text-orange">{settings.signature}</p>
           </div>
           <div className="rounded-[2rem] bg-navy p-6 text-white">
             <Award className="h-8 w-8 text-gold" />

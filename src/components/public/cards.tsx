@@ -51,6 +51,15 @@ export function DestinationCard({ href, name, imageUrl }: { href: string; name: 
   );
 }
 
+function offerSlides(imageUrl: string, imageUrls?: Array<string | null | undefined>) {
+  const seen = new Set<string>();
+  return [imageUrl, ...(imageUrls ?? [])].filter((src): src is string => {
+    if (!src || seen.has(src)) return false;
+    seen.add(src);
+    return true;
+  }).slice(0, 3);
+}
+
 export function OfferCard({
   href,
   title,
@@ -58,6 +67,7 @@ export function OfferCard({
   priceFrom,
   badge,
   imageUrl,
+  imageUrls,
   fromLabel = "À partir de",
 }: {
   href: string;
@@ -66,13 +76,29 @@ export function OfferCard({
   priceFrom?: number | null;
   badge?: string;
   imageUrl: string;
+  imageUrls?: Array<string | null | undefined>;
   fromLabel?: string;
 }) {
+  const slides = offerSlides(imageUrl, imageUrls);
+  const count = slides.length;
   return (
     <Link href={href} className="group overflow-hidden rounded-3xl border border-line bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
-      <div className="relative h-44">
-        <MediaImage src={imageUrl} alt={title} className="object-cover transition duration-500 group-hover:scale-105" sizes="(max-width:768px) 100vw, 25vw" />
-        {badge && <span className="absolute top-3 left-3 rounded-full bg-orange px-3 py-1 text-xs font-bold text-white">{badge}</span>}
+      <div className="relative h-44 overflow-hidden">
+        {slides.map((src, slide) => (
+          <div
+            key={`${src}-${slide}`}
+            className={count > 1 ? `card-slide card-slide-${count} absolute inset-0` : "absolute inset-0"}
+            style={count > 1 ? { animationDelay: `${slide * 5}s`, animationDuration: `${count * 5}s` } : undefined}
+          >
+            <MediaImage
+              src={src}
+              alt={slide === 0 ? title : ""}
+              className={count > 1 ? "object-cover object-center" : "object-cover transition duration-500 group-hover:scale-105"}
+              sizes="(max-width:768px) 100vw, 25vw"
+            />
+          </div>
+        ))}
+        {badge && <span className="absolute top-3 left-3 z-10 rounded-full bg-orange px-3 py-1 text-xs font-bold text-white">{badge}</span>}
       </div>
       <div className="p-4">
         <p className="text-xs font-semibold tracking-wide text-sea uppercase">{destination}</p>

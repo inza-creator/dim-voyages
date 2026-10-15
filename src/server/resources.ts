@@ -267,6 +267,8 @@ async function saveOffer(input: Payload, id?: string) {
     badge: text(input.badge),
     badgeEn: text(input.badgeEn),
     imageUrl: text(input.imageUrl),
+    imageUrl2: text(input.imageUrl2),
+    imageUrl3: text(input.imageUrl3),
     featured: flag(input.featured, false),
     published: flag(input.published, true),
     sortOrder: integer(input.sortOrder) ?? 0,

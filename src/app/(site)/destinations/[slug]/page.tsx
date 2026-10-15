@@ -28,7 +28,7 @@ export default async function DestinationPage({ params }: Props) {
         {item.offers.length > 0 && (
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {item.offers.map((offer) => (
-              <OfferCard key={offer.id} href={`/offres/${offer.slug}`} title={offer.title} destination={offer.destinationLabel} priceFrom={offer.priceFrom} badge={offer.badge} imageUrl={offer.imageUrl} fromLabel={t.cards.from} />
+              <OfferCard key={offer.id} href={`/offres/${offer.slug}`} title={offer.title} destination={offer.destinationLabel} priceFrom={offer.priceFrom} badge={offer.badge} imageUrl={offer.imageUrl} imageUrls={[offer.imageUrl2, offer.imageUrl3]} fromLabel={t.cards.from} />
             ))}
           </div>
         )}

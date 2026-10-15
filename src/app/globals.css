@@ -52,6 +52,56 @@ select {
   animation: rise 0.7s ease both;
 }
 
+.hero-slide {
+  opacity: 0;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+.hero-slide-2 {
+  animation-name: hero-show-2;
+}
+
+.hero-slide-3 {
+  animation-name: hero-show-3;
+}
+
+.card-slide {
+  opacity: 0;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+.card-slide-2 {
+  animation-name: hero-show-2;
+}
+
+.card-slide-3 {
+  animation-name: hero-show-3;
+}
+
+@keyframes hero-show-2 {
+  0%,
+  42% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes hero-show-3 {
+  0%,
+  28% {
+    opacity: 1;
+  }
+  33.333%,
+  100% {
+    opacity: 0;
+  }
+}
+
 .menu-drawer {
   animation: menu-drawer-in 0.28s ease;
 }

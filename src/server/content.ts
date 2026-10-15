@@ -23,7 +23,7 @@ export const getSettings = cache(async (): Promise<PublicSettings> => {
   (Object.keys(defaultSettings) as (keyof PublicSettings)[]).forEach((key) => {
     const value = map[key];
     if (value === undefined) return;
-    if (key === "heroImageUrl" && value === "") return;
+    if ((key === "heroImageUrl" || key === "heroImageUrl2" || key === "heroImageUrl3") && value === "") return;
     merged[key] = value;
   });
 
@@ -35,7 +35,7 @@ export async function getHomeData(): Promise<{
   experiences: Experience[];
   services: Service[];
   destinations: Destination[];
-  offers: Offer[];
+  offers: Array<Offer & { imageUrl2: string; imageUrl3: string }>;
   testimonials: Testimonial[];
   articles: Article[];
 }> {

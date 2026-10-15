@@ -9,7 +9,9 @@ const labels: Record<keyof PublicSettings, string> = {
   email: "Email",
   address: "Adresse",
   addressEn: "Adresse (anglais)",
-  heroImageUrl: "Image principale de l'accueil",
+  heroImageUrl: "Image d'accueil 1",
+  heroImageUrl2: "Image d'accueil 2",
+  heroImageUrl3: "Image d'accueil 3",
   facebook: "Facebook",
   instagram: "Instagram",
   linkedin: "LinkedIn",
@@ -39,12 +41,12 @@ export function SettingsForm({ initial }: { initial: PublicSettings }) {
     setMessage(response.ok ? "Paramètres enregistrés." : "Enregistrement impossible.");
   }
 
-  async function uploadHero(file: File) {
+  async function uploadImage(key: "heroImageUrl" | "heroImageUrl2" | "heroImageUrl3", file: File) {
     const body = new FormData();
     body.set("file", file);
     const response = await fetch("/api/admin/media", { method: "POST", body });
     const data = await response.json();
-    if (response.ok) setSettings((current) => ({ ...current, heroImageUrl: data.media.url }));
+    if (response.ok) setSettings((current) => ({ ...current, [key]: data.media.url }));
   }
 
   async function changePassword(event: React.FormEvent) {
@@ -71,16 +73,25 @@ export function SettingsForm({ initial }: { initial: PublicSettings }) {
             ) : (
               <input value={settings[key]} onChange={(event) => setSettings({ ...settings, [key]: event.target.value })} className="mt-1.5 h-11 w-full rounded-2xl border border-line px-3" />
             )}
+            {(key === "heroImageUrl" || key === "heroImageUrl2" || key === "heroImageUrl3") && (
+              <span className="mt-2 block font-normal">
+                {settings[key] && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={settings[key]} alt="" className="mb-2 h-36 w-full rounded-2xl object-cover" />
+                )}
+                <input
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp,image/gif"
+                  className="block"
+                  onChange={(event) => {
+                    const file = event.target.files?.[0];
+                    if (file) uploadImage(key, file);
+                  }}
+                />
+              </span>
+            )}
           </label>
         ))}
-        {settings.heroImageUrl && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={settings.heroImageUrl} alt="Aperçu de l'accueil" className="h-40 w-full rounded-2xl object-cover" />
-        )}
-        <label className="block text-sm font-medium">
-          Remplacer l&apos;image d&apos;accueil
-          <input type="file" accept="image/*" className="mt-2 block" onChange={(event) => { const file = event.target.files?.[0]; if (file) uploadHero(file); }} />
-        </label>
         <button className="rounded-full bg-orange px-5 py-3 text-sm font-semibold text-white">Enregistrer</button>
         {message && <p className="text-sm text-muted">{message}</p>}
       </form>

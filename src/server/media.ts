@@ -60,6 +60,8 @@ export async function deleteMedia(id: string) {
     prisma.service.updateMany({ where: { imageUrl: media.url }, data: { imageUrl: "" } }),
     prisma.destination.updateMany({ where: { imageUrl: media.url }, data: { imageUrl: "" } }),
     prisma.offer.updateMany({ where: { imageUrl: media.url }, data: { imageUrl: "" } }),
+    prisma.offer.updateMany({ where: { imageUrl2: media.url }, data: { imageUrl2: "" } }),
+    prisma.offer.updateMany({ where: { imageUrl3: media.url }, data: { imageUrl3: "" } }),
     prisma.article.updateMany({ where: { imageUrl: media.url }, data: { imageUrl: "" } }),
     prisma.galleryItem.updateMany({ where: { imageUrl: media.url }, data: { imageUrl: "" } }),
     prisma.galleryItem.updateMany({ where: { mediaId: media.id }, data: { mediaId: null } }),

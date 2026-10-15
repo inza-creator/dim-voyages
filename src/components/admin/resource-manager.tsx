@@ -221,6 +221,7 @@ function FieldControl({
         )}
         <input className={klass} value={String(value ?? "")} onChange={(event) => onChange(event.target.value)} placeholder="URL de l'image" />
         <input type="file" accept="image/*" onChange={(event) => { const file = event.target.files?.[0]; if (file) onFile(file); }} />
+        {"help" in field && field.help && <span className="block text-xs font-normal text-muted">{field.help}</span>}
       </div>
     );
   }

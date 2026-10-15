@@ -129,6 +129,8 @@ model Offer {
   badge              String       @default("")
   badgeEn            String       @default("")
   imageUrl         String       @default("")
+  imageUrl2        String       @default("")
+  imageUrl3        String       @default("")
   featured         Boolean      @default(false)
   published        Boolean      @default(true)
   sortOrder        Int          @default(0)

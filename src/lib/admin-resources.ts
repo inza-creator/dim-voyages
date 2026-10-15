@@ -12,7 +12,7 @@ export const resourceKeys = [
 export type ResourceKey = (typeof resourceKeys)[number];
 
 export type Field =
-  | { name: string; label: string; type: "text" | "textarea" | "image"; required?: boolean }
+  | { name: string; label: string; type: "text" | "textarea" | "image"; required?: boolean; help?: string }
   | { name: string; label: string; type: "number"; required?: boolean }
   | { name: string; label: string; type: "checkbox" }
   | { name: string; label: string; type: "lines"; help?: string }
@@ -149,6 +149,18 @@ export const resources: Record<ResourceKey, ResourceConfig> = {
       { name: "badgeEn", label: "Badge (anglais)", type: "text" },
       { name: "featured", label: "Mettre en avant", type: "checkbox" },
       image,
+      {
+        name: "imageUrl2",
+        label: "Image 2",
+        type: "image",
+        help: "Deuxième photo du carrousel de la carte. Laissez vide pour garder une seule image.",
+      },
+      {
+        name: "imageUrl3",
+        label: "Image 3",
+        type: "image",
+        help: "Troisième photo du carrousel. Les images changent toutes les 5 secondes.",
+      },
       published,
       sortOrder,
     ],

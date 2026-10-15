@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Award, Calendar, MapPin, Plane, Search } from "lucide-react";
 import { ArticleCard, DestinationCard, ExperienceCard, OfferCard, SectionLink, ServiceTile, Stars } from "@/components/public/cards";
+import { HeroCarousel } from "@/components/public/hero-carousel";
 import { MediaImage } from "@/components/public/media-image";
 import { getHomeData } from "@/server/content";
 import { btnPrimary, btnSecondary, initials } from "@/lib/utils";
@@ -15,7 +16,13 @@ export default async function HomePage() {
     <>
       <section className="relative isolate min-h-[640px] overflow-hidden bg-navy">
         <div className="absolute inset-0">
-          <MediaImage src={data.settings.heroImageUrl} alt="Voyage DIM VOYAGES" priority className="object-cover" sizes="100vw" />
+          <HeroCarousel
+            images={[
+              { src: data.settings.heroImageUrl, alt: "Voyage DIM VOYAGES" },
+              { src: data.settings.heroImageUrl2, alt: "Basilique Notre-Dame de la Paix à Yamoussoukro" },
+              { src: data.settings.heroImageUrl3, alt: "Front de lagune à Abidjan" },
+            ]}
+          />
           <div className="absolute inset-0 bg-gradient-to-r from-navy/80 via-navy/45 to-transparent" />
         </div>
         <div className="relative overflow-hidden border-b border-white/15 bg-[#012549]/45 py-2.5 text-white backdrop-blur-[2px]" role="region" aria-label="LE VOYAGE TRANSFORMATIONNEL — Une expérience qui va au-delà de la destination">
@@ -163,6 +170,7 @@ export default async function HomePage() {
               priceFrom={offer.priceFrom}
               badge={offer.badge}
               imageUrl={offer.imageUrl}
+              imageUrls={[offer.imageUrl2, offer.imageUrl3]}
               fromLabel={copy(locale).cards.from}
             />
           ))}
