@@ -109,7 +109,10 @@ export async function getPublishedServices() {
 
 export async function getService(slug: string) {
   const locale = await getLocale();
-  const item = await prisma.service.findFirst({ where: { slug, published: true } });
+  const normalized = decodeURIComponent(String(slug ?? "")).trim();
+  const item = await prisma.service.findFirst({
+    where: { slug: normalized, published: true },
+  });
   return item ? presentService(item, locale) : null;
 }
 

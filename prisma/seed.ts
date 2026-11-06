@@ -650,6 +650,63 @@ async function main() {
         sortOrder: 13,
         destinationId: asie.id,
       },
+      {
+        title: "Séoul — Corée du Sud",
+        titleEn: "Seoul — South Korea",
+        slug: "seoul-coree-du-sud",
+        destinationLabel: "Corée du Sud",
+        destinationLabelEn: "South Korea",
+        excerpt: "Palais, quartiers animés et une capitale entre tradition et ville moderne.",
+        excerptEn: "Palaces, lively neighbourhoods and a capital between tradition and the modern city.",
+        description:
+          "Un séjour à Séoul au départ d'Abidjan : vol, hébergement et temps libre entre les palais et les quartiers. Le tarif annoncé est un point de départ. DIM VOYAGES confirme la proposition selon vos dates et le nombre de voyageurs.",
+        descriptionEn:
+          "A stay in Seoul departing from Abidjan: flight, accommodation and free time between the palaces and the neighbourhoods. The price shown is a starting point. DIM VOYAGES confirms the proposal according to your dates and the number of travellers.",
+        priceFrom: 1980000,
+        badge: "Séjour",
+        badgeEn: "Stay",
+        imageUrl: images.seoul,
+        sortOrder: 19,
+        destinationId: asie.id,
+      },
+      {
+        title: "Singapour",
+        titleEn: "Singapore",
+        slug: "singapour",
+        destinationLabel: "Singapour",
+        destinationLabelEn: "Singapore",
+        excerpt: "Une ville-État au bord de l'eau, entre jardins, quartiers et skyline.",
+        excerptEn: "A city-state by the water, between gardens, neighbourhoods and the skyline.",
+        description:
+          "Un séjour à Singapour au départ d'Abidjan : vol, hébergement et temps libre dans la ville. Le tarif annoncé est un point de départ. DIM VOYAGES confirme la proposition selon vos dates et le nombre de voyageurs.",
+        descriptionEn:
+          "A stay in Singapore departing from Abidjan: flight, accommodation and free time in the city. The price shown is a starting point. DIM VOYAGES confirms the proposal according to your dates and the number of travellers.",
+        priceFrom: 2050000,
+        badge: "Séjour",
+        badgeEn: "Stay",
+        imageUrl: images.singapore,
+        sortOrder: 20,
+        destinationId: asie.id,
+      },
+      {
+        title: "Hanoï — Vietnam",
+        titleEn: "Hanoi — Vietnam",
+        slug: "hanoi-vietnam",
+        destinationLabel: "Vietnam",
+        destinationLabelEn: "Vietnam",
+        excerpt: "Lacs, vieux quartier et un rythme de capitale d'Asie du Sud-Est.",
+        excerptEn: "Lakes, the Old Quarter and the pace of a Southeast Asian capital.",
+        description:
+          "Un séjour à Hanoï au départ d'Abidjan : vol, hébergement et temps libre autour des lacs et du vieux quartier. Le tarif annoncé est un point de départ. DIM VOYAGES confirme la proposition selon vos dates et le nombre de voyageurs.",
+        descriptionEn:
+          "A stay in Hanoi departing from Abidjan: flight, accommodation and free time around the lakes and the Old Quarter. The price shown is a starting point. DIM VOYAGES confirms the proposal according to your dates and the number of travellers.",
+        priceFrom: 1720000,
+        badge: "Séjour",
+        badgeEn: "Stay",
+        imageUrl: images.hanoi,
+        sortOrder: 21,
+        destinationId: asie.id,
+      },
     ],
   });
 
