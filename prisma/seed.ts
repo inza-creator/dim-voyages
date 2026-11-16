@@ -2,7 +2,6 @@ import "dotenv/config";
 import bcrypt from "bcryptjs";
 import { defaultSettings, images } from "../src/lib/constants";
 import { prisma } from "../src/lib/prisma";
-import { applyEnglish } from "./english";
 
 async function main() {
   const email = process.env.ADMIN_EMAIL || "admin@dimvoyages.ci";
@@ -147,9 +146,26 @@ async function main() {
         sortOrder: 5,
       },
     }),
+    prisma.destination.create({
+      data: {
+        slug: "amerique",
+        name: "Amérique",
+        nameEn: "America",
+        region: "Continent",
+        regionEn: "Continent",
+        excerpt: "Villes, plages et séjours de l'autre côté de l'Atlantique.",
+        excerptEn: "Cities, beaches and stays on the other side of the Atlantic.",
+        description:
+          "L'Amérique se prépare depuis Abidjan : vols, hébergement et un rythme de séjour adapté à votre projet. DIM VOYAGES vous aide à choisir la ville et les dates.",
+        descriptionEn:
+          "America is prepared from Abidjan: flights, accommodation and a pace of stay suited to your project. DIM VOYAGES helps you choose the city and the dates.",
+        imageUrl: images.america,
+        sortOrder: 6,
+      },
+    }),
   ]);
 
-  const [ci, afrique, europe, orient, asie] = destinations;
+  const [ci, afrique, europe, orient, asie, amerique] = destinations;
 
   await prisma.service.createMany({
     data: [
@@ -707,6 +723,120 @@ async function main() {
         sortOrder: 21,
         destinationId: asie.id,
       },
+      {
+        title: "New York — Manhattan",
+        titleEn: "New York — Manhattan",
+        slug: "new-york-manhattan",
+        destinationLabel: "États-Unis",
+        destinationLabelEn: "United States",
+        excerpt: "Avenues, skyline et le rythme de Manhattan.",
+        excerptEn: "Avenues, skyline and the pace of Manhattan.",
+        description:
+          "Un séjour à New York, côté Manhattan, au départ d'Abidjan : vol, hébergement et temps libre dans la ville. Le tarif annoncé est un point de départ. DIM VOYAGES confirme la proposition selon vos dates et le nombre de voyageurs.",
+        descriptionEn:
+          "A stay in New York, in Manhattan, departing from Abidjan: flight, accommodation and free time in the city. The price shown is a starting point. DIM VOYAGES confirms the proposal according to your dates and the number of travellers.",
+        priceFrom: 2250000,
+        badge: "Séjour",
+        badgeEn: "Stay",
+        imageUrl: images.manhattan,
+        sortOrder: 22,
+        destinationId: amerique.id,
+      },
+      {
+        title: "Miami",
+        titleEn: "Miami",
+        slug: "miami",
+        destinationLabel: "États-Unis",
+        destinationLabelEn: "United States",
+        excerpt: "Plages, quartiers et une ville tournée vers la mer.",
+        excerptEn: "Beaches, neighbourhoods and a city facing the sea.",
+        description:
+          "Un séjour à Miami au départ d'Abidjan : vol, hébergement et temps libre entre la plage et la ville. Le tarif annoncé est un point de départ. DIM VOYAGES confirme la proposition selon vos dates et le nombre de voyageurs.",
+        descriptionEn:
+          "A stay in Miami departing from Abidjan: flight, accommodation and free time between the beach and the city. The price shown is a starting point. DIM VOYAGES confirms the proposal according to your dates and the number of travellers.",
+        priceFrom: 1980000,
+        badge: "Séjour",
+        badgeEn: "Stay",
+        imageUrl: images.miami,
+        sortOrder: 23,
+        destinationId: amerique.id,
+      },
+      {
+        title: "Toronto",
+        titleEn: "Toronto",
+        slug: "toronto",
+        destinationLabel: "Canada",
+        destinationLabelEn: "Canada",
+        excerpt: "Une grande ville du Canada, entre lac et quartiers animés.",
+        excerptEn: "A major Canadian city, between the lake and lively neighbourhoods.",
+        description:
+          "Un séjour à Toronto au départ d'Abidjan : vol, hébergement et temps libre dans la ville. Le tarif annoncé est un point de départ. DIM VOYAGES confirme la proposition selon vos dates et le nombre de voyageurs.",
+        descriptionEn:
+          "A stay in Toronto departing from Abidjan: flight, accommodation and free time in the city. The price shown is a starting point. DIM VOYAGES confirms the proposal according to your dates and the number of travellers.",
+        priceFrom: 1920000,
+        badge: "Séjour",
+        badgeEn: "Stay",
+        imageUrl: images.toronto,
+        sortOrder: 24,
+        destinationId: amerique.id,
+      },
+      {
+        title: "Rio de Janeiro",
+        titleEn: "Rio de Janeiro",
+        slug: "rio-de-janeiro",
+        destinationLabel: "Brésil",
+        destinationLabelEn: "Brazil",
+        excerpt: "Baie, collines et une ville tournée vers l'Atlantique.",
+        excerptEn: "Bay, hills and a city facing the Atlantic.",
+        description:
+          "Un séjour à Rio de Janeiro au départ d'Abidjan : vol, hébergement et temps libre dans la ville. Le tarif annoncé est un point de départ. DIM VOYAGES confirme la proposition selon vos dates et le nombre de voyageurs.",
+        descriptionEn:
+          "A stay in Rio de Janeiro departing from Abidjan: flight, accommodation and free time in the city. The price shown is a starting point. DIM VOYAGES confirms the proposal according to your dates and the number of travellers.",
+        priceFrom: 1850000,
+        badge: "Séjour",
+        badgeEn: "Stay",
+        imageUrl: images.rio,
+        sortOrder: 25,
+        destinationId: amerique.id,
+      },
+      {
+        title: "Cancún",
+        titleEn: "Cancun",
+        slug: "cancun",
+        destinationLabel: "Mexique",
+        destinationLabelEn: "Mexico",
+        excerpt: "Littoral caraïbe, eau claire et un séjour au bord de la mer.",
+        excerptEn: "Caribbean coast, clear water and a stay by the sea.",
+        description:
+          "Un séjour à Cancún au départ d'Abidjan : vol, hébergement et temps libre au bord de l'eau. Le tarif annoncé est un point de départ. DIM VOYAGES confirme la proposition selon vos dates et le nombre de voyageurs.",
+        descriptionEn:
+          "A stay in Cancun departing from Abidjan: flight, accommodation and free time by the water. The price shown is a starting point. DIM VOYAGES confirms the proposal according to your dates and the number of travellers.",
+        priceFrom: 1780000,
+        badge: "Séjour",
+        badgeEn: "Stay",
+        imageUrl: images.cancun,
+        sortOrder: 26,
+        destinationId: amerique.id,
+      },
+      {
+        title: "Los Angeles",
+        titleEn: "Los Angeles",
+        slug: "los-angeles",
+        destinationLabel: "États-Unis",
+        destinationLabelEn: "United States",
+        excerpt: "Côte ouest, quartiers et un rythme de grande ville californienne.",
+        excerptEn: "West Coast, neighbourhoods and the pace of a Californian city.",
+        description:
+          "Un séjour à Los Angeles au départ d'Abidjan : vol, hébergement et temps libre dans la ville. Le tarif annoncé est un point de départ. DIM VOYAGES confirme la proposition selon vos dates et le nombre de voyageurs.",
+        descriptionEn:
+          "A stay in Los Angeles departing from Abidjan: flight, accommodation and free time in the city. The price shown is a starting point. DIM VOYAGES confirms the proposal according to your dates and the number of travellers.",
+        priceFrom: 2180000,
+        badge: "Séjour",
+        badgeEn: "Stay",
+        imageUrl: images.losAngeles,
+        sortOrder: 27,
+        destinationId: amerique.id,
+      },
     ],
   });
 
@@ -853,8 +983,6 @@ async function main() {
       create: { key, value },
     });
   }
-
-  await applyEnglish(prisma);
 
   void junior;
   void corporate;

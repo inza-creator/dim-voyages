@@ -32,7 +32,7 @@ export default async function DestinationPage({ params }: Props) {
             ))}
           </div>
         )}
-        <div className="mt-10 max-w-3xl">
+        <div className="mx-auto mt-10 w-full max-w-3xl">
           <RequestForm type="VOYAGE" destination={item.name} locale={locale} />
         </div>
       </section>
