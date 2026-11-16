@@ -45,24 +45,19 @@ jobs:
             --exclude=deploiement/.credentials \
             --exclude=public/uploads \
             .
-          WSL='C:\Windows\System32\wsl.exe -d Ubuntu-24.04 -u root --'
           scp -o BatchMode=yes /tmp/dimvoyages.tar.gz "$USER@$HOST:dimvoyages.tar.gz"
           ssh -o BatchMode=yes "$USER@$HOST" \
-            "$WSL bash -lc 'mkdir -p /opt/dimvoyages && tar -xzf /mnt/c/Users/Proxylab/dimvoyages.tar.gz -C /opt/dimvoyages && bash /opt/dimvoyages/deploiement/run-bg.sh'"
-          echo "▸ Déploiement lancé, attente"
+            'C:\Windows\System32\wsl.exe -d Ubuntu-24.04 -u root -- bash -lc "mkdir -p /opt/dimvoyages && tar -xzf /mnt/c/Users/Proxylab/dimvoyages.tar.gz -C /opt/dimvoyages && bash /opt/dimvoyages/deploiement/run-bg.sh"'
+          echo "Deploiement lance, attente"
           for i in $(seq 1 160); do
             sleep 15
             tail=$(ssh -o BatchMode=yes "$USER@$HOST" \
-              "$WSL tail -n 12 /opt/dimvoyages/deploiement/deploy.log" || true)
+              'C:\Windows\System32\wsl.exe -d Ubuntu-24.04 -u root -- tail -n 12 /opt/dimvoyages/deploiement/deploy.log' || true)
             printf '%s\n' "$tail"
-            if printf '%s\n' "$tail" | grep -q 'DIM_DEPLOY_EXIT:0'; then
-              echo "Déploiement OK"
-              exit 0
-            fi
-            if printf '%s\n' "$tail" | grep -qE 'DIM_DEPLOY_EXIT:[1-9]'; then
-              echo "Déploiement en échec"
-              exit 1
-            fi
+            case "$tail" in
+              *DIM_DEPLOY_EXIT:0*) echo "Deploiement OK"; exit 0 ;;
+              *DIM_DEPLOY_EXIT:*) echo "Deploiement en echec"; exit 1 ;;
+            esac
           done
-          echo "Délai dépassé"
+          echo "Delai depasse"
           exit 1
