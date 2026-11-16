@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
-# Depuis le Mac : DNS, copie vers WSL du serveur 4, déploiement.
-# En temps normal un git push sur master déclenche déjà le même déploiement
-# via .github/workflows/deploy.yml.
+# Depuis le Mac : copie vers WSL du serveur 4, puis déploiement.
+#   bash deploiement/pousser.sh
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
