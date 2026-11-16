@@ -13,6 +13,6 @@ export async function POST(request: Request) {
   }
 
   const result = await sendNewsletter(parsed.data.subject, parsed.data.message);
-  if ("error" in result) return apiError(result.error);
+  if ("error" in result) return apiError(result.error ?? "Envoi impossible.");
   return Response.json({ sent: result.sent });
 }
