@@ -1,0 +1,94 @@
+# Recette publique derrière le Caddy ORIA (serveur 4, 4.253.72.59).
+# Aucun port publié : le 443 appartient à oria-caddy.
+# DNS A : dimvoyages.astratechnologie.com → 4.253.72.59
+name: dimvoyages
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: dimvoyages-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-dim}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?definir POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:-dim_voyages}
+      TZ: Africa/Abidjan
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-dim} -d ${POSTGRES_DB:-dim_voyages}"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    networks: [interne]
+
+  migrate:
+    build:
+      context: ..
+      dockerfile: deploiement/Dockerfile
+      target: migrate
+    image: dimvoyages-migrate:${VERSION:-latest}
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-dim}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-dim_voyages}?schema=public
+    depends_on:
+      db:
+        condition: service_healthy
+    networks: [interne]
+    restart: "no"
+    profiles: [outils]
+
+  seed:
+    build:
+      context: ..
+      dockerfile: deploiement/Dockerfile
+      target: seed
+    image: dimvoyages-seed:${VERSION:-latest}
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-dim}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-dim_voyages}?schema=public
+      AUTH_SECRET: ${AUTH_SECRET:?definir AUTH_SECRET}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@dimvoyages.ci}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?definir ADMIN_PASSWORD}
+    depends_on:
+      db:
+        condition: service_healthy
+    networks: [interne]
+    restart: "no"
+    profiles: [outils]
+
+  web:
+    build:
+      context: ..
+      dockerfile: deploiement/Dockerfile
+      target: runtime
+      args:
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-https://dimvoyages.astratechnologie.com}
+    image: dimvoyages-web:${VERSION:-latest}
+    container_name: dimvoyages-web
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      HOSTNAME: 0.0.0.0
+      PORT: "3000"
+      TZ: Africa/Abidjan
+      DATABASE_URL: postgresql://${POSTGRES_USER:-dim}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-dim_voyages}?schema=public
+      AUTH_SECRET: ${AUTH_SECRET:?definir AUTH_SECRET}
+      NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-https://dimvoyages.astratechnologie.com}
+      RESEND_API_KEY: ${RESEND_API_KEY:-}
+      NEWSLETTER_FROM: ${NEWSLETTER_FROM:-DIM VOYAGES <info@dimvoyages.com>}
+    volumes:
+      - uploads:/app/public/uploads
+    depends_on:
+      db:
+        condition: service_healthy
+    networks: [interne, publique]
+
+volumes:
+  pgdata:
+  uploads:
+
+networks:
+  interne:
+    internal: true
+  publique:
+    external: true
+    name: oria_publique

@@ -1,0 +1,27 @@
+# DIM VOYAGES — à poser dans /opt/caddy/sites.d/ (importé par le Caddy ORIA).
+# Certificat en TLS-ALPN : le port 80 n'est pas à nous sur ce serveur.
+
+dimvoyages.astratechnologie.com {
+	encode zstd gzip
+	request_body {
+		max_size 10MB
+	}
+	tls {
+		issuer acme {
+			email {$EMAIL_ADMIN}
+			disable_http_challenge
+		}
+	}
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "DENY"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		-Server
+	}
+	reverse_proxy dimvoyages-web:3000 {
+		header_up X-Forwarded-Proto {scheme}
+		header_up X-Real-IP {remote_host}
+		header_up Host {host}
+	}
+}
