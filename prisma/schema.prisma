@@ -125,6 +125,8 @@ model Offer {
   excerptEn          String       @default("")
   description        String       @db.Text
   descriptionEn      String       @db.Text @default("")
+  highlights       String[]     @default([])
+  highlightsEn     String[]     @default([])
   priceFrom          Int?
   badge              String       @default("")
   badgeEn            String       @default("")

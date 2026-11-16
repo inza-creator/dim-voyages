@@ -263,6 +263,8 @@ async function saveOffer(input: Payload, id?: string) {
     excerptEn: text(input.excerptEn),
     description: description.value,
     descriptionEn: text(input.descriptionEn),
+    highlights: lines(input.highlights),
+    highlightsEn: lines(input.highlightsEn),
     priceFrom: integer(input.priceFrom),
     badge: text(input.badge),
     badgeEn: text(input.badgeEn),

@@ -433,6 +433,14 @@ async function main() {
         excerpt: "Une formule accompagnée pour accomplir la Omrah sereinement.",
         description:
           "Hébergement, transferts et accompagnement du groupe. Les disponibilités varient selon la période. DIM VOYAGES vous recontacte pour confirmer les détails.",
+        highlights: [
+          "Janvier, Mars à partir de 4 millions",
+          "Novembre : à partir de 2 millions",
+        ],
+        highlightsEn: [
+          "January, March from 4 million",
+          "November: from 2 million",
+        ],
         priceFrom: 1450000,
         badge: "-15%",
         imageUrl: images.omrah,

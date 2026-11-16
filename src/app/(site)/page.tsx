@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { Award, Calendar, MapPin, Plane, Search } from "lucide-react";
-import { ArticleCard, DestinationCard, ExperienceCard, OfferCard, SectionLink, ServiceTile, Stars } from "@/components/public/cards";
+import { ArticleCard, DestinationCard, ExperienceCard, SectionLink, ServiceTile, Stars } from "@/components/public/cards";
 import { HeroCarousel } from "@/components/public/hero-carousel";
+import { HomeOffers } from "@/components/public/home-offers";
 import { MediaImage } from "@/components/public/media-image";
 import { getHomeData } from "@/server/content";
 import { btnPrimary, btnSecondary, initials } from "@/lib/utils";
@@ -160,21 +161,7 @@ export default async function HomePage() {
           <h2 className="text-2xl font-bold text-navy sm:text-3xl">{t.offers}</h2>
           <SectionLink href="/offres">{t.allOffers}</SectionLink>
         </div>
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          {data.offers.map((offer) => (
-            <OfferCard
-              key={offer.id}
-              href={`/offres/${offer.slug}`}
-              title={offer.title}
-              destination={offer.destinationLabel}
-              priceFrom={offer.priceFrom}
-              badge={offer.badge}
-              imageUrl={offer.imageUrl}
-              imageUrls={[offer.imageUrl2, offer.imageUrl3]}
-              fromLabel={copy(locale).cards.from}
-            />
-          ))}
-        </div>
+        <HomeOffers offers={data.offers} fromLabel={copy(locale).cards.from} />
       </section>
 
       <section className="mx-auto mt-14 grid w-full max-w-7xl gap-6 px-4 pb-8 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">

@@ -58,7 +58,6 @@ export async function getHomeData(): Promise<{
       prisma.offer.findMany({
         where: { published: true },
         orderBy: [{ featured: "desc" }, { sortOrder: "asc" }],
-        take: 4,
       }),
       prisma.testimonial.findMany({
         where: { published: true },
@@ -148,17 +147,29 @@ export async function getPublishedOffers() {
   return items.map((item) => presentOffer(item, locale));
 }
 
-export async function getOffer(slug: string) {
+export async function getOffer(slug: string): Promise<{
+  title: string;
+  excerpt: string;
+  description: string;
+  destinationLabel: string;
+  imageUrl: string;
+  priceFrom: number | null;
+  highlights: string[];
+} | null> {
   const locale = await getLocale();
   const item = await prisma.offer.findFirst({
     where: { slug, published: true },
-    include: { destination: true, experience: true },
   });
   if (!item) return null;
+  const presented = presentOffer(item, locale);
   return {
-    ...presentOffer(item, locale),
-    destination: item.destination ? presentDestination(item.destination, locale) : null,
-    experience: item.experience ? presentExperience(item.experience, locale) : null,
+    title: presented.title,
+    excerpt: presented.excerpt,
+    description: presented.description,
+    destinationLabel: presented.destinationLabel,
+    imageUrl: item.imageUrl,
+    priceFrom: item.priceFrom,
+    highlights: presented.highlights ?? [],
   };
 }
 

@@ -27,6 +27,13 @@ export default async function OfferPage({ params }: Props) {
         <article>
           {item.priceFrom != null && <p className="text-lg font-bold text-navy">{t.cards.from} {formatPrice(item.priceFrom)}</p>}
           <p className="mt-4 text-lg leading-8">{item.description}</p>
+          {item.highlights.length > 0 && (
+            <ul className="mt-6 space-y-2">
+              {item.highlights.map((point) => (
+                <li key={point} className="rounded-2xl bg-white px-4 py-3 text-sm font-medium text-navy">{point}</li>
+              ))}
+            </ul>
+          )}
         </article>
         <RequestForm type="DEVIS" destination={item.destinationLabel} locale={locale} />
       </section>

@@ -144,6 +144,8 @@ export const resources: Record<ResourceKey, ResourceConfig> = {
       { name: "excerptEn", label: "Résumé (anglais)", type: "textarea" },
       { name: "description", label: "Description", type: "textarea", required: true },
       { name: "descriptionEn", label: "Description (anglais)", type: "textarea" },
+      { name: "highlights", label: "Points forts", type: "lines", help: "Un point par ligne. Affichés sous la description de l'offre." },
+      { name: "highlightsEn", label: "Points forts (anglais)", type: "lines", help: "Un point par ligne. Laisser vide pour garder le français." },
       { name: "priceFrom", label: "Prix à partir de (FCFA)", type: "number" },
       { name: "badge", label: "Badge", type: "text" },
       { name: "badgeEn", label: "Badge (anglais)", type: "text" },

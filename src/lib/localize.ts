@@ -11,7 +11,7 @@ export function localizeList(locale: Locale, french: string[], english?: string[
   if (locale === "en" && english?.some((line) => line.trim())) {
     return english.map((line) => line.trim()).filter(Boolean);
   }
-  return french;
+  return (french ?? []).filter(Boolean);
 }
 
 type ExperienceText = {
@@ -59,6 +59,8 @@ type OfferText = {
   excerptEn: string;
   description: string;
   descriptionEn: string;
+  highlights: string[];
+  highlightsEn: string[];
   badge: string;
   badgeEn: string;
 };
@@ -104,6 +106,7 @@ export function presentOffer<T extends OfferText>(item: T, locale: Locale): T {
     destinationLabel: localize(locale, item.destinationLabel, item.destinationLabelEn),
     excerpt: localize(locale, item.excerpt, item.excerptEn),
     description: localize(locale, item.description, item.descriptionEn),
+    highlights: localizeList(locale, item.highlights ?? [], item.highlightsEn ?? []),
     badge: localize(locale, item.badge, item.badgeEn),
   } as T;
 }
