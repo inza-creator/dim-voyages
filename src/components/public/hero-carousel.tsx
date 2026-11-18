@@ -20,7 +20,7 @@ export function HeroCarousel({
               : undefined
           }
         >
-          <MediaImage src={image.src} alt={image.alt} priority sizes="100vw" className="object-cover object-center" />
+          <MediaImage src={image.src} alt={image.alt} priority sizes="100vw" className="hero-kenburns object-cover object-center" />
         </div>
       ))}
     </>

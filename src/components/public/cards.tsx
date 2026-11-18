@@ -82,7 +82,7 @@ export function OfferCard({
   const slides = offerSlides(imageUrl, imageUrls);
   const count = slides.length;
   return (
-    <Link href={href} className="group overflow-hidden rounded-3xl border border-line bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+    <Link href={href} className="group block h-full overflow-hidden rounded-3xl border border-line bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
       <div className="relative h-44 overflow-hidden">
         {slides.map((src, slide) => (
           <div
@@ -111,7 +111,7 @@ export function OfferCard({
 
 export function ServiceTile({ href, title, excerpt, icon }: { href: string; title: string; excerpt: string; icon: string }) {
   return (
-    <Link href={href} className="rounded-3xl border border-line bg-white p-5 text-center shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+    <Link href={href} className="block h-full rounded-3xl border border-line bg-white p-5 text-center shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
       <span className="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-orange/10 text-orange">
         <ServiceIcon name={icon} className="h-6 w-6" />
       </span>
