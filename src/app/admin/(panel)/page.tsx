@@ -41,7 +41,7 @@ export default async function DashboardPage() {
         <Stat icon={<CheckCircle2 className="h-5 w-5" />} label="Terminées" value={data.doneCount} tone="text-whatsapp" />
       </section>
 
-      <section className="grid gap-4 xl:grid-cols-[1.4fr_0.8fr]">
+      {/* <section className="grid gap-4 xl:grid-cols-[1.4fr_0.8fr]">
         <div className="rounded-3xl bg-white p-5 shadow-sm">
           <h2 className="font-bold text-navy">Évolution des demandes (30 jours)</h2>
           <svg viewBox="0 0 320 140" className="mt-4 h-48 w-full">
@@ -76,7 +76,7 @@ export default async function DashboardPage() {
             </div>
           )}
         </div>
-      </section>
+      </section> */}
 
       <section>
         <div className="overflow-hidden rounded-3xl bg-white shadow-sm">

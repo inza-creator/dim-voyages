@@ -26,14 +26,14 @@ export default async function HomePage() {
           />
           <div className="absolute inset-0 bg-gradient-to-r from-navy/80 via-navy/45 to-transparent" />
         </div>
-        <div className="relative overflow-hidden border-b border-white/15 bg-[#012549]/45 py-2.5 text-white backdrop-blur-[2px]" role="region" aria-label="LE VOYAGE TRANSFORMATIONNEL — Une expérience qui va au-delà de la destination">
+        <div className="relative overflow-hidden border-b border-white/15 bg-[#012549]/45 py-2.5 text-white backdrop-blur-[2px]" role="region" aria-label={`${t.tickerTitle} — ${t.tickerText}`}>
           <div className="ticker-track flex w-max">
             {[0, 1].map((copy) => (
               <p key={copy} className="flex shrink-0 items-center" aria-hidden={copy === 1}>
                 {Array.from({ length: 4 }, (_, index) => (
                   <span key={index} className="mx-8 whitespace-nowrap text-xs font-semibold tracking-[0.14em] sm:text-sm">
-                    <span className="text-gold">LE VOYAGE TRANSFORMATIONNEL</span>
-                    <span className="text-white"> — Une expérience qui va au-delà de la destination</span>
+                    <span className="text-gold">{t.tickerTitle}</span>
+                    <span className="text-white"> — {t.tickerText}</span>
                   </span>
                 ))}
               </p>
@@ -93,41 +93,40 @@ export default async function HomePage() {
       </section>
 
       <section className="relative z-10 mx-auto -mt-8 w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-5">
+        <div className={`grid gap-3 ${serviceColumns(data.services.length)}`}>
           {data.services.map((service) => (
             <ServiceTile key={service.id} href={`/services/${service.slug}`} title={service.title} excerpt={service.excerpt} icon={service.icon} />
           ))}
         </div>
       </section>
 
-      <section className="mx-auto mt-14 grid w-full max-w-7xl gap-10 px-4 sm:px-6 lg:px-8 xl:grid-cols-[1.15fr_0.85fr]">
-        <div>
-          <div className="mb-5 flex items-end justify-between gap-3">
-            <div>
-              <p className="text-sm font-semibold text-orange">{t.live}</p>
-              <h2 className="text-2xl font-bold text-navy sm:text-3xl">{t.experiencesNow}</h2>
-            </div>
-            <SectionLink href="/experiences">{t.seeAll}</SectionLink>
+      <section className="mx-auto mt-14 w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-5 flex items-end justify-between gap-3">
+          <div>
+            <p className="text-sm font-semibold text-orange">{t.live}</p>
+            <h2 className="text-2xl font-bold text-navy sm:text-3xl">{t.experiencesNow}</h2>
           </div>
-          <div className="grid gap-4 sm:grid-cols-3">
-            {data.experiences.map((item) => (
-              <ExperienceCard key={item.id} href={`/experiences/${item.slug}`} title={item.title} subtitle={item.subtitle} imageUrl={item.imageUrl} discover={copy(locale).cards.discover} />
-            ))}
-          </div>
+          <SectionLink href="/experiences">{t.seeAll}</SectionLink>
         </div>
-        <div>
-          <div className="mb-5 flex items-end justify-between gap-3">
-            <div>
-              <p className="text-sm font-semibold text-orange">{t.explore}</p>
-              <h2 className="text-2xl font-bold text-navy sm:text-3xl">{t.destinations}</h2>
-            </div>
-            <SectionLink href="/destinations">{t.seeAll}</SectionLink>
+        <div className="grid gap-4 sm:grid-cols-3">
+          {data.experiences.map((item) => (
+            <ExperienceCard key={item.id} href={`/experiences/${item.slug}`} title={item.title} subtitle={item.subtitle} imageUrl={item.imageUrl} discover={copy(locale).cards.discover} />
+          ))}
+        </div>
+      </section>
+
+      <section className="mx-auto mt-14 w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-5 flex items-end justify-between gap-3">
+          <div>
+            <p className="text-sm font-semibold text-orange">{t.explore}</p>
+            <h2 className="text-2xl font-bold text-navy sm:text-3xl">{t.destinations}</h2>
           </div>
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-2">
-            {data.destinations.map((item) => (
-              <DestinationCard key={item.id} href={`/destinations/${item.slug}`} name={item.name} imageUrl={item.imageUrl} />
-            ))}
-          </div>
+          <SectionLink href="/destinations">{t.seeAll}</SectionLink>
+        </div>
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+          {data.destinations.map((item) => (
+            <DestinationCard key={item.id} href={`/destinations/${item.slug}`} name={item.name} imageUrl={item.imageUrl} />
+          ))}
         </div>
       </section>
 
@@ -208,4 +207,11 @@ export default async function HomePage() {
       </section>
     </>
   );
+}
+
+function serviceColumns(count: number) {
+  if (count <= 2) return "sm:grid-cols-2";
+  if (count === 3) return "sm:grid-cols-3";
+  if (count === 4) return "grid-cols-2 md:grid-cols-4";
+  return "grid-cols-2 md:grid-cols-3 xl:grid-cols-5";
 }

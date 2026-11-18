@@ -35,7 +35,6 @@ const links = [
   { href: "/admin/actualites", label: "Actualités", icon: Newspaper },
   { href: "/admin/temoignages", label: "Témoignages", icon: BookOpen },
   { href: "/admin/faq", label: "FAQ", icon: HelpCircle },
-  { href: "/admin/galerie", label: "Galerie", icon: Images },
   { href: "/admin/medias", label: "Médias", icon: Images },
   { href: "/admin/newsletter", label: "Newsletter", icon: Mail },
   { href: "/admin/utilisateurs", label: "Utilisateurs", icon: Users, admin: true },

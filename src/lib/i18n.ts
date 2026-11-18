@@ -45,6 +45,8 @@ const fr = {
   home: {
     title: "Le pouvoir du voyage",
     script: "Le chemin vers soi.",
+    tickerTitle: "LE VOYAGE TRANSFORMATIONNEL",
+    tickerText: "Une expérience qui va au-delà de la destination",
     lead: "Découvrez le monde avec DIM Voyages, votre agence de voyage et de tourisme en Côte d'Ivoire. Des expériences sur mesure pour tous particuliers, familles, entreprises, institutions et groupes.",
     award: "Lauréat du",
     destination: "Destination",
@@ -238,6 +240,8 @@ const en: typeof fr = {
   home: {
     title: "The power of travel",
     script: "The path to yourself.",
+    tickerTitle: "THE TRANSFORMATIVE JOURNEY",
+    tickerText: "An experience that goes beyond the destination",
     lead: "Discover the world with DIM Voyages, your travel and tourism agency in Côte d'Ivoire. Tailor-made experiences for individuals, families, companies, institutions and groups.",
     award: "Winner of the",
     destination: "Destination",

@@ -18,7 +18,6 @@ export function SiteHeader({ locale }: { locale: Locale }) {
     { href: "/destinations", label: t.nav.destinations },
     { href: "/offres", label: t.nav.offers },
     { href: "/a-propos", label: t.nav.about },
-    { href: "/galerie", label: t.nav.gallery },
     { href: "/actualites", label: t.nav.news },
     { href: "/faq", label: t.nav.faq },
     { href: "/contact", label: t.nav.contact },

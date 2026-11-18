@@ -259,6 +259,7 @@ async function saveOffer(input: Payload, id?: string) {
     slug,
     destinationLabel: destinationLabel.value,
     destinationLabelEn: text(input.destinationLabelEn),
+    destinationId: text(input.destinationId) || null,
     excerpt: excerpt.value,
     excerptEn: text(input.excerptEn),
     description: description.value,
