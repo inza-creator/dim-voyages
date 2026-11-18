@@ -1,8 +1,19 @@
+import { getLocale } from "@/lib/locale";
 import { requestSchema } from "@/lib/validators";
-import { apiError } from "@/server/guards";
+import { apiError, clientIp, isRateLimited } from "@/server/guards";
 import { createTravelRequest } from "@/server/requests";
 
 export async function POST(request: Request) {
+  if (isRateLimited(`demande:${clientIp(request)}`, 5, 15 * 60 * 1000)) {
+    const locale = await getLocale();
+    return apiError(
+      locale === "en"
+        ? "Too many requests sent. Please try again in a few minutes or contact us on WhatsApp."
+        : "Trop de demandes envoyées. Réessayez dans quelques minutes ou contactez-nous sur WhatsApp.",
+      429,
+    );
+  }
+
   const body = await request.json().catch(() => null);
   const parsed = requestSchema.safeParse(body);
   if (!parsed.success) {

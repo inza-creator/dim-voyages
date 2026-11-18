@@ -9,13 +9,14 @@ export function NewsletterForm({ tone = "dark", locale = "fr" }: { tone?: "dark"
   const [status, setStatus] = useState<"idle" | "loading" | "ok" | "error">("idle");
   const [message, setMessage] = useState("");
 
-  async function onSubmit(event: React.FormEvent) {
+  async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setStatus("loading");
+    const website = String(new FormData(event.currentTarget).get("website") ?? "");
     const response = await fetch("/api/newsletter", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, website: "" }),
+      body: JSON.stringify({ email, website }),
     });
     const data = await response.json().catch(() => ({}));
     if (!response.ok) {
