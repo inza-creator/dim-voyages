@@ -5,6 +5,7 @@ import { getPublishedServices, getSettings } from "@/server/content";
 import { getLocale } from "@/lib/locale";
 import { copy } from "@/lib/i18n";
 import { localizeSettings } from "@/lib/localize";
+import { absoluteUrl, JsonLd, siteUrl } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
@@ -14,6 +15,22 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
 
   return (
     <>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "TravelAgency",
+          name: "DIM VOYAGES",
+          url: siteUrl,
+          logo: absoluteUrl("/logo-dim-voyages.png"),
+          image: absoluteUrl(settings.heroImageUrl),
+          telephone: settings.phone,
+          email: settings.email,
+          slogan: settings.signature,
+          award: settings.award,
+          address: { "@type": "PostalAddress", streetAddress: settings.address, addressLocality: "Abidjan", addressCountry: "CI" },
+          sameAs: [settings.facebook, settings.instagram, settings.linkedin].filter((link) => link.startsWith("http")),
+        }}
+      />
       <div className="flex min-h-screen flex-col">
         <SiteHeader locale={locale} />
         <main className="flex-1">{children}</main>

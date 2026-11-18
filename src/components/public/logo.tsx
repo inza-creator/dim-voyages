@@ -6,8 +6,8 @@ export function Logo({ className, priority = false }: { className?: string; prio
     <Image
       src="/logo-dim-voyages.png"
       alt="DIM VOYAGES — Le spécialiste du tourisme"
-      width={846}
-      height={295}
+      width={240}
+      height={84}
       priority={priority}
       className={cn("w-auto", className)}
       style={{ width: "auto" }}

@@ -2,12 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import { Menu, X } from "lucide-react";
 import { Logo } from "@/components/public/logo";
 import { LanguageSwitch } from "@/components/public/language-switch";
 import { copy, type Locale } from "@/lib/i18n";
+
+const subscribeNoop = () => () => {};
 
 export function SiteHeader({ locale }: { locale: Locale }) {
   const t = copy(locale);
@@ -32,15 +34,13 @@ export function SiteHeader({ locale }: { locale: Locale }) {
   ];
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const [lastPathname, setLastPathname] = useState(pathname);
+  const mounted = useSyncExternalStore(subscribeNoop, () => true, () => false);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
+  if (pathname !== lastPathname) {
+    setLastPathname(pathname);
     setOpen(false);
-  }, [pathname]);
+  }
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";

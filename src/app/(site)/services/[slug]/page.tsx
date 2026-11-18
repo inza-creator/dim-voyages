@@ -5,13 +5,15 @@ import { RequestForm } from "@/components/public/request-form";
 import { getService } from "@/server/content";
 import { getLocale } from "@/lib/locale";
 import { copy } from "@/lib/i18n";
+import { pageMetadata } from "@/lib/seo";
 
 type Props = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const item = await getService(slug);
-  return { title: item?.title ?? copy(await getLocale()).pages.service };
+  const [item, locale] = await Promise.all([getService(slug), getLocale()]);
+  if (!item) return { title: copy(locale).pages.service };
+  return pageMetadata({ title: item.title, description: item.excerpt, path: `/services/${slug}`, image: item.imageUrl, locale });
 }
 
 export default async function ServicePage({ params }: Props) {

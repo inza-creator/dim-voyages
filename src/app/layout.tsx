@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Great_Vibes, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { getLocale } from "@/lib/locale";
@@ -25,10 +25,22 @@ export const metadata: Metadata = {
   icons: { icon: "/logo-dim-voyages.png" },
   openGraph: {
     title: "DIM VOYAGES — Le pouvoir du voyage",
-    description: "Le chemin vers soi. Agence de voyage à Abidjan.",
+    description: "Le chemin vers soi. Agence de voyage et de tourisme à Abidjan : expériences, destinations et accompagnement sur mesure.",
+    siteName: "DIM VOYAGES",
     locale: "fr_FR",
     type: "website",
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "DIM VOYAGES" }],
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "DIM VOYAGES — Le pouvoir du voyage",
+    description: "Le chemin vers soi. Agence de voyage et de tourisme à Abidjan.",
+    images: ["/og-image.jpg"],
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#012549",
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {

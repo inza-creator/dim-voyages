@@ -63,6 +63,14 @@ type OfferText = {
   highlightsEn: string[];
   badge: string;
   badgeEn: string;
+  duration?: string;
+  durationEn?: string;
+  included?: string[];
+  includedEn?: string[];
+  excluded?: string[];
+  excludedEn?: string[];
+  program?: string[];
+  programEn?: string[];
 };
 
 type ArticleText = {
@@ -108,6 +116,10 @@ export function presentOffer<T extends OfferText>(item: T, locale: Locale): T {
     description: localize(locale, item.description, item.descriptionEn),
     highlights: localizeList(locale, item.highlights ?? [], item.highlightsEn ?? []),
     badge: localize(locale, item.badge, item.badgeEn),
+    duration: localize(locale, item.duration ?? "", item.durationEn ?? ""),
+    included: localizeList(locale, item.included ?? [], item.includedEn ?? []),
+    excluded: localizeList(locale, item.excluded ?? [], item.excludedEn ?? []),
+    program: localizeList(locale, item.program ?? [], item.programEn ?? []),
   } as T;
 }
 

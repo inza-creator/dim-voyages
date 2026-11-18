@@ -6,9 +6,13 @@ import { getPublishedDestinations, getSettings } from "@/server/content";
 import { getLocale } from "@/lib/locale";
 import { copy } from "@/lib/i18n";
 import { btnPrimary, btnSecondary, whatsappHref } from "@/lib/utils";
+import { Reveal } from "@/components/public/reveal";
+import { pageMetadata } from "@/lib/seo";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return { title: copy(await getLocale()).pages.destinationsTitle };
+  const [items, locale] = await Promise.all([getPublishedDestinations(), getLocale()]);
+  const t = copy(locale).pages;
+  return pageMetadata({ title: t.destinationsTitle, description: t.destinationsLead, path: "/destinations", image: items[0]?.imageUrl, locale });
 }
 
 export default async function DestinationsPage() {
@@ -22,15 +26,15 @@ export default async function DestinationsPage() {
       {featured ? (
         <section className="relative isolate min-h-[78vh] overflow-hidden bg-[#0e4f7c] text-white">
           <div className="absolute inset-0">
-            <MediaImage src={featured.imageUrl} alt={featured.name} priority className="object-cover" sizes="100vw" />
+            <MediaImage src={featured.imageUrl} alt={featured.name} priority className="hero-kenburns object-cover" sizes="100vw" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0e4f7c] via-[#0e4f7c]/55 to-[#0e4f7c]/15" />
           </div>
           <div className="relative mx-auto flex min-h-[78vh] w-full max-w-7xl flex-col justify-end px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
-            <p className="text-xs font-semibold tracking-[0.2em] text-gold uppercase sm:text-sm">{t.destinationsKicker}</p>
-            <h1 className="mt-3 max-w-3xl text-4xl font-bold tracking-tight sm:text-6xl">{featured.name}</h1>
-            {featured.region && <p className="mt-3 text-sm font-semibold text-white/80">{featured.region}</p>}
-            <p className="mt-4 max-w-xl text-base leading-7 text-white/90 sm:text-lg">{featured.excerpt}</p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <p className="word-in text-xs font-semibold tracking-[0.2em] text-gold uppercase sm:text-sm" style={{ animationDelay: "100ms" }}>{t.destinationsKicker}</p>
+            <h1 className="word-in mt-3 max-w-3xl text-5xl font-bold tracking-tight sm:text-7xl" style={{ animationDelay: "250ms" }}>{featured.name}</h1>
+            {featured.region && <p className="word-in mt-3 text-sm font-semibold text-white/80" style={{ animationDelay: "400ms" }}>{featured.region}</p>}
+            <p className="word-in mt-4 max-w-xl text-base leading-7 text-white/90 sm:text-lg" style={{ animationDelay: "500ms" }}>{featured.excerpt}</p>
+            <div className="word-in mt-8 flex flex-col gap-3 sm:flex-row" style={{ animationDelay: "650ms" }}>
               <Link href={`/destinations/${featured.slug}`} className={btnPrimary}>
                 {t.destinationsSee}
                 <ArrowRight className="h-4 w-4" />
@@ -53,14 +57,14 @@ export default async function DestinationsPage() {
 
       {others.length > 0 && (
         <section className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
-          <div className="max-w-2xl">
-            <p className="text-sm font-semibold text-orange">{t.destinationsElsewhere}</p>
+          <Reveal className="max-w-2xl">
+            <p className="text-sm font-semibold tracking-wide text-orange uppercase">{t.destinationsElsewhere}</p>
             <p className="mt-2 text-base leading-7 text-ink/80 sm:text-lg">{t.destinationsLead}</p>
-          </div>
+          </Reveal>
           <div className="mt-8 grid gap-4 sm:grid-cols-2">
-            {others.map((item) => (
+            {others.map((item, index) => (
+              <Reveal key={item.id} delay={(index % 2) * 120}>
               <Link
-                key={item.id}
                 href={`/destinations/${item.slug}`}
                 className="group relative block min-h-[26rem] overflow-hidden rounded-[2rem] shadow-sm sm:min-h-[30rem]"
               >
@@ -83,6 +87,7 @@ export default async function DestinationsPage() {
                   </span>
                 </div>
               </Link>
+              </Reveal>
             ))}
           </div>
         </section>

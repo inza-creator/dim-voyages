@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { defaultSettings, type PublicSettings } from "@/lib/constants";
 import { getLocale } from "@/lib/locale";
 import {
+  localize,
   localizeSettings,
   presentArticle,
   presentDestination,
@@ -91,11 +92,11 @@ export async function getPublishedExperiences() {
   return items.map((item) => presentExperience(item, locale));
 }
 
-export async function getExperience(slug: string) {
+export const getExperience = cache(async (slug: string) => {
   const locale = await getLocale();
   const item = await prisma.experience.findFirst({ where: { slug, published: true } });
   return item ? presentExperience(item, locale) : null;
-}
+});
 
 export async function getPublishedServices() {
   const locale = await getLocale();
@@ -124,7 +125,7 @@ export async function getPublishedDestinations() {
   return items.map((item) => presentDestination(item, locale));
 }
 
-export async function getDestination(slug: string) {
+export const getDestination = cache(async (slug: string) => {
   const locale = await getLocale();
   const item = await prisma.destination.findFirst({
     where: { slug, published: true },
@@ -136,7 +137,7 @@ export async function getDestination(slug: string) {
     },
   });
   return item ? presentDestination(item, locale) : null;
-}
+});
 
 export async function getPublishedOffers() {
   const locale = await getLocale();
@@ -147,31 +148,31 @@ export async function getPublishedOffers() {
   return items.map((item) => presentOffer(item, locale));
 }
 
-export async function getOffer(slug: string): Promise<{
-  title: string;
-  excerpt: string;
-  description: string;
-  destinationLabel: string;
-  imageUrl: string;
-  priceFrom: number | null;
-  highlights: string[];
-} | null> {
+export const getOffer = cache(async (slug: string) => {
   const locale = await getLocale();
   const item = await prisma.offer.findFirst({
     where: { slug, published: true },
+    include: { destination: { select: { slug: true, name: true, nameEn: true } } },
   });
   if (!item) return null;
+  const similar = await prisma.offer.findMany({
+    where: {
+      published: true,
+      id: { not: item.id },
+      ...(item.destinationId ? { destinationId: item.destinationId } : {}),
+    },
+    orderBy: [{ featured: "desc" }, { sortOrder: "asc" }],
+    take: 4,
+  });
   const presented = presentOffer(item, locale);
   return {
-    title: presented.title,
-    excerpt: presented.excerpt,
-    description: presented.description,
-    destinationLabel: presented.destinationLabel,
-    imageUrl: item.imageUrl,
-    priceFrom: item.priceFrom,
-    highlights: presented.highlights ?? [],
+    ...presented,
+    destination: item.destination
+      ? { slug: item.destination.slug, name: localize(locale, item.destination.name, item.destination.nameEn) }
+      : null,
+    similar: similar.map((offer) => presentOffer(offer, locale)),
   };
-}
+});
 
 export async function getPublishedArticles() {
   const locale = await getLocale();

@@ -5,13 +5,15 @@ import { formatDate } from "@/lib/utils";
 import { getArticle } from "@/server/content";
 import { getLocale } from "@/lib/locale";
 import { copy } from "@/lib/i18n";
+import { pageMetadata } from "@/lib/seo";
 
 type Props = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const item = await getArticle(slug);
-  return { title: item?.title ?? copy(await getLocale()).nav.news };
+  const [item, locale] = await Promise.all([getArticle(slug), getLocale()]);
+  if (!item) return { title: copy(locale).nav.news };
+  return pageMetadata({ title: item.title, description: item.excerpt, path: `/actualites/${slug}`, image: item.imageUrl, locale });
 }
 
 export default async function ArticlePage({ params }: Props) {
